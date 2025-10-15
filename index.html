@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Adam’s Domain - Check before interacting" />
-    <meta property="og:description" content="This is a roleplay account." />
-    <meta property="og:image" content="https://adamada.site/leonrpd.jpg" />
+    <meta property="og:title" content="Adam’s Domain - Currently Offline" />
+    <meta property="og:image" content="https://adamada.site/dino.jpeg" />
     <meta property="og:url" content="https://adamada.site" />
     <meta property="og:type" content="website" />
-    <title>Adam</title>
+    <title>Adam — Maintenance Mode</title>
     <style>
         * {
             margin: 0;
@@ -19,15 +18,47 @@
 
         body {
             font-family: 'Courier New', monospace;
-            background-color: #000;
             color: #fff;
+            background: #000;
+            overflow: hidden;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, rgba(0, 0, 20, 0.9), rgba(0, 0, 0, 1));
+        }
+
+        h1 {
+            font-size: 4rem;
+            letter-spacing: 0.1em;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        p {
+            color: #9ca3af;
+            font-size: 1.2rem;
+            max-width: 600px;
             line-height: 1.6;
+            animation: fadeInUp 1.5s ease-out forwards;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
 
             to {
@@ -36,777 +67,74 @@
             }
         }
 
-        .animate-fadeInUp {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
-
-        .delay-4 {
-            animation-delay: 0.8s;
-        }
-
-        .delay-5 {
-            animation-delay: 1s;
-        }
-
-        .delay-6 {
-            animation-delay: 1.2s;
-        }
-
-        .delay-7 {
-            animation-delay: 1.4s;
-        }
-
-       
-        .header {
-            position: relative;
-            padding: 4rem 2rem;
-            text-align: center;
-            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(55, 65, 81, 0.5), rgba(0, 0, 0, 0.5));
-            z-index: 1;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 10;
-            max-width: 64rem;
-            margin: 0 auto;
-        }
-
-        .main-title {
-            font-size: 6rem;
-            font-weight: 100;
-            margin-bottom: 1rem;
-            letter-spacing: 0.1em;
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: #9ca3af;
-            margin-bottom: 0.5rem;
-        }
-
-        .info-line {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-
-        .tags {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            font-size: 0.75rem;
+        .blink {
+            animation: blink 1.5s step-start infinite;
             color: #ef4444;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
         }
 
-       
-        .message-section {
-            padding: 3rem 2rem;
-            background-color: #111827;
-        }
-
-        .message-content {
-            max-width: 48rem;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .message-text {
-            font-size: 1.125rem;
-            color: #d1d5db;
-            line-height: 1.75;
-        }
-
-        
-        .music-section {
-            padding: 3rem 2rem;
-            background-color: #000;
-        }
-
-        .section-container {
-            max-width: 32rem;
-            margin: 0 auto;
-        }
-
-        
-        .section-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .section-icon {
-            width: 2rem;
-            height: 2rem;
-            margin-right: 0.75rem;
-            color: #ef4444;
-            /* Red accent to match tags */
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .section-icon:hover {
-            transform: scale(1.2);
-            color: #fff;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 300;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            text-align: center;
-        }
-
-        .music-player {
-            background-color: #111827;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid #374151;
-        }
-
-        .track-info {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .track-title {
-            font-size: 1.125rem;
-            font-weight: 500;
-            color: #fff;
-        }
-
-        .track-artist {
-            color: #9ca3af;
-        }
-
-        .player-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .control-btn {
-            background: none;
-            border: none;
-            color: #9ca3af;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .control-btn:hover {
-            color: #fff;
-        }
-
-        .play-btn {
-            background-color: #fff;
-            color: #000;
-            padding: 0.75rem;
-            border-radius: 50%;
-            transition: background-color 0.3s;
-        }
-
-        .play-btn:hover {
-            background-color: #e5e7eb;
-        }
-
-        .progress-bar {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: #9ca3af;
-        }
-
-        .progress-track {
-            flex: 1;
-            height: 0.25rem;
-            background-color: #374151;
-            border-radius: 0.125rem;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: #fff;
-            transition: width 0.3s;
-        }
-
-        
-        .galleries-section {
-            padding: 3rem 2rem;
-            background-color: #0a0a0a;
-        }
-
-        .galleries-container {
-            max-width: 500rem;
-            margin: 0 auto;
-        }
-
-        .gallery {
-            margin-bottom: 3rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            background-color: #1f2937;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            background-color: #374151;
-            transform: scale(1.05);
-        }
-
-        .gallery-img {
-            width: 100%;
-            height: 12rem;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .gallery-item:hover .gallery-img {
-            opacity: 1;
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-
-        
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
-            margin: auto;
-            overflow: hidden;
-            border-radius: 0.5rem;
-        }
-
-        .slide {
-            display: none;
-            width: 100%;
-            position: relative;
-        }
-
-        .slide-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .slide-img:hover {
-            opacity: 0.9;
-        }
-
-        .category-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: background 0.3s ease;
-        }
-
-        .category-overlay:hover {
-            background: rgba(0, 0, 0, 0.9);
-        }
-
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: auto;
-            padding: 16px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.3s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .dots {
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .dot {
-            cursor: pointer;
-            height: 12px;
-            width: 12px;
-            margin: 0 5px;
-            background-color: #6b7280;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-        }
-
-        .dot:hover,
-        .active {
-            background-color: #fff;
-        }
-
-        
-        .slide:first-child {
-            display: block;
-        }
-
-        
-        @media (max-width: 768px) {
-            .slide-img {
-                height: 200px;
-            }
-
-            .category-overlay {
-                font-size: 1rem;
-                padding: 6px 12px;
-            }
-        }
-
-        
-        .footer {
-            padding: 4rem 2rem;
-            background-color: #000;
-            text-align: center;
-        }
-
-        .quote-container {
-            max-width: 48rem;
-            margin: 0 auto;
-        }
-
-        .quote-text {
-            font-size: 1.125rem;
-            color: #9ca3af;
-            font-weight: 300;
-            line-height: 1.75;
-            margin-bottom: 1rem;
-        }
-
-        .quote-translation {
-            font-size: 0.875rem;
-            color: #6b7280;
-            font-style: italic;
-        }
-
-        
-        .icon {
-            fill: currentColor;
-            display: inline-block;
-        }
-
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 4rem;
-            }
-
-            .info-line {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .tags {
-                flex-wrap: wrap;
-                gap: 1rem;
+        @keyframes blink {
+            50% {
+                opacity: 0;
             }
         }
     </style>
 </head>
 
 <body>
-    
-    <div class="header">
-        <div class="header-content">
-            <h1 class="main-title animate-fadeInUp delay-1">ADAM</h1>
-            <p class="subtitle animate-fadeInUp delay-2">(Leon S. Kennedy)</p>
-            <div class="info-line animate-fadeInUp delay-3">
-                <span>25+ • He/Him • Straight • EN/ID</span>
-            </div>
-            <div class="tags animate-fadeInUp delay-4">
-                <span
-                    style="background: linear-gradient(90deg, #ef4444 60%, #b91c1c 100%); color: #fff; padding: 0.25em 0.75em; border-radius: 0.5em; font-weight: 500; box-shadow: 0 2px 8px rgba(239,68,68,0.15);">MDNI</span>
-                <span
-                    style="background: linear-gradient(90deg, #ef4444 60%, #b91c1c 100%); color: #fff; padding: 0.25em 0.75em; border-radius: 0.5em; font-weight: 500; box-shadow: 0 2px 8px rgba(239,68,68,0.15);">SLOW
-                    RESPONSE</span>
-                <span
-                    style="background: linear-gradient(90deg, #ef4444 60%, #b91c1c 100%); color: #fff; padding: 0.25em 0.75em; border-radius: 0.5em; font-weight: 500; box-shadow: 0 2px 8px rgba(239,68,68,0.15);">OOC</span>
-            </div>
-        </div>
-    </div>
-
-    
-    <div class="message-section">
-        <div class="message-content animate-fadeInUp delay-5">
-            <p class="message-text">
-                Please respect boundaries and understand that responses may take time.
-                Quality over speed is my approach to meaningful interactions.
-            </p>
-        </div>
-    </div>
-
-   
-    <div class="music-section">
-        <div class="section-container animate-fadeInUp delay-6">
-            <div class="section-header">
-                <svg class="section-icon icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="6" x2="14" y2="6"></line>
-                    <line x1="3" y1="12" x2="14" y2="12"></line>
-                    <line x1="3" y1="18" x2="11" y2="18"></line>
-                    <polygon points="16,4 22,8 16,12 16,4"></polygon>
-                </svg>
-
-                <h3 class="section-title">Playlist</h3>
-            </div>
-            <div class="music-player">
-                <div class="track-info">
-                    <h4 class="track-title" id="trackTitle">Bonebreaker</h4>
-                    <p class="track-artist" id="trackArtist">Slaughter to Prevail</p>
-                </div>
-                <div class="player-controls">
-                    <button class="control-btn" id="prevBtn">
-                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="19,20 9,12 19,4"></polygon>
-                            <line x1="5" y1="19" x2="5" y2="5"></line>
-                        </svg>
-                    </button>
-                    <button class="play-btn" id="playBtn">
-                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="5,3 19,12 5,21" id="playIcon"></polygon>
-                            <rect width="4" height="16" x="6" y="4" id="pauseIcon1" style="display:none;"></rect>
-                            <rect width="4" height="16" x="14" y="4" id="pauseIcon2" style="display:none;"></rect>
-                        </svg>
-                    </button>
-                    <button class="control-btn" id="nextBtn">
-                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="5,4 15,12 5,20"></polygon>
-                            <line x1="19" y1="5" x2="19" y2="19"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="progress-bar">
-                    <span id="currentTime">0:00</span>
-                    <div class="progress-track">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span id="duration">0:00</span>
-                </div>
-                <audio id="audioPlayer" preload="metadata">
-                    <source src="Bonebreaker.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
-    </div>
-
-    
-    <div class="galleries-section">
-        <div class="galleries-container">
-            <div class="gallery animate-fadeInUp">
-                <div class="section-header">
-                    <svg class="section-icon icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                        </path>
-                    </svg>
-                    <h3 class="section-title">Interests</h3>
-                </div>
-                <div class="slideshow-container">
-                    <div class="slide">
-                        <img src="./console.jpg" alt="Gaming" class="slide-img">
-                    </div>
-                    <div class="slide">
-                        <img src="./kb.jpg" alt="Gaming" class="slide-img">
-
-                    </div>
-                    <div class="slide">
-                        <img src="./re.jpg" alt="Gaming" class="slide-img">
-
-                    </div>
-                    <div class="slide">
-                        <img src="./code.jpg" alt="Coding" class="slide-img">
-
-                    </div>
-                    <div class="slide">
-                        <img src="./op.jpeg" alt="Anime" class="slide-img">
-
-                    </div>
-                    <div class="slide">
-                        <img src="./chess.jpg" alt="Chess" class="slide-img">
-
-                    </div>
-                    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-                    <a class="next" onclick="changeSlide(1)">&#10095;</a>
-                    <div class="dots">
-                        <span class="dot" onclick="currentSlide(1)"></span>
-                        <span class="dot" onclick="currentSlide(2)"></span>
-                        <span class="dot" onclick="currentSlide(3)"></span>
-                        <span class="dot" onclick="currentSlide(4)"></span>
-                        <span class="dot" onclick="currentSlide(5)"></span>
-                        <span class="dot" onclick="currentSlide(6)"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-   
-    <div class="footer">
-        <div class="quote-container animate-fadeInUp delay-7">
-            <blockquote class="quote-text">
-                <p>白は常に光ではなく、</p>
-                <p>黒は常に暗いではありません</p>
-                <p class="quote-translation">"White is not always light, black is not always dark"</p>
-            </blockquote>
-        </div>
-    </div>
+    <canvas id="particleCanvas"></canvas>
+    <h1>everything’s under maintenance<span class="blink">_</span></h1>
+    <p>Adam went to touch some grass.<br>check back later, maybe he’ll feel like roleplaying again.</p>
 
     <script>
-        const playlist = [
-            { title: "Bonebreaker", artist: "Slaughter to Prevail", src: "./Bonebreaker.mp3" },
-            { title: "I AM A LIAR", artist: "Tothegood", src: "./I AM A LIAR.mp3" },
-            { title: "Freak On a Leash", artist: "Korn", src: "./Freak On a Leash.mp3" },
-            { title: "13STAIRS[-]1", artist: "the GazettE", src: "./13STAIRS-1.mp3" },
-            { title: "abnormalize", artist: "Ling tosite sigure", src: "./abnormalize.mp3" },
-            { title: "Change (In the House of Flies)", artist: "Deftones", src: "./Change In the House of Flies.mp3" },
-            { title: "Words I Never Had The Strength To Tell You", artist: "departmefrombearisland", src: "./Words I Never Had The Strength To Tell You.mp3" },
-            { title: "Your Death Makes Me Wish Heaven Was Real", artist: "Frail Body", src: "./ydmmwhwr.mp3" },
-            { title: "Undenied", artist: "Portishead", src: "./Undenied.mp3" },
-            { title: "True", artist: "Akira Yamaoka", src: "./True.mp3" },
-        ];
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
 
-        let currentTrack = 0;
-        let isPlaying = false;
-
-        const audioPlayer = document.getElementById('audioPlayer');
-        const playBtn = document.getElementById('playBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const trackTitle = document.getElementById('trackTitle');
-        const trackArtist = document.getElementById('trackArtist');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-        const progressFill = document.getElementById('progressFill');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon1 = document.getElementById('pauseIcon1');
-        const pauseIcon2 = document.getElementById('pauseIcon2');
-
-        function loadTrack(index) {
-            const track = playlist[index];
-            audioPlayer.src = track.src;
-            trackTitle.textContent = track.title;
-            trackArtist.textContent = track.artist;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        function togglePlayPause() {
-            if (isPlaying) {
-                audioPlayer.pause();
-            } else {
-                audioPlayer.play();
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(200, 220, 255, ${this.opacity})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
+                ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
 
-        function updatePlayButton() {
-            if (isPlaying) {
-                playIcon.style.display = 'none';
-                pauseIcon1.style.display = 'block';
-                pauseIcon2.style.display = 'block';
-            } else {
-                playIcon.style.display = 'block';
-                pauseIcon1.style.display = 'none';
-                pauseIcon2.style.display = 'none';
+        const particles = Array.from({ length: 100 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let p of particles) {
+                p.update();
+                p.draw();
             }
+            requestAnimationFrame(animate);
         }
-
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) {
-                audioPlayer.play();
-            }
-        }
-
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) {
-                audioPlayer.play();
-            }
-        }
-
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${minutes}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function updateProgress() {
-            if (audioPlayer.duration) {
-                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                progressFill.style.width = `${progress}%`;
-                currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
-                durationEl.textContent = formatTime(audioPlayer.duration);
-            }
-        }
-
-        
-        playBtn.addEventListener('click', togglePlayPause);
-        prevBtn.addEventListener('click', prevTrack);
-        nextBtn.addEventListener('click', nextTrack);
-
-        audioPlayer.addEventListener('play', () => {
-            isPlaying = true;
-            updatePlayButton();
-        });
-
-        audioPlayer.addEventListener('pause', () => {
-            isPlaying = false;
-            updatePlayButton();
-        });
-
-        audioPlayer.addEventListener('timeupdate', updateProgress);
-        audioPlayer.addEventListener('loadedmetadata', updateProgress);
-
-        audioPlayer.addEventListener('ended', () => {
-            nextTrack();
-        });
-
-        
-        loadTrack(currentTrack);
-        updatePlayButton();
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        
-        let currentSlideIndex = 1;
-        let autoSlide;
-
-        function showSlide(index) {
-            const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.dot');
-
-            if (index > slides.length) index = 1;
-            if (index < 1) index = slides.length;
-
-            slides.forEach((slide, i) => {
-                slide.style.display = (i + 1 === index) ? 'block' : 'none';
-            });
-
-            dots.forEach((dot, i) => {
-                dot.className = dot.className.replace(' active', '');
-                if (i + 1 === index) dot.className += ' active';
-            });
-
-            currentSlideIndex = index;
-        }
-
-        function changeSlide(n) {
-            clearInterval(autoSlide);
-            showSlide(currentSlideIndex + n);
-            startAutoSlide();
-        }
-
-        function currentSlide(n) {
-            clearInterval(autoSlide);
-            showSlide(n);
-            startAutoSlide();
-        }
-
-        function startAutoSlide() {
-            autoSlide = setInterval(() => {
-                changeSlide(1);
-            }, 3000); 
-        }
-
-        
-        showSlide(currentSlideIndex);
-        startAutoSlide();
+        animate();
     </script>
 </body>
 
