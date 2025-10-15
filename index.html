@@ -56,6 +56,15 @@
             animation: fadeInUp 1.5s ease-out forwards;
         }
 
+        small {
+            color: #6b7280;
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+            margin-top: 1.5rem;
+            opacity: 0.7;
+            animation: fadeInUp 2.2s ease-out forwards;
+            letter-spacing: 0.08em;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -85,6 +94,7 @@
     <canvas id="particleCanvas"></canvas>
     <h1>everything’s under maintenance<span class="blink">_</span></h1>
     <p>Adam went to touch some grass.<br>check back later, maybe he’ll feel like roleplaying again.</p>
+    <small>(back in 5 mins, maybe)</small>
 
     <script>
         const canvas = document.getElementById('particleCanvas');
