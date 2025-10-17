@@ -105,11 +105,53 @@
             align-items: center
         }
 
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.25rem;
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            background-color: #B0BEC5;
+            border-radius: 50%;
+            margin-right: 0.25rem;
+            animation: blink 1.5s infinite;
+        }
+
+        .status-text {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-transform: none;
+            letter-spacing: 0;
+            white-space: nowrap;
+        }
+
         .nav-logo {
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 2px;
-            color: var(--accent-primary)
+            color: var(--accent-primary);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
         .menu-toggle {
@@ -230,6 +272,19 @@
         }
 
         @media (max-width:768px) {
+            .nav-logo {
+                font-size: 1.2rem;
+            }
+
+            .status-light {
+                width: 6px;
+                height: 6px;
+            }
+
+            .status-text {
+                font-size: 0.5rem;
+            }
+
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -980,7 +1035,13 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
-            <div class="nav-logo">ADAM</div>
+            <div class="nav-logo">
+                ADAM
+                <div class="status-indicator">
+                    <span class="status-light"></span>
+                    <span class="status-text">semi-inactive</span>
+                </div>
+            </div>
             <div class="menu-toggle">☰</div>
             <ul class="nav-links">
                 <li><a href="#stats">Stats</a></li>
