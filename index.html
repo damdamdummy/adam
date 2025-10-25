@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="▸Adam info" />
-    <meta property="og:description" content="" />
     <title>Adam | Leon S. Kennedy</title>
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
@@ -627,11 +625,13 @@
                 top: auto;
                 width: 100%;
                 margin-bottom: 20px;
+                /* FIX: Add margin to clear fixed header (approx 80px) */
                 margin-top: 80px;
             }
 
             .main-content {
                 margin-right: 0;
+                /* FIX: Reduce top margin to close the gap after the quest-sidebar */
                 margin-top: 20px;
             }
 
@@ -749,19 +749,19 @@
 
     <div class="quest-sidebar">
         <div class="quest-title">MISSION LOG</div>
-        <div class="quest-item active" onclick="showSection('profile', event)">
+        <div class="quest-item active" onclick="showSection('profile')">
             ► PERSONNEL FILE
         </div>
-        <div class="quest-item" onclick="showSection('stats', event)">
+        <div class="quest-item" onclick="showSection('stats')">
             ► COMBAT STATS
         </div>
-        <div class="quest-item" onclick="showSection('about', event)">
+        <div class="quest-item" onclick="showSection('about')">
             ► FIELD REPORT
         </div>
-        <div class="quest-item" onclick="showSection('messages', event)">
+        <div class="quest-item" onclick="showSection('messages')">
             ► SECURE COMMS
         </div>
-        <div class="quest-item" onclick="showSection('music', event)">
+        <div class="quest-item" onclick="showSection('music')">
             ► AUDIO FILES
         </div>
     </div>
@@ -986,12 +986,12 @@
 
     <footer
         style="text-align: center; padding: 40px 20px; border-top: 3px solid var(--re-red); margin-top: 40px; background: rgba(0, 0, 0, 0.9);">
-        <!-- <p style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-red); margin-bottom: 20px;">
+        <p style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-red); margin-bottom: 20px;">
             "白は常に光ではなく、黒は常に暗いではありません"
         </p>
         <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">
             "White is not always light, black is not always dark"
-        </p> -->
+        </p>
         <p style="color: var(--text-tertiary); font-size: 10px; margin-top: 20px;">
             © <span id="year"></span> ADAM'S DOMAIN - ROLEPLAY ACCOUNT
         </p>
@@ -1017,7 +1017,8 @@
         }
 
         // Section Navigation
-        function showSection(sectionId, event) { /
+        // FIXED: Removed the event parameter from the function definition for stability
+        function showSection(sectionId) {
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
@@ -1026,8 +1027,11 @@
             });
 
             document.getElementById(sectionId).classList.add('active');
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
+            
+            // FIX: Find the correct quest item using the sectionId in the onclick attribute
+            const questItem = document.querySelector(`.quest-item[onclick*="'${sectionId}'"]`);
+            if (questItem) {
+                questItem.classList.add('active');
             }
         }
 
@@ -1166,7 +1170,7 @@
     </script>
 
     <script type="module">
-        // Firebase Configuration 
+        // Firebase Configuration (REPLACE WITH YOUR CONFIG)
         const firebaseConfig = {
             apiKey: "AIzaSyBBgPDB0GmGr9Siyr5chV9XktlHkNPwm9w",
             authDomain: "adam-17aa6.firebaseapp.com",
@@ -1191,7 +1195,7 @@
         // Load Messages
         window.loadMessages = async function () {
             const messagesDisplay = document.getElementById('messagesDisplay');
-            messagesDisplay.innerHTML = '';
+            messagesDisplay.innerHTML = ''; // Clears content at the start
             const isAdmin = !!auth.currentUser;
 
             try {
@@ -1272,7 +1276,6 @@
             try {
                 await signInWithEmailAndPassword(auth, email, password);
                 document.getElementById('loginModal').style.display = 'none';
-                // window.loadMessages() will be called by onAuthStateChanged
                 alert('✅ ADMIN ACCESS GRANTED');
             } catch (e) {
                 document.getElementById('loginError').style.display = 'block';
@@ -1286,7 +1289,6 @@
         window.logoutAdmin = async function () {
             await signOut(auth);
             document.getElementById('loginModal').style.display = 'none';
-            // window.loadMessages() will be called by onAuthStateChanged
             alert('👋 LOGGED OUT');
         };
 
@@ -1300,12 +1302,12 @@
                 logoutBtn.style.display = 'none';
             }
 
-            // Only load messages on the first run OR on a state change
             if (!initialLoadDone || user !== auth.currentUser) {
                 window.loadMessages();
                 initialLoadDone = true;
             }
         });
+
     </script>
 </body>
 
