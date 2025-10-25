@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Adam’s Domain - Check before interacting" />
-    <meta property="og:description" content="This is a roleplay account." />
-    <meta property="og:image" content="https://adamada.site/uinfo.png" />
+    <meta property="og:title" content="▸Adam info" />
+    <meta property="og:description" content="" />
     <title>Adam | Leon S. Kennedy</title>
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
@@ -18,891 +17,567 @@
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('dragstart', e => e.preventDefault());
     </script>
-
-    <script>
-        const encryptedConfig = 'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5SWpwN0lrRmlPakU1TFRJeU1qUXlPVEl4T0RjNU1UVXhOa05VTkRrd01qQTFNVGN5TlRrd01qUm9hVzVuSWl3aWJHOVJTV2x1ZEdWamJHOXlJaXdpYzJWeUluTnBjM01pT2lKMGNtTm9RV3d3ZDNkM2IzSmtjbTl2Y21WeWJHUnZiV0ZwYm1jdU1tOXlJaXdpYzJsdVpYTnpkR2hpWDJWemRHRnlaV0YwSWpvaWJHOVJTV2x1ZEdWamJHOXlJaXdpYzJWeUluTnBjM01pT2lKMGNtTm9RV3d3SWpvaWJHOVJTV2x1ZEdWamJHOXlJaXdpYzJWeUluTnBjM01pT2lKMGNtTm9RV3d3'; // Base64 of YOUR config
-        const firebaseConfig = JSON.parse(atob(encryptedConfig));
-    </script>
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box
+            box-sizing: border-box;
         }
 
         :root {
             --bg-primary: #0a0a0a;
-            --bg-secondary: #141414;
-            --bg-tertiary: #1a1a1a;
+            --bg-secondary: #1a1a1a;
+            --re-red: #8b0000;
+            --re-blood: #ff0000;
+            --re-green: #00ff00;
+            --re-yellow: #ffff00;
             --text-primary: #e5e5e5;
             --text-secondary: #a0a0a0;
-            --text-tertiary: #707070;
-            --accent-primary: #ffffff;
-            --accent-secondary: #d4d4d4;
-            --border-color: #2a2a2a;
-            --danger: #ff4444;
-            --warning: #ffaa00
+            --border-color: #333;
+            --pixel-size: 4px;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', monospace;
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden
+            overflow-x: hidden;
+            image-rendering: pixelated;
         }
 
-        .bg-animation {
+        .scanline {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            pointer-events: none;
+            z-index: 9999;
+            animation: scanline 8s linear infinite;
         }
 
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.1;
-            z-index: -1;
-            animation: gridScroll 20s linear infinite
-        }
-
-        @keyframes gridScroll {
+        @keyframes scanline {
             0% {
-                transform: translate(0, 0)
+                transform: translateY(0);
             }
 
             100% {
-                transform: translate(50px, 50px)
+                transform: translateY(10px);
             }
         }
 
-        nav {
+        .vignette {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            padding: 1rem 2rem
+            height: 100%;
+            box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+            z-index: 9998;
         }
 
-        .nav-content {
-            max-width: 1400px;
+        /* Game UI Container */
+        .game-container {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Health Bar Header */
+        .game-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 3px solid var(--re-red);
+            z-index: 1000;
+            padding: 15px 20px;
+        }
+
+        .status-bar {
             display: flex;
             justify-content: space-between;
-            align-items: center
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
         }
 
-        .status-indicator {
+        .hp-bar {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-top: 0.25rem;
+            gap: 10px;
         }
 
-        .status-light {
-            width: 8px;
-            height: 8px;
-            background-color: #B0BEC5;
-            border-radius: 50%;
-            margin-right: 0.25rem;
-            animation: blink 1.5s infinite;
+        .hp-label {
+            color: var(--re-green);
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .hp-container {
+            width: 200px;
+            height: 20px;
+            border: 2px solid var(--re-red);
+            background: #000;
+            position: relative;
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+        }
+
+        .hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--re-green), var(--re-blood));
+            width: 50%;
+            animation: pulse 1s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), inset 0 0 8px rgba(255, 0, 0, 0.3);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
         }
 
         .status-text {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            text-transform: none;
-            letter-spacing: 0;
-            white-space: nowrap;
-        }
-
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--accent-primary);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: var(--re-red);
+            text-shadow: 0 0 5px var(--re-red);
+            animation: blink 1.5s infinite;
         }
 
         @keyframes blink {
-            0% {
+
+            0%,
+            100% {
                 opacity: 1;
             }
 
             50% {
                 opacity: 0.3;
             }
-
-            100% {
-                opacity: 1;
-            }
         }
 
-        .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--accent-primary);
+        /* Quest Log Sidebar */
+        .quest-sidebar {
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            width: 250px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid var(--re-red);
+            padding: 15px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            transition: all 0.3s;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            position: relative
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transition: width 0.3s
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-primary)
-        }
-
-        .nav-links a:hover::after {
-            width: 100%
-        }
-
-        .hero {
-            min-height: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 7rem 2rem 6rem;
-            position: relative;
-            height: 100dvh;
-
-        }
-
-        .hero-content {
+        .quest-title {
+            color: var(--re-yellow);
+            margin-bottom: 10px;
             text-align: center;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-
+            border-bottom: 2px solid var(--re-red);
+            padding-bottom: 5px;
         }
 
-        .glitch-wrapper {
+        .quest-item {
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(139, 0, 0, 0.2);
+            border-left: 3px solid var(--re-green);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quest-item:hover {
+            background: rgba(139, 0, 0, 0.4);
+            transform: translateX(5px);
+        }
+
+        .quest-item.active {
+            border-left-color: var(--re-yellow);
+            background: rgba(255, 255, 0, 0.1);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-top: 100px;
+            margin-right: 280px;
+            padding: 20px;
+        }
+
+        .content-section {
+            display: none;
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid var(--re-red);
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.3);
             position: relative;
-            display: inline-block
         }
 
-        .hero-title {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            position: relative;
-            text-transform: uppercase;
-            animation: fadeInUp 1s ease-out
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px)
+                transform: translateY(20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0)
+                transform: translateY(0);
             }
         }
 
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.2s backwards
+        .section-header {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            color: var(--re-red);
+            text-shadow: 2px 2px 0 #000, 0 0 10px var(--re-red);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--re-red);
+            padding-bottom: 10px;
         }
 
-        .hero-tags {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            /* Kurangin gap horizontal */
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.4s backwards;
-        }
-
-        .tag-row {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            width: 100%;
-            margin: 0.5rem 0;
-
-        }
-
-        @media (max-width:768px) {
-            .nav-logo {
-                font-size: 1.2rem;
-            }
-
-            .status-light {
-                width: 6px;
-                height: 6px;
-            }
-
-            .status-text {
-                font-size: 0.5rem;
-            }
-
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 74px;
-                left: 0;
-                width: 100%;
-                background: rgba(10, 10, 10, 0.95);
-                padding: 1rem;
-                text-align: center;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .hero-tags {
-                gap: 0.3rem;
-            }
-
-            .tag-row {
-                gap: 1rem;
-                margin: 0.75rem 0;
-            }
-
-            .tag {
-                padding: 0.4rem 1.2rem;
-                font-size: 0.75rem;
-            }
-
-        }
-
-        .tag {
-            padding: 0.5rem 1.5rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s
-        }
-
-        .tag:hover {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            border-color: var(--accent-primary);
-            transform: translateY(-2px)
-        }
-
-        .tag.danger {
-            border-color: var(--danger);
-            color: var(--danger)
-        }
-
-        .tag.danger:hover {
-            background: var(--danger);
-            color: white
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite
-        }
-
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateX(-50%) translateY(0)
-            }
-
-            40% {
-                transform: translateX(-50%) translateY(-20px)
-            }
-
-            60% {
-                transform: translateX(-50%) translateY(-10px)
-            }
-        }
-
-        .stats-section {
-            padding: 4rem 2rem;
-            background: var(--bg-secondary)
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            position: relative;
-            display: inline-block;
-            width: 100%
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--accent-primary)
-        }
-
+        /* Stats Grid (RPG Style) */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
         }
 
-        .stat-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
+        .stat-box {
+            background: rgba(139, 0, 0, 0.2);
+            border: 2px solid var(--re-red);
+            padding: 15px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
             position: relative;
-            overflow: hidden
+            overflow: hidden;
         }
 
-        .stat-card::before {
+        .stat-box::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
+            animation: scan 3s infinite;
         }
 
-        .stat-card:hover::before {
-            left: 100%
-        }
+        @keyframes scan {
+            0% {
+                left: -100%;
+            }
 
-        .stat-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateY(-5px)
-        }
-
-        .stat-value {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem
+            100% {
+                left: 100%;
+            }
         }
 
         .stat-label {
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem
-        }
-
-        .about-section {
-            padding: 4rem 2rem;
-            background: var(--bg-primary)
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--accent-primary)
-        }
-
-        .about-text p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.8
-        }
-
-        .traits-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem
-        }
-
-        .trait-item {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            transition: all 0.3s
-        }
-
-        .trait-item:hover {
-            border-color: var(--accent-primary);
-            transform: translateX(10px)
-        }
-
-        .trait-label {
-            font-size: 0.85rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 1px
-        }
-
-        .trait-value {
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            font-weight: 600
-        }
-
-        .character-section {
-            padding: 4rem 2rem;
-            background: var(--bg-secondary)
-        }
-
-        .character-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem
-        }
-
-        .character-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            transition: all 0.3s;
-            position: relative
-        }
-
-        .character-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 0;
-            background: var(--accent-primary);
-            transition: height 0.3s
-        }
-
-        .character-card:hover::before {
-            height: 100%
-        }
-
-        .character-card:hover {
-            transform: translateY(-5px)
-        }
-
-        .character-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--accent-primary)
-        }
-
-        .character-card p {
-            color: var(--text-secondary);
-            line-height: 1.8
-        }
-
-        .message-section {
-            padding: 4rem 2rem;
-            background: var(--bg-primary)
-        }
-
-        .message-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 2rem
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem
-        }
-
-        .form-group label {
+            color: var(--re-yellow);
             display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px
+            margin-bottom: 5px;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 1rem;
-            font-family: inherit;
-            transition: all 0.3s
+        .stat-value {
+            color: var(--re-green);
+            text-shadow: 0 0 5px var(--re-green);
+            font-size: 14px;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-primary)
+        /* Typewriter Text */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--re-green);
+            white-space: nowrap;
+            animation: typing 3s steps(40) 1s forwards, blink-caret 0.75s step-end infinite;
+            max-width: fit-content;
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            border: none;
-            padding: 1rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s
-        }
-
-        .submit-btn:hover {
-            background: var(--accent-secondary);
-            transform: translateY(-2px)
-        }
-
-        .submit-btn:active {
-            transform: translateY(0)
-        }
-
-        .submit-btn.loading {
-            background: var(--text-secondary);
-            cursor: not-allowed
-        }
-
-        .messages-display {
-            max-width: 800px;
-            margin: 3rem auto 0
-        }
-
-        .message-item {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-            animation: slideIn 0.3s ease-out
-        }
-
-        @keyframes slideIn {
+        @keyframes typing {
             from {
-                opacity: 0;
-                transform: translateX(-20px)
+                width: 0;
             }
 
             to {
-                opacity: 1;
-                transform: translateX(0)
+                width: 100%;
             }
         }
 
-        .message-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-tertiary)
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: var(--re-green);
+            }
+        }
+
+        /* Message Terminal */
+        .message-terminal {
+            background: #000;
+            border: 3px solid var(--re-green);
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-input {
+            width: 100%;
+            background: #000;
+            border: 2px solid var(--re-green);
+            color: var(--re-green);
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .terminal-input:focus {
+            outline: none;
+            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.4);
+        }
+
+        .terminal-button {
+            background: var(--re-red);
+            color: #fff;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+        }
+
+        .terminal-button:hover {
+            background: var(--re-blood);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+
+        .terminal-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Message Display */
+        .message-log {
+            margin-top: 20px;
+        }
+
+        .message-entry {
+            background: rgba(0, 100, 0, 0.1);
+            border-left: 3px solid var(--re-green);
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .message-entry::before {
+            content: '>';
+            color: var(--re-green);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .message-sender {
+            color: var(--re-yellow);
+            font-weight: bold;
         }
 
         .message-text {
-            color: var(--text-secondary);
-            line-height: 1.6
+            color: var(--re-green);
+            margin-top: 5px;
+            line-height: 1.6;
         }
 
         .message-text.blurred {
             filter: blur(5px);
             user-select: none;
-            cursor: not-allowed
+            cursor: not-allowed;
         }
 
-        .music-section {
-            padding: 4rem 2rem;
-            background: var(--bg-secondary)
-        }
-
+        /* Music Player (Inventory Style) */
         .music-player {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            padding: 2rem
+            background: rgba(0, 0, 0, 0.95);
+            border: 3px solid var(--re-yellow);
+            padding: 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
         }
 
-        .track-info {
+        .track-display {
+            background: #000;
+            border: 2px solid var(--re-yellow);
+            padding: 15px;
+            margin-bottom: 15px;
             text-align: center;
-            margin-bottom: 2rem
         }
 
-        .track-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem
+        .track-name {
+            color: var(--re-yellow);
+            margin-bottom: 5px;
         }
 
         .track-artist {
-            color: var(--text-secondary)
+            color: var(--text-secondary);
+            font-size: 8px;
         }
 
         .player-controls {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem
+            gap: 10px;
+            margin: 15px 0;
         }
 
         .control-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            background: var(--re-red);
+            border: 3px solid #000;
+            color: #fff;
+            width: 40px;
+            height: 40px;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 16px;
             display: flex;
             align-items: center;
-            justify-content: center
+            justify-content: center;
         }
 
         .control-btn:hover {
-            border-color: var(--accent-primary);
-            transform: scale(1.1)
+            background: var(--re-blood);
+            transform: scale(1.1);
         }
 
-        .play-btn {
-            width: 70px;
-            height: 70px;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            border-color: var(--accent-primary)
-        }
-
-        .play-btn.paused {
-            background: var(--text-secondary)
+        .progress-container {
+            margin-top: 15px;
         }
 
         .progress-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary)
-        }
-
-        .progress-track {
-            flex: 1;
-            height: 6px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            width: 100%;
+            height: 10px;
+            background: #000;
+            border: 2px solid var(--re-yellow);
+            position: relative;
             cursor: pointer;
-            position: relative
         }
 
         .progress-fill {
             height: 100%;
-            background: var(--accent-primary);
-            transition: width 0.1s
+            background: var(--re-yellow);
+            width: 0%;
+            transition: width 0.1s;
         }
 
-        footer {
-            padding: 3rem 2rem;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            color: var(--text-tertiary)
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 8px;
+            color: var(--text-secondary);
         }
 
-        .footer-quote {
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            font-size: 1.1rem;
-            font-style: italic;
-            color: var(--text-secondary)
-        }
-
-        @media (max-width:768px) {
-            .nav-links {
-                display: none
-            }
-
-            .about-content {
-                grid-template-columns: 1fr
-            }
-
-            .traits-grid {
-                grid-template-columns: 1fr
-            }
-
-            .hero-title {
-                font-size: 3rem
-            }
-
-            .hero {
-                padding: 6rem 1rem 5rem !important;
-                height: 100dvh !important;
-            }
-
-            .scroll-indicator {
-                bottom: 1rem !important;
-            }
-
-            .hero-tags {
-                gap: 0.3rem;
-            }
-
-            .tag-row {
-                gap: 1rem;
-                margin: 0.75rem 0;
-            }
-
-            .tag {
-                padding: 0.4rem 1.2rem;
-                font-size: 0.75rem;
-            }
-
-            .hero-content {
-                padding: 0 1rem;
-            }
-
-        }
-
+        /* Warning Modal */
         .warning-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.98);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            backdrop-filter: blur(10px)
         }
 
-        .warning-content {
-            background: var(--bg-secondary);
-            border: 2px solid var(--danger);
-            padding: 3rem;
-            max-width: 500px;
+        .warning-box {
+            background: #000;
+            border: 5px solid var(--re-red);
+            padding: 40px;
+            max-width: 600px;
             text-align: center;
-            animation: scaleIn 0.3s ease-out
+            box-shadow: 0 0 50px rgba(139, 0, 0, 0.8);
+            animation: flicker 0.1s infinite;
         }
 
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0
+        @keyframes flicker {
+
+            0%,
+            100% {
+                opacity: 1;
             }
 
-            to {
-                transform: scale(1);
-                opacity: 1
+            50% {
+                opacity: 0.95;
             }
         }
 
-        .warning-content h2 {
-            color: var(--danger);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase
+        .warning-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 20px;
+            color: var(--re-red);
+            text-shadow: 0 0 10px var(--re-red);
+            margin-bottom: 20px;
         }
 
-        .warning-content p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.8
+        .warning-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 2;
+            margin: 20px 0;
         }
 
-        .warning-btn {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .warning-button {
+            background: var(--re-red);
+            color: #fff;
+            border: 3px solid #000;
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
             cursor: pointer;
+            text-transform: uppercase;
             transition: all 0.3s;
-            font-weight: 700
+            margin-top: 20px;
         }
 
-        .warning-btn:hover {
-            background: var(--danger);
-            color: white
+        .warning-button:hover {
+            background: var(--re-blood);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
         }
 
-        .adam-modal {
+        /* Login Modal */
+        .login-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -913,462 +588,481 @@
             align-items: center;
             justify-content: center;
             z-index: 10001;
-            backdrop-filter: blur(10px)
         }
 
-        .adam-content {
-            background: var(--bg-secondary);
-            border: 2px solid var(--accent-primary);
-            padding: 3rem;
+        .login-box {
+            background: #000;
+            border: 3px solid var(--re-green);
+            padding: 30px;
             max-width: 400px;
-            text-align: center
+            width: 90%;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
         }
 
-        .adam-content h2 {
-            color: var(--accent-primary);
-            font-size: 1.8rem;
-            margin-bottom: 1rem
-        }
-
-        .adam-content input {
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary)
-        }
-
-        .adam-content button {
-            width: 100%;
-            padding: 1rem;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s
-        }
-
-        .adam-content button:hover {
-            background: var(--accent-secondary)
-        }
-
-        .adam-content p.error {
-            color: var(--danger);
-            margin-top: 1rem
+        .login-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            color: var(--re-green);
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .close-btn {
             float: right;
-            font-size: 1.5rem;
-            font-weight: bold;
+            color: var(--re-red);
+            font-size: 20px;
             cursor: pointer;
-            color: var(--text-secondary);
-            transition: color 0.3s
+            font-weight: bold;
         }
 
         .close-btn:hover {
-            color: var(--danger)
+            color: var(--re-blood);
         }
 
-        .hero-title.glitch {
-            animation: glitch 0.3s linear infinite
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quest-sidebar {
+                position: relative;
+                right: auto;
+                top: auto;
+                width: 100%;
+                margin-bottom: 20px;
+                margin-top: 80px;
+            }
+
+            .main-content {
+                margin-right: 0;
+                margin-top: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hp-container {
+                width: 150px;
+            }
         }
 
-        @keyframes glitch {
+        /* Pixel Corner Decorations */
+        .pixel-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--re-red);
+        }
 
-            0%,
-            100% {
-                transform: translate(0)
-            }
+        .pixel-corner.top-left {
+            top: -3px;
+            left: -3px;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
 
-            20% {
-                transform: translate(-2px, 2px)
-            }
+        .pixel-corner.top-right {
+            top: -3px;
+            right: -3px;
+            clip-path: polygon(100% 0, 100% 100%, 0 0);
+        }
 
-            40% {
-                transform: translate(-2px, -2px)
-            }
+        .pixel-corner.bottom-left {
+            bottom: -3px;
+            left: -3px;
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+        }
 
-            60% {
-                transform: translate(2px, 2px)
-            }
+        .pixel-corner.bottom-right {
+            bottom: -3px;
+            right: -3px;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
 
-            80% {
-                transform: translate(2px, -2px)
-            }
+        .unlock-btn {
+            background: var(--re-yellow);
+            color: #000;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .unlock-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
-    <!-- Warning Modal -->
+    <div class="scanline"></div>
+    <div class="vignette"></div>
+
     <div class="warning-modal" id="warningModal">
-        <div class="warning-content">
-            <h2>⚠ WARNING ⚠</h2>
-            <p><strong>This is a ROLEPLAY account portraying Leon S. Kennedy.</strong></p>
-            <p>• MDNI (Minors Do Not Interact)<br>
-                • Slow responses due to real life<br>
-                • I operate both in-character and out-of-character (primarily the latter)<br>
-                • Please respect boundaries</p>
-            <button class="warning-btn" onclick="closeWarning()">I UNDERSTAND & AGREE</button>
+        <div class="warning-box">
+            <div class="warning-title">⚠ BIOHAZARD WARNING ⚠</div>
+            <div class="warning-text">
+                <strong>CLASSIFIED PERSONNEL FILE</strong><br><br>
+                • MDNI (Minors Do Not Interact)<br>
+                • Roleplay Account - Leon S. Kennedy<br>
+                • Slow Response Time (Real Life Priority)<br>
+                • IC/OOC Operations<br>
+                • Respect Operational Boundaries
+            </div>
+            <button class="warning-button" onclick="closeWarning()">ACCEPT & PROCEED</button>
         </div>
     </div>
 
-    <div class="adam-modal" id="adamLoginModal" style="display:none;">
-        <div class="adam-content">
-            <h2>🔑 Adam Login <span class="close-btn"
-                    onclick="document.getElementById('adamLoginModal').style.display='none'">&times;</span></h2>
-            <input type="email" id="adamEmail" placeholder="Email">
-            <input type="password" id="adamPassword" placeholder="Password">
-            <button onclick="loginAdam()">Login</button>
-            <button onclick="logoutAdam()" id="logoutBtn"
-                style="display:none; margin-top:1rem; background:var(--danger);">Logout</button>
-            <p class="error" id="adamError" style="display:none;">Login failed!</p>
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+            <span class="close-btn" onclick="closeLogin()">&times;</span>
+            <div class="login-title">ADMIN ACCESS</div>
+            <input type="email" id="adminEmail" class="terminal-input" placeholder="Email">
+            <input type="password" id="adminPassword" class="terminal-input" placeholder="Password">
+            <button class="terminal-button" onclick="loginAdmin()" style="width: 100%;">LOGIN</button>
+            <button class="terminal-button" id="logoutBtn" onclick="logoutAdmin()"
+                style="width: 100%; margin-top: 10px; display: none; background: var(--re-yellow); color: #000;">LOGOUT</button>
+            <p id="loginError" style="color: var(--re-red); margin-top: 10px; display: none; font-size: 10px;">ACCESS
+                DENIED</p>
         </div>
     </div>
 
-    <!-- Background -->
-    <div class="bg-animation"></div>
-    <div class="grid-overlay"></div>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-content">
-            <div class="nav-logo">
-                ADAM
-                <div class="status-indicator">
-                    <span class="status-light"></span>
-                    <span class="status-text">semi-inactive</span>
+    <div class="game-header">
+        <div class="status-bar">
+            <div class="hp-bar">
+                <span class="hp-label">ADAM</span>
+                <div class="hp-container">
+                    <div class="hp-fill"></div>
                 </div>
             </div>
-            <div class="menu-toggle">☰</div>
-            <ul class="nav-links">
-                <li><a href="#stats">Stats</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#character">Character</a></li>
-                <li><a href="#message">Message</a></li>
-                <li><a href="#music">Music</a></li>
-            </ul>
+            <div class="status-text">SEMI-INACTIVE</div>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="glitch-wrapper">
-                <h1 class="hero-title">LEON S. KENNEDY</h1>
-            </div>
-            <p class="hero-subtitle">Government Agent • Survivor • Protector</p>
-            <div class="hero-tags">
-                <div class="tag-row">
-                    <span class="tag danger">MDNI</span>
-                    <span class="tag">IC/OOC</span>
-                    <span class="tag">SLOW REPLIES</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">25+ • HE/HIM • Straight • EN/ID</span>
-                </div>
-            </div>
+    <div class="quest-sidebar">
+        <div class="quest-title">MISSION LOG</div>
+        <div class="quest-item active" onclick="showSection('profile', event)">
+            ► PERSONNEL FILE
         </div>
-        <div class="scroll-indicator">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
+        <div class="quest-item" onclick="showSection('stats', event)">
+            ► COMBAT STATS
         </div>
-    </section>
+        <div class="quest-item" onclick="showSection('about', event)">
+            ► FIELD REPORT
+        </div>
+        <div class="quest-item" onclick="showSection('messages', event)">
+            ► SECURE COMMS
+        </div>
+        <div class="quest-item" onclick="showSection('music', event)">
+            ► AUDIO FILES
+        </div>
+    </div>
 
-    <!-- Stats Section -->
-    <section class="stats-section" id="stats">
-        <div class="container">
-            <h2 class="section-title">Profile Statistics</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">10+</div>
-                    <div class="stat-label">Years Experience</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Survival Rate</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">∞</div>
-                    <div class="stat-label">Missions Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">24/7</div>
-                    <div class="stat-label">On Duty</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="game-container">
+        <div class="main-content">
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <h2 class="section-title">About Leon</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Canon Character</h3>
-                    <p>Leon Scott Kennedy is a U.S. government agent and one of the most capable survivors of biological
-                        horror incidents. Starting his first day as a police officer in Raccoon City during a zombie
-                        outbreak, he’s since become a specialized agent in anti-bioterrorism operations.</p>
-                    <p>Known for his quick thinking, exceptional marksmanship, and unwavering determination to protect
-                        others. Despite facing countless horrors, Leon maintains his humanity and sense of duty.</p>
+            <div class="content-section active" id="profile">
+                <div class="pixel-corner top-left"></div>
+                <div class="pixel-corner top-right"></div>
+                <div class="pixel-corner bottom-left"></div>
+                <div class="pixel-corner bottom-right"></div>
+
+                <div class="section-header">PERSONNEL FILE: LEON S. KENNEDY</div>
+                <p style="line-height: 1.8; margin-bottom: 20px;">
+                    U.S. Government Agent specializing in anti-bioterrorism operations.
+                    First day as RPD officer coincided with Raccoon City outbreak.
+                    Currently assigned to DSO (Division of Security Operations).
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">AGE:</span>
+                        <span class="stat-value">LATE 30s | MID 20s (OP)</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">OCCUPATION:</span>
+                        <span class="stat-value">DSO AGENT</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">GENDER:</span>
+                        <span class="stat-value">MALE (HE/HIM)</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">LANGUAGES:</span>
+                        <span class="stat-value">EN/ID</span>
+                    </div>
                 </div>
-                <div class="traits-grid">
-                    <div class="trait-item">
-                        <div class="trait-label">Age</div>
-                        <div class="trait-value">Late 30s - Early 40s</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">Occupation</div>
-                        <div class="trait-value">DSO Agent</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">Skills</div>
-                        <div class="trait-value">Combat Expert</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">Personality</div>
-                        <div class="trait-value">Stoic & Witty</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">Motivation</div>
-                        <div class="trait-value">Protect Innocents</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">Status</div>
-                        <div class="trait-value">Active Service</div>
-                    </div>
+
+                <div
+                    style="margin-top: 30px; padding: 20px; background: rgba(139, 0, 0, 0.1); border: 2px solid var(--re-red);">
+                    <p
+                        style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-yellow); margin-bottom: 10px;">
+                        ⚠ OPERATIONAL NOTES:
+                    </p>
+                    <p style="font-size: 14px; line-height: 1.8;">
+                        • MDNI - Minors Do Not Interact<br>
+                        • IC/OOC Operations (Primarily OOC)<br>
+                        • Response Time: DELAYED (Real Life Priority)<br>
+                        • Respect Boundaries
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Character Section -->
-    <section class="character-section" id="character">
-        <div class="container">
-            <h2 class="section-title">My Interpretation</h2>
-            <div class="character-cards">
-                <div class="character-card">
-                    <h3>Roleplay Style</h3>
-                    <p>I reply however I want. Sometimes I keep Leon’s vibe but add my own flavor.</p>
-                </div>
-                <div class="character-card">
-                    <h3>Boundaries & Notes</h3>
-                    <p>Expect slow replies. I operate both IC and OOC (mostly). Not available 24/7 due
-                        to real
-                        life responsibilities. Please be patient and respectful.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="content-section" id="stats">
+                <div class="pixel-corner top-left"></div>
+                <div class="pixel-corner top-right"></div>
+                <div class="pixel-corner bottom-left"></div>
+                <div class="pixel-corner bottom-right"></div>
 
-    <!-- Anonymous Message Section -->
-    <section class="message-section" id="message">
-        <div class="container">
-            <h2 class="section-title">Anonymous Messages</h2>
-            <form class="message-form" id="messageForm">
-                <div class="form-group">
-                    <label>Name (Optional)</label>
-                    <input type="text" id="senderName" placeholder="Anonymous" maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Message *</label>
-                    <textarea id="messageText" placeholder="Your message here..." required maxlength="500"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-            <div class="messages-display" id="messagesDisplay"></div>
-        </div>
-    </section>
+                <div class="section-header">COMBAT STATISTICS</div>
 
-    <!-- Music Section -->
-    <section class="music-section" id="music">
-        <div class="container">
-            <h2 class="section-title">Playlist</h2>
-            <div class="music-player">
-                <div class="track-info">
-                    <div class="track-title" id="trackTitle">Bonebreaker</div>
-                    <div class="track-artist" id="trackArtist">Slaughter to Prevail</div>
-                </div>
-                <div class="player-controls">
-                    <button class="control-btn" id="prevBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="19,20 9,12 19,4"></polygon>
-                            <line x1="5" y1="19" x2="5" y2="5"></line>
-                        </svg>
-                    </button>
-                    <button class="play-btn control-btn" id="playBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <polygon points="5,3 19,12 5,21" id="playIcon"></polygon>
-                        </svg>
-                    </button>
-                    <button class="control-btn" id="nextBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="5,4 15,12 5,20"></polygon>
-                            <line x1="19" y1="5" x2="19" y2="19"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="progress-bar">
-                    <span id="currentTime">0:00</span>
-                    <div class="progress-track" id="progressTrack">
-                        <div class="progress-fill" id="progressFill"></div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">EXPERIENCE:</span>
+                        <span class="stat-value">10+ YEARS</span>
                     </div>
-                    <span id="duration">0:00</span>
+                    <div class="stat-box">
+                        <span class="stat-label">SURVIVAL RATE:</span>
+                        <span class="stat-value">100%</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">MISSIONS:</span>
+                        <span class="stat-value">CLASSIFIED</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">STATUS:</span>
+                        <span class="stat-value">ACTIVE DUTY</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">SPECIALTY:</span>
+                        <span class="stat-value">BIOTERRORISM</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">RANK:</span>
+                        <span class="stat-value">SPECIAL AGENT</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: #000; border: 2px solid var(--re-green);">
+                    <p
+                        style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-green); margin-bottom: 15px;">
+                        SKILL TREE:
+                    </p>
+                    <div style="line-height: 2;">
+                        ✓ MARKSMANSHIP: MASTER<br>
+                        ✓ HAND-TO-HAND COMBAT: EXPERT<br>
+                        ✓ TACTICAL PLANNING: ADVANCED<br>
+                        ✓ SURVIVAL INSTINCT: MAXIMUM<br>
+                        ✓ QUICK THINKING: LEGENDARY
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-quote">
-            "白は常に光ではなく、黒は常に暗いではありません"<br>
-            <em>"White is not always light, black is not always dark"</em>
+            <div class="content-section" id="about">
+                <div class="pixel-corner top-left"></div>
+                <div class="pixel-corner top-right"></div>
+                <div class="pixel-corner bottom-left"></div>
+                <div class="pixel-corner bottom-right"></div>
+
+                <div class="section-header">FIELD REPORT</div>
+
+                <div style="margin-bottom: 30px;">
+                    <h3
+                        style="color: var(--re-yellow); font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 15px;">
+                        BACKGROUND BRIEF:
+                    </h3>
+                    <p style="line-height: 1.8;">
+                        Leon Scott Kennedy began his career in law enforcement on what was supposed to be his first day
+                        with the Raccoon City Police Department. Instead, he walked into a nightmare - the entire city
+                        overrun by the undead due to a T-virus outbreak orchestrated by Umbrella Corporation.
+                    </p>
+                    <p style="line-height: 1.8; margin-top: 15px;">
+                        After surviving Raccoon City, Leon was recruited by the U.S. government for specialized training
+                        in anti-bioterrorism operations. His natural talent, combined with extensive field experience
+                        against various B.O.W.s (Bio-Organic Weapons), has made him one of the government's most
+                        valuable assets.
+                    </p>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.7); border: 2px solid var(--re-yellow); padding: 20px;">
+                    <h3
+                        style="color: var(--re-yellow); font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 15px;">
+                        CHARACTER NOTES:
+                    </h3>
+                    <p style="line-height: 1.8;">
+                        <strong style="color: var(--re-red);">ROLEPLAY STYLE:</strong><br>
+                        I portray Leon with my own interpretation.
+                    </p>
+                    <p style="line-height: 1.8; margin-top: 15px;">
+                        <strong style="color: var(--re-red);">AVAILABILITY:</strong><br>
+                        Real life comes first. Responses may be slow. I operate both in-character and out-of-character,
+                        though primarily OOC. Please be patient and understanding.
+                    </p>
+                </div>
+            </div>
+
+            <div class="content-section" id="messages">
+                <div class="pixel-corner top-left"></div>
+                <div class="pixel-corner top-right"></div>
+                <div class="pixel-corner bottom-left"></div>
+                <div class="pixel-corner bottom-right"></div>
+
+                <div class="section-header">SECURE COMMUNICATIONS</div>
+
+                <div class="message-terminal">
+                    <p style="color: var(--re-green); margin-bottom: 15px;">
+                        > ENCRYPTED CHANNEL ACTIVE<br>
+                        > ANONYMOUS TRANSMISSION ENABLED<br>
+                        > ENTER MESSAGE BELOW:
+                    </p>
+
+                    <form id="messageForm">
+                        <input type="text" id="senderName" class="terminal-input"
+                            placeholder="CALL SIGN (Optional - Default: ANONYMOUS)" maxlength="50">
+                        <textarea id="messageText" class="terminal-input" placeholder="MESSAGE CONTENT..." required
+                            maxlength="500" style="min-height: 100px; resize: vertical;"></textarea>
+                        <button type="submit" class="terminal-button" style="width: 100%;">TRANSMIT MESSAGE</button>
+                    </form>
+
+                    <button class="unlock-btn" onclick="openLogin()">🔐 ADMIN ACCESS - VIEW ALL TRANSMISSIONS</button>
+                </div>
+
+                <div class="message-log" id="messageLog">
+                    <div id="messagesDisplay"></div>
+                </div>
+            </div>
+
+            <div class="content-section" id="music">
+                <div class="pixel-corner top-left"></div>
+                <div class="pixel-corner top-right"></div>
+                <div class="pixel-corner bottom-left"></div>
+                <div class="pixel-corner bottom-right"></div>
+
+                <div class="section-header">AUDIO FILES - EVIDENCE LOCKER</div>
+
+                <div class="music-player">
+                    <div class="track-display">
+                        <div class="track-name" id="trackName">BONEBREAKER</div>
+                        <div class="track-artist" id="trackArtist">SLAUGHTER TO PREVAIL</div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button class="control-btn" id="prevBtn">◄</button>
+                        <button class="control-btn" id="playBtn"
+                            style="width: 60px; height: 60px; font-size: 24px;">▶</button>
+                        <button class="control-btn" id="nextBtn">►</button>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="totalTime">0:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.7); border: 2px solid var(--re-yellow);">
+                    <p
+                        style="font-family: 'Press Start 2P', cursive; font-size: 8px; color: var(--re-yellow); margin-bottom: 10px;">
+                        NOTE: Audio files recovered from various operations. Quality may vary.
+                    </p>
+                </div>
+            </div>
+
         </div>
-        <p>© <span id="year"></span> Adam’s Domain</p>
-        <p style="margin-top: 1rem; font-size: 0.85rem;">This is a roleplay account. All Resident Evil
-            characters belong to Capcom.</p>
+    </div>
+
+    <footer
+        style="text-align: center; padding: 40px 20px; border-top: 3px solid var(--re-red); margin-top: 40px; background: rgba(0, 0, 0, 0.9);">
+        <!-- <p style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-red); margin-bottom: 20px;">
+            "白は常に光ではなく、黒は常に暗いではありません"
+        </p>
+        <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">
+            "White is not always light, black is not always dark"
+        </p> -->
+        <p style="color: var(--text-tertiary); font-size: 10px; margin-top: 20px;">
+            © <span id="year"></span> ADAM'S DOMAIN - ROLEPLAY ACCOUNT
+        </p>
+        <p style="color: var(--text-tertiary); font-size: 10px; margin-top: 10px;">
+            All Resident Evil characters © CAPCOM
+        </p>
     </footer>
 
-    <!-- MUSIC PLAYER AUDIO (HIDDEN) -->
-    <audio id="audioPlayer" preload="metadata">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="audioPlayer" preload="metadata"></audio>
 
     <script>
+        // Year
         document.getElementById('year').textContent = new Date().getFullYear();
-        function closeWarning() { document.getElementById('warningModal').style.display = 'none'; localStorage.setItem('warningAccepted', 'true'); }
-        if (localStorage.getItem('warningAccepted') === 'true') { document.getElementById('warningModal').style.display = 'none'; }
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function (e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
-    </script>
 
-    <script>
-        document.querySelector('.menu-toggle').addEventListener('click', function () {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
-
-    <script>
-        // 1. WARNING MODAL
+        // Warning Modal
         function closeWarning() {
             document.getElementById('warningModal').style.display = 'none';
             localStorage.setItem('warningAccepted', 'true');
         }
+
         if (localStorage.getItem('warningAccepted') === 'true') {
             document.getElementById('warningModal').style.display = 'none';
         }
 
-        // 2. SMOOTH SCROLL
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+        // Section Navigation
+        function showSection(sectionId, event) { /
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
             });
-        });
+            document.querySelectorAll('.quest-item').forEach(item => {
+                item.classList.remove('active');
+            });
 
-        // 3. MESSAGE FORM 
-        const messageForm = document.getElementById('messageForm');
-        messageForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const name = document.getElementById('senderName').value.trim() || 'Anonymous';
-            const text = document.getElementById('messageText').value.trim();
-            if (text) {
-                const btn = messageForm.querySelector('.submit-btn');
-                btn.textContent = 'SENDING...';
-                btn.classList.add('loading');
-
-                const success = await window.sendMessage(name, text);
-                messageForm.reset();
-
-                if (success) {
-                    btn.textContent = 'SENT!';
-                    setTimeout(() => {
-                        btn.textContent = 'Send Message';
-                        btn.classList.remove('loading');
-                        window.loadMessages();
-                    }, 2000);
-                } else {
-                    btn.textContent = 'FAILED!';
-                    setTimeout(() => {
-                        btn.textContent = 'Send Message';
-                        btn.classList.remove('loading');
-                    }, 2000);
-                }
+            document.getElementById(sectionId).classList.add('active');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
             }
-        });
-
-        // Unlock button 
-        function createUnlockButton() {
-            const existingBtn = document.querySelector('#message .unlock-adam-btn');
-            if (existingBtn) existingBtn.remove();
-
-            const messageSection = document.getElementById('message');
-            const unlockBtn = document.createElement('button');
-            unlockBtn.id = 'unlockBtn';
-            unlockBtn.className = 'submit-btn unlock-adam-btn';
-            unlockBtn.textContent = '🔑 Show All';
-            unlockBtn.style.width = 'auto';
-            unlockBtn.style.margin = '2rem auto';
-            unlockBtn.style.display = 'block';
-            unlockBtn.onclick = () => {
-                document.getElementById('adamLoginModal').style.display = 'flex';
-            };
-            messageSection.appendChild(unlockBtn);
         }
-        createUnlockButton();
 
-        // Blur CSS
-        const blurStyle = document.createElement('style');
-        blurStyle.textContent = `.message-text.blurred{filter:blur(5px);user-select:none;cursor:not-allowed}`;
-        document.head.appendChild(blurStyle);
+        // Login Modal
+        function openLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
 
-        // 4. MUSIC PLAYER 
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // Music Player
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const progressTrack = document.getElementById('progressTrack');
+        const progressBar = document.getElementById('progressBar');
         const progressFill = document.getElementById('progressFill');
         const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-        const trackTitleEl = document.getElementById('trackTitle');
+        const totalTimeEl = document.getElementById('totalTime');
+        const trackNameEl = document.getElementById('trackName');
         const trackArtistEl = document.getElementById('trackArtist');
 
-        playBtn.innerHTML = `
-    <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: block;">
-        <polygon points="5,3 19,12 5,21"/>
-    </svg>
-    <svg id="pauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
-        <rect x="5" y="3" width="4" height="18"/>
-        <rect x="15" y="3" width="4" height="18"/>
-    </svg>
-`;
-
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-
         const playlist = [
-            { title: "Bonebreaker", artist: "Slaughter to Prevail", src: "./Bonebreaker.mp3" },
-            { title: "I AM A LIAR", artist: "Tothegood", src: "./I AM A LIAR.mp3" },
-            { title: "Freak On a Leash", artist: "Korn", src: "./Freak On a Leash.mp3" },
-            { title: "13STAIRS[-]1", artist: "the GazettE", src: "./13STAIRS-1.mp3" },
-            { title: "abnormalize", artist: "Ling tosite sigure", src: "./abnormalize.mp3" },
-            { title: "Change (In the House of Flies)", artist: "Deftones", src: "./Change In the House of Flies.mp3" },
-            { title: "Words I Never Had The Strength To Tell You", artist: "departmefrombearisland", src: "./Words I Never Had The Strength To Tell You.mp3" },
-            { title: "Your Death Makes Me Wish Heaven Was Real", artist: "Frail Body", src: "./ydmmwhwr.mp3" },
-            { title: "Undenied", artist: "Portishead", src: "./Undenied.mp3" },
-            { title: "True", artist: "Akira Yamaoka", src: "./True.mp3" },
+            { title: "BONEBREAKER", artist: "SLAUGHTER TO PREVAIL", src: "./Bonebreaker.mp3" },
+            { title: "I AM A LIAR", artist: "TOTHEGOOD", src: "./I AM A LIAR.mp3" },
+            { title: "FREAK ON A LEASH", artist: "KORN", src: "./Freak On a Leash.mp3" },
+            { title: "13STAIRS[-]1", artist: "THE GAZETTE", src: "./13STAIRS-1.mp3" },
+            { title: "ABNORMALIZE", artist: "LING TOSITE SIGURE", src: "./abnormalize.mp3" },
+            { title: "CHANGE", artist: "DEFTONES", src: "./Change In the House of Flies.mp3" },
+            { title: "WORDS I NEVER HAD", artist: "DEPARTMEFROMBEARISLAND", src: "./Words I Never Had The Strength To Tell You.mp3" },
+            { title: "YOUR DEATH", artist: "FRAIL BODY", src: "./ydmmwhwr.mp3" },
+            { title: "UNDENIED", artist: "PORTISHEAD", src: "./Undenied.mp3" },
+            { title: "TRUE", artist: "AKIRA YAMAOKA", src: "./True.mp3" }
         ];
 
         let currentTrack = 0;
@@ -1377,54 +1071,41 @@
         function loadTrack(index) {
             const track = playlist[index];
             audio.src = track.src;
-            trackTitleEl.textContent = track.title;
+            trackNameEl.textContent = track.title;
             trackArtistEl.textContent = track.artist;
             currentTrack = index;
-            if (isPlaying) audio.play();
         }
 
-        function togglePlayPause() {
+        function togglePlay() {
             if (isPlaying) {
                 audio.pause();
+                playBtn.textContent = '▶';
+                isPlaying = false;
             } else {
                 audio.play();
-            }
-            updatePlayButton();
-        }
-
-        function updatePlayButton() {
-            if (isPlaying) {
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-            } else {
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
+                playBtn.textContent = '❚❚';
+                isPlaying = true;
             }
         }
 
         function nextTrack() {
             currentTrack = (currentTrack + 1) % playlist.length;
             loadTrack(currentTrack);
-            if (isPlaying) {
-                audio.play();
-            }
+            if (isPlaying) audio.play();
         }
 
         function prevTrack() {
             currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
             loadTrack(currentTrack);
-            if (isPlaying) {
-                audio.play();
-            }
+            if (isPlaying) audio.play();
         }
 
-        playBtn.addEventListener('click', togglePlayPause);
-
-        prevBtn.addEventListener('click', prevTrack);
+        playBtn.addEventListener('click', togglePlay);
         nextBtn.addEventListener('click', nextTrack);
+        prevBtn.addEventListener('click', prevTrack);
 
-        progressTrack.addEventListener('click', (e) => {
-            const rect = progressTrack.getBoundingClientRect();
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
             audio.currentTime = percent * audio.duration;
         });
@@ -1432,86 +1113,61 @@
         audio.addEventListener('timeupdate', () => {
             if (audio.duration) {
                 const percent = (audio.currentTime / audio.duration) * 100;
-                progressFill.style.width = `${percent}%`;
+                progressFill.style.width = percent + '%';
                 currentTimeEl.textContent = formatTime(audio.currentTime);
             }
         });
 
         audio.addEventListener('loadedmetadata', () => {
-            durationEl.textContent = formatTime(audio.duration);
+            totalTimeEl.textContent = formatTime(audio.duration);
         });
 
-        audio.addEventListener('play', () => {
-            isPlaying = true;
-            updatePlayButton();
-        });
-
-        audio.addEventListener('pause', () => {
-            isPlaying = false;
-            updatePlayButton();
-        });
-
-        audio.addEventListener('ended', () => {
-            nextTrack();
-        });
+        audio.addEventListener('ended', nextTrack);
 
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
         }
 
         loadTrack(0);
 
-        // 5. INTERSECTION OBSERVER 
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Message Form
+        document.getElementById('messageForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('senderName').value.trim() || 'ANONYMOUS';
+            const text = document.getElementById('messageText').value.trim();
+
+            if (text) {
+                const btn = this.querySelector('.terminal-button');
+                btn.textContent = 'TRANSMITTING...';
+                btn.style.background = 'var(--text-secondary)';
+
+                const success = await window.sendMessage(name, text);
+                this.reset();
+
+                if (success) {
+                    btn.textContent = '✓ TRANSMITTED';
+                    btn.style.background = 'var(--re-green)';
+                    setTimeout(() => {
+                        btn.textContent = 'TRANSMIT MESSAGE';
+                        btn.style.background = 'var(--re-red)';
+                        window.loadMessages();
+                    }, 2000);
+                } else {
+                    btn.textContent = '✗ FAILED';
+                    setTimeout(() => {
+                        btn.textContent = 'TRANSMIT MESSAGE';
+                        btn.style.background = 'var(--re-red)';
+                    }, 2000);
                 }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.stat-card, .character-card, .trait-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
-        });
-
-        // 6. GLITCH EFFECT 
-        const heroTitle = document.querySelector('.hero-title');
-        heroTitle.addEventListener('mouseenter', () => {
-            heroTitle.classList.add('glitch');
-            setTimeout(() => heroTitle.classList.remove('glitch'), 500);
-        });
-
-        const glitchStyle = document.createElement('style');
-        glitchStyle.textContent = `
-    .hero-title.glitch { animation: glitch 0.3s linear infinite; }
-    @keyframes glitch {
-        0%, 100% { transform: translate(0); }
-        20% { transform: translate(-2px, 2px); }
-        40% { transform: translate(-2px, -2px); }
-        60% { transform: translate(2px, 2px); }
-        80% { transform: translate(2px, -2px); }
-    }
-`;
-        document.head.appendChild(glitchStyle);
-
-        // 7. PARALLAX SCROLLING
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const gridOverlay = document.querySelector('.grid-overlay');
-            gridOverlay.style.transform = `translate(${scrolled * 0.5}px, ${scrolled * 0.5}px)`;
+            }
         });
     </script>
 
     <script type="module">
-        // ENCRYPTED FIREBASE 
-        const encryptedConfig = btoa(JSON.stringify({
+        // Firebase Configuration 
+        const firebaseConfig = {
             apiKey: "AIzaSyBBgPDB0GmGr9Siyr5chV9XktlHkNPwm9w",
             authDomain: "adam-17aa6.firebaseapp.com",
             projectId: "adam-17aa6",
@@ -1519,10 +1175,8 @@
             messagingSenderId: "914906910725",
             appId: "1:914906910725:web:0ebb24f1aa809e52d2cc6c",
             measurementId: "G-PVWF8M2TW8"
-        }));
-        const firebaseConfig = JSON.parse(atob(encryptedConfig));
+        };
 
-        //IMPORT FIREBASE 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -1531,66 +1185,78 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        window.db = db; window.auth = auth;
+        window.db = db;
+        window.auth = auth;
 
+        // Load Messages
         window.loadMessages = async function () {
             const messagesDisplay = document.getElementById('messagesDisplay');
-            messagesDisplay.innerHTML = ''; // Pastikan selalu bersih sebelum load ulang
-            const isAdam = !!auth.currentUser;
+            messagesDisplay.innerHTML = '';
+            const isAdmin = !!auth.currentUser;
+
             try {
                 const q = query(collection(db, 'messages'), orderBy('timestamp', 'desc'), limit(3));
                 const snapshot = await getDocs(q);
+
                 if (snapshot.empty) {
-                    messagesDisplay.innerHTML = '<p style="text-align:center;color:var(--text-secondary)">No messages yet...</p>';
+                    messagesDisplay.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">NO TRANSMISSIONS RECEIVED</p>';
                     return;
                 }
+
                 snapshot.forEach((doc) => {
                     const msg = doc.data();
-                    const messageItem = document.createElement('div');
-                    messageItem.className = 'message-item';
-                    const blurClass = isAdam ? '' : 'blurred';
-                    messageItem.innerHTML = `
-                <div class="message-meta">
-                    <span>${msg.name || 'Anonymous'}</span>
-                    <span>${new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit' })}</span>
-                </div>
-                <div class="message-text ${blurClass}">${msg.text}</div>
-            `;
-                    messagesDisplay.appendChild(messageItem);
+                    const blurClass = isAdmin ? '' : 'blurred';
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message-entry';
+                    messageDiv.innerHTML = `
+                        <span class="message-sender">${msg.name || 'ANONYMOUS'}</span>
+                        <span style="color: var(--text-secondary); font-size: 10px; margin-left: 10px;">
+                            ${new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        <div class="message-text ${blurClass}">${msg.text}</div>
+                    `;
+                    messagesDisplay.appendChild(messageDiv);
                 });
-                const totalInfo = document.createElement('p');
-                totalInfo.style.textAlign = 'center';
-                totalInfo.style.color = 'var(--text-secondary)';
-                totalInfo.style.fontSize = '0.9rem';
-                totalInfo.style.marginTop = '1rem';
-                totalInfo.innerHTML = `📦 Latest 3 messages`;
-                messagesDisplay.appendChild(totalInfo);
 
-                if (isAdam) {
+                const infoDiv = document.createElement('p');
+                infoDiv.style.textAlign = 'center';
+                infoDiv.style.color = 'var(--re-yellow)';
+                infoDiv.style.fontSize = '10px';
+                infoDiv.style.marginTop = '20px';
+                infoDiv.style.marginBottom = '20px';
+                infoDiv.style.fontFamily = "'Press Start 2P', cursive";
+                infoDiv.textContent = '📡 SHOWING LAST 3 TRANSMISSIONS';
+                messagesDisplay.appendChild(infoDiv);
+
+                if (isAdmin) {
                     const viewAllBtn = document.createElement('button');
-                    viewAllBtn.textContent = '📋 VIEW ALL MESSAGES';
-                    viewAllBtn.className = 'submit-btn';
-                    viewAllBtn.style.width = 'auto';
-                    viewAllBtn.style.margin = '1rem auto';
-                    viewAllBtn.style.display = 'block';
+                    viewAllBtn.textContent = '📋 VIEW ALL IN CONSOLE';
+                    viewAllBtn.className = 'terminal-button';
+                    viewAllBtn.style.width = '100%';
+                    viewAllBtn.style.marginTop = '15px';
                     viewAllBtn.onclick = async () => {
                         const allQ = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
                         const allSnapshot = await getDocs(allQ);
                         const allMessages = allSnapshot.docs.map(doc => doc.data());
                         console.table(allMessages);
-                        alert(`✅ ${allMessages.length} messages in Console!`);
+                        alert('✅ ' + allMessages.length + ' messages logged to console!');
                     };
                     messagesDisplay.appendChild(viewAllBtn);
                 }
             } catch (e) {
                 console.error('Error loading messages:', e);
-                messagesDisplay.innerHTML = '<p style="color:red">Error loading messages!</p>';
+                messagesDisplay.innerHTML = '<p style="color: var(--re-red);">ERROR LOADING TRANSMISSIONS</p>';
             }
         };
 
+        // Send Message
         window.sendMessage = async function (name, text) {
             try {
-                await addDoc(collection(db, 'messages'), { name, text, timestamp: Date.now() });
+                await addDoc(collection(db, 'messages'), {
+                    name,
+                    text,
+                    timestamp: Date.now()
+                });
                 return true;
             } catch (e) {
                 console.error('Error sending message:', e);
@@ -1598,47 +1264,49 @@
             }
         };
 
-        window.loginAdam = async function () {
-            const email = document.getElementById('adamEmail').value;
-            const pass = document.getElementById('adamPassword').value;
+        // Admin Login
+        window.loginAdmin = async function () {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
-                document.getElementById('adamLoginModal').style.display = 'none';
-                window.loadMessages();
-                window.updateLoginUI();
-                alert('✅ Logged in!');
+                await signInWithEmailAndPassword(auth, email, password);
+                document.getElementById('loginModal').style.display = 'none';
+                // window.loadMessages() will be called by onAuthStateChanged
+                alert('✅ ADMIN ACCESS GRANTED');
             } catch (e) {
-                document.getElementById('adamError').style.display = 'block';
-                setTimeout(() => document.getElementById('adamError').style.display = 'none', 3000);
+                document.getElementById('loginError').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('loginError').style.display = 'none';
+                }, 3000);
             }
         };
 
-        window.logoutAdam = async function () {
+        // Admin Logout
+        window.logoutAdmin = async function () {
             await signOut(auth);
-            window.loadMessages();
-            window.updateLoginUI();
-            alert('👋 Logged out!');
+            document.getElementById('loginModal').style.display = 'none';
+            // window.loadMessages() will be called by onAuthStateChanged
+            alert('👋 LOGGED OUT');
         };
 
-        window.updateLoginUI = function () {
-            const isAdam = !!auth.currentUser;
-            const logoutBtn = document.querySelector('#adamLoginModal button[onclick="logoutAdam()"]');
-            if (logoutBtn) {
-                logoutBtn.style.display = isAdam ? 'block' : 'none';
-            }
-        };
-
-        let isInitialLoad = true;
+        // Auth State Observer
+        let initialLoadDone = false;
         onAuthStateChanged(auth, (user) => {
-            window.isAdam = !!user;
-            if (!isInitialLoad) window.loadMessages();
-            window.updateLoginUI();
-            isInitialLoad = false;
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (user) {
+                logoutBtn.style.display = 'block';
+            } else {
+                logoutBtn.style.display = 'none';
+            }
+
+            // Only load messages on the first run OR on a state change
+            if (!initialLoadDone || user !== auth.currentUser) {
+                window.loadMessages();
+                initialLoadDone = true;
+            }
         });
-        window.loadMessages();
     </script>
-
-
 </body>
 
 </html>
