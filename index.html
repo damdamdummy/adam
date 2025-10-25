@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="▸Adam info" />
+    <meta property="og:description" content="" />
+
     <title>Adam | Leon S. Kennedy</title>
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
@@ -625,13 +628,11 @@
                 top: auto;
                 width: 100%;
                 margin-bottom: 20px;
-                /* FIX: Add margin to clear fixed header (approx 80px) */
                 margin-top: 80px;
             }
 
             .main-content {
                 margin-right: 0;
-                /* FIX: Reduce top margin to close the gap after the quest-sidebar */
                 margin-top: 20px;
             }
 
@@ -708,14 +709,14 @@
 
     <div class="warning-modal" id="warningModal">
         <div class="warning-box">
-            <div class="warning-title">⚠ BIOHAZARD WARNING ⚠</div>
+            <div class="warning-title">⚠ WARNING ⚠</div>
             <div class="warning-text">
-                <strong>CLASSIFIED PERSONNEL FILE</strong><br><br>
-                • MDNI (Minors Do Not Interact)<br>
+                <!-- <strong>CLASSIFIED PERSONNEL FILE</strong><br><br> -->
                 • Roleplay Account - Leon S. Kennedy<br>
+                • MDNI (Minors Do Not Interact)<br>
                 • Slow Response Time (Real Life Priority)<br>
                 • IC/OOC Operations<br>
-                • Respect Operational Boundaries
+                • Respect Boundaries
             </div>
             <button class="warning-button" onclick="closeWarning()">ACCEPT & PROCEED</button>
         </div>
@@ -972,13 +973,13 @@
                     </div>
                 </div>
 
-                <div
+                <!-- <div
                     style="margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.7); border: 2px solid var(--re-yellow);">
                     <p
                         style="font-family: 'Press Start 2P', cursive; font-size: 8px; color: var(--re-yellow); margin-bottom: 10px;">
                         NOTE: Audio files recovered from various operations. Quality may vary.
                     </p>
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -986,12 +987,12 @@
 
     <footer
         style="text-align: center; padding: 40px 20px; border-top: 3px solid var(--re-red); margin-top: 40px; background: rgba(0, 0, 0, 0.9);">
-        <p style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-red); margin-bottom: 20px;">
+        <!-- <p style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-red); margin-bottom: 20px;">
             "白は常に光ではなく、黒は常に暗いではありません"
         </p>
         <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">
             "White is not always light, black is not always dark"
-        </p>
+        </p> -->
         <p style="color: var(--text-tertiary); font-size: 10px; margin-top: 20px;">
             © <span id="year"></span> ADAM'S DOMAIN - ROLEPLAY ACCOUNT
         </p>
@@ -1017,7 +1018,6 @@
         }
 
         // Section Navigation
-        // FIXED: Removed the event parameter from the function definition for stability
         function showSection(sectionId) {
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
@@ -1027,8 +1027,7 @@
             });
 
             document.getElementById(sectionId).classList.add('active');
-            
-            // FIX: Find the correct quest item using the sectionId in the onclick attribute
+
             const questItem = document.querySelector(`.quest-item[onclick*="'${sectionId}'"]`);
             if (questItem) {
                 questItem.classList.add('active');
@@ -1170,7 +1169,7 @@
     </script>
 
     <script type="module">
-        // Firebase Configuration (REPLACE WITH YOUR CONFIG)
+        // Firebase Configuration 
         const firebaseConfig = {
             apiKey: "AIzaSyBBgPDB0GmGr9Siyr5chV9XktlHkNPwm9w",
             authDomain: "adam-17aa6.firebaseapp.com",
@@ -1195,7 +1194,7 @@
         // Load Messages
         window.loadMessages = async function () {
             const messagesDisplay = document.getElementById('messagesDisplay');
-            messagesDisplay.innerHTML = ''; // Clears content at the start
+            messagesDisplay.innerHTML = '';
             const isAdmin = !!auth.currentUser;
 
             try {
