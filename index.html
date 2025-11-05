@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Starting game..." />
     <meta property="og:description" content="Leon S. Kennedy — portrayed by Adam 🎮" />
-     <meta property="og:image" content="https://adamada.site/play.jpeg" />
+    <meta property="og:image" content="https://adamada.site/play.jpeg" />
 
     <title>Adam | Leon S. Kennedy</title>
     <script>
@@ -19,6 +19,17 @@
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('dragstart', e => e.preventDefault());
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PVWF8M2TW8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-PVWF8M2TW8', {
+            anonymize_ip: false,
+            allow_ad_personalization_signals: false
+        });
+    </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -447,6 +458,27 @@
         .track-name {
             color: var(--re-yellow);
             margin-bottom: 5px;
+        }
+
+        .track-name-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .track-name.scrolling {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .track-artist {
@@ -953,7 +985,9 @@
 
                 <div class="music-player">
                     <div class="track-display">
-                        <div class="track-name" id="trackName">BONEBREAKER</div>
+                        <div class="track-name-container">
+                            <div class="track-name" id="trackName">BONEBREAKER</div>
+                        </div>
                         <div class="track-artist" id="trackArtist">SLAUGHTER TO PREVAIL</div>
                     </div>
 
@@ -1064,8 +1098,8 @@
             { title: "13STAIRS[-]1", artist: "THE GAZETTE", src: "./13STAIRS-1.mp3" },
             { title: "ABNORMALIZE", artist: "LING TOSITE SIGURE", src: "./abnormalize.mp3" },
             { title: "CHANGE", artist: "DEFTONES", src: "./Change In the House of Flies.mp3" },
-            { title: "WORDS I NEVER HAD", artist: "DEPARTMEFROMBEARISLAND", src: "./Words I Never Had The Strength To Tell You.mp3" },
-            { title: "YOUR DEATH", artist: "FRAIL BODY", src: "./ydmmwhwr.mp3" },
+            { title: "WORDS I NEVER HAD THE STRENGTH TO TELL YOU", artist: "DEPARTMEFROMBEARISLAND", src: "./Words I Never Had The Strength To Tell You.mp3" },
+            { title: "YOUR DEATH MAKES ME WISH HEAVEN WAS REAL", artist: "FRAIL BODY", src: "./ydmmwhwr.mp3" },
             { title: "UNDENIED", artist: "PORTISHEAD", src: "./Undenied.mp3" },
             { title: "TRUE", artist: "AKIRA YAMAOKA", src: "./True.mp3" }
         ];
@@ -1073,12 +1107,31 @@
         let currentTrack = 0;
         let isPlaying = false;
 
+        function checkAndApplyMarquee() {
+            const container = document.querySelector('.track-name-container');
+            const trackNameEl = document.getElementById('trackName');
+
+            trackNameEl.classList.remove('scrolling');
+            trackNameEl.style.animationDuration = '0s';
+            trackNameEl.style.display = 'block';
+
+            if (trackNameEl.scrollWidth > container.clientWidth) {
+                trackNameEl.classList.add('scrolling');
+                trackNameEl.style.display = 'inline-block';
+
+
+                const duration = trackNameEl.scrollWidth / 50;
+                trackNameEl.style.animationDuration = `${duration}s`;
+            }
+        }
+
         function loadTrack(index) {
             const track = playlist[index];
             audio.src = track.src;
             trackNameEl.textContent = track.title;
             trackArtistEl.textContent = track.artist;
             currentTrack = index;
+            setTimeout(checkAndApplyMarquee, 50);
         }
 
         function togglePlay() {
@@ -1276,6 +1329,9 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
+
+                window.loadMessages();
+
                 document.getElementById('loginModal').style.display = 'none';
                 alert('✅ ADMIN ACCESS GRANTED');
             } catch (e) {
