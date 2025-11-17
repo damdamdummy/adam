@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Starting game..." />
-    <meta property="og:description" content="Leon S. Kennedy — portrayed by Adam 🎮" />
-    <meta property="og:image" content="https://adamada.site/play.jpeg" />
-
-    <title>Adam | Leon S. Kennedy</title>
+    <meta property="og:title" content="The Archives" />
+    <meta property="og:image" content="">
+    <title>ADAM - The Archives</title>
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
@@ -25,54 +23,70 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-PVWF8M2TW8', {
-            anonymize_ip: true,
+            anonymize_ip: false,
             allow_ad_personalization_signals: false
         });
     </script>
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Creepster&family=Courier+Prime:wght@400;700&family=Special+Elite&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --re-red: #8b0000;
-            --re-blood: #ff0000;
-            --re-green: #00ff00;
-            --re-yellow: #ffff00;
-            --text-primary: #e5e5e5;
-            --text-secondary: #a0a0a0;
-            --border-color: #333;
-            --pixel-size: 4px;
-        }
-
         body {
-            font-family: 'Courier New', monospace;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            image-rendering: pixelated;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 50%, #0a0a0a 100%);
+            color: #d4d4d4;
+            font-family: 'Special Elite', 'Courier Prime', monospace;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
         }
 
-        .scanline {
+        /* Enhanced VHS Effects */
+        .film-grain {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="300" height="300" filter="url(%23n)" opacity="1"/></svg>');
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 1000;
+            animation: grainShift 0.5s infinite;
+        }
+
+        @keyframes grainShift {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.9));
+            pointer-events: none;
+            z-index: 997;
+        }
+
+        .scanlines {
+            position: fixed;
+            inset: 0;
             background: repeating-linear-gradient(0deg,
                     rgba(0, 0, 0, 0.15),
                     rgba(0, 0, 0, 0.15) 1px,
                     transparent 1px,
                     transparent 2px);
             pointer-events: none;
-            z-index: 9999;
+            z-index: 998;
             animation: scanline 8s linear infinite;
         }
 
@@ -82,1149 +96,1065 @@
             }
 
             100% {
-                transform: translateY(10px);
+                transform: translateY(100vh);
             }
         }
 
-        .vignette {
+        /* Realistic Book */
+        .book-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.9);
-            pointer-events: none;
-            z-index: 9998;
-        }
-
-        /* Game UI Container */
-        .game-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Health Bar Header */
-        .game-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 3px solid var(--re-red);
-            z-index: 1000;
-            padding: 15px 20px;
-        }
-
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
-        }
-
-        .hp-bar {
+            inset: 0;
+            perspective: 2000px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            z-index: 10;
         }
 
-        .hp-label {
-            color: var(--re-green);
-            text-shadow: 2px 2px 0 #000;
-        }
-
-        .hp-container {
-            width: 200px;
-            height: 20px;
-            border: 2px solid var(--re-red);
-            background: #000;
+        .book {
             position: relative;
-            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+            width: min(90vw, 900px);
+            height: min(90vh, 650px);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
         }
 
-        .hp-fill {
+        .book-spine {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 20px;
             height: 100%;
-            background: linear-gradient(90deg, var(--re-blood), var(--re-green));
-            width: 60%;
-            animation: pulse 1s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), inset 0 0 8px rgba(255, 0, 0, 0.3);
+            background: linear-gradient(90deg, #0a0806 0%, #1a1410 50%, #0a0806 100%);
+            transform: rotateY(-90deg);
+            transform-origin: right;
+            box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e8d7c3 0%, #f5f0e8 50%, #e8d7c3 100%);
+            border: 1px solid #c4b5a0;
+            overflow: hidden;
+            backface-visibility: hidden;
+            transform-origin: left center;
+            box-shadow:
+                inset 0 0 50px rgba(139, 115, 85, 0.1),
+                5px 5px 20px rgba(0, 0, 0, 0.5),
+                -2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Paper Texture */
+        .page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 115, 85, 0.02) 2px,
+                    rgba(139, 115, 85, 0.02) 3px),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="8" numOctaves="4"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0"/></filter><rect width="200" height="200" filter="url(%23noise)"/></svg>');
+            pointer-events: none;
+        }
+
+        /* Aged paper stains */
+        .page::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(139, 115, 85, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(139, 115, 85, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        /* Page Turn Animation */
+        .page.turning-forward {
+            animation: turnForward 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+        }
+
+        .page.turning-backward {
+            animation: turnBackward 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+        }
+
+        @keyframes turnForward {
+            0% {
+                transform: perspective(2000px) rotateY(0deg);
+                box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            50% {
+                transform: perspective(2000px) rotateY(-90deg) translateZ(50px);
+                box-shadow: -30px 0 60px rgba(0, 0, 0, 0.7);
+            }
+
+            100% {
+                transform: perspective(2000px) rotateY(-180deg);
+                box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            }
+        }
+
+        @keyframes turnBackward {
+            0% {
+                transform: perspective(2000px) rotateY(-180deg);
+            }
+
+            50% {
+                transform: perspective(2000px) rotateY(-90deg) translateZ(50px);
+                box-shadow: 30px 0 60px rgba(0, 0, 0, 0.7);
+            }
+
+            100% {
+                transform: perspective(2000px) rotateY(0deg);
+                box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .page-content {
+            padding: 3rem 4rem;
+            height: 100%;
+            overflow-y: scroll;
+            position: relative;
+            z-index: 2;
+            color: #2a2520;
+        }
+
+        .page-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .page-content::-webkit-scrollbar-track {
+            background: rgba(139, 115, 85, 0.1);
+        }
+
+        .page-content::-webkit-scrollbar-thumb {
+            background: rgba(139, 115, 85, 0.4);
+            border-radius: 4px;
+        }
+
+        /* Cover Page */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0806 0%, #1a1410 50%, #0a0806 100%);
+        }
+
+        .cover::before {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="leather"><feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="5"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/></filter><rect width="200" height="200" filter="url(%23leather)"/></svg>');
+        }
+
+        .cover-title {
+            font-family: 'Creepster', cursive;
+            font-size: clamp(4rem, 10vw, 8rem);
+            margin-bottom: 2rem;
+            letter-spacing: 0.3em;
+            color: #d4d4d4;
+            text-shadow:
+                4px 4px 0 #000,
+                8px 8px 30px rgba(0, 0, 0, 0.9);
+            animation: titleGlitch 3s infinite;
+        }
+
+        @keyframes titleGlitch {
+
+            0%,
+            90%,
+            100% {
+                transform: translate(0);
+            }
+
+            92% {
+                transform: translate(-2px, 2px);
+            }
+
+            94% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .cover-subtitle {
+            font-size: 2rem;
+            letter-spacing: 0.3em;
+            margin-bottom: 3rem;
+            color: #d4d4d4;
+            opacity: 0.85;
+        }
+
+        .click-to-open {
+            font-size: 1.5rem;
+            padding: 1.5rem 3rem;
+            border: 3px solid #d4d4d4;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.6);
+            color: #d4d4d4;
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .click-to-open::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .click-to-open:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         @keyframes pulse {
 
             0%,
             100% {
-                opacity: 1;
+                transform: scale(1);
             }
 
             50% {
-                opacity: 0.7;
+                transform: scale(1.05);
             }
         }
 
-        .status-text {
-            color: var(--re-red);
-            text-shadow: 0 0 5px var(--re-red);
-            animation: blink 1.5s infinite;
+        .click-to-open:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.3;
-            }
-        }
-
-        /* Quest Log Sidebar */
-        .quest-sidebar {
+        /* Navigation */
+        .nav-controls {
             position: fixed;
-            right: 20px;
-            top: 100px;
-            width: 250px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 3px solid var(--re-red);
-            padding: 15px;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+            z-index: 1001;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            background: #e8d7c3;
+            border: 3px solid #8b7355;
+            color: #2a2520;
             font-family: 'Press Start 2P', cursive;
-            font-size: 8px;
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
-        }
-
-        .quest-title {
-            color: var(--re-yellow);
-            margin-bottom: 10px;
-            text-align: center;
-            border-bottom: 2px solid var(--re-red);
-            padding-bottom: 5px;
-        }
-
-        .quest-item {
-            margin: 10px 0;
-            padding: 8px;
-            background: rgba(139, 0, 0, 0.2);
-            border-left: 3px solid var(--re-green);
             cursor: pointer;
             transition: all 0.3s;
-        }
-
-        .quest-item:hover {
-            background: rgba(139, 0, 0, 0.4);
-            transform: translateX(5px);
-        }
-
-        .quest-item.active {
-            border-left-color: var(--re-yellow);
-            background: rgba(255, 255, 0, 0.1);
-        }
-
-        /* Main Content Area */
-        .main-content {
-            margin-top: 100px;
-            margin-right: 280px;
-            padding: 20px;
-        }
-
-        .content-section {
-            display: none;
-            background: rgba(0, 0, 0, 0.9);
-            border: 3px solid var(--re-red);
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(139, 0, 0, 0.3);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
             position: relative;
         }
 
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-out;
+        .nav-btn:hover:not(:disabled) {
+            background: #f5f0e8;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+            transform: translate(-2px, -2px);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
 
-        .section-header {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 16px;
-            color: var(--re-red);
-            text-shadow: 2px 2px 0 #000, 0 0 10px var(--re-red);
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--re-red);
-            padding-bottom: 10px;
+        .page-number {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 999;
+            font-size: 1.1rem;
+            opacity: 0.4;
+            font-family: 'Courier Prime', monospace;
         }
 
-        /* Stats Grid (RPG Style) */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
+        /* Content Styles */
+        h2 {
+            font-family: 'Creepster', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: 0.2em;
+            color: #1a1410;
+            text-shadow: 2px 2px 4px rgba(139, 115, 85, 0.3);
+            border-bottom: 3px double #8b7355;
+            padding-bottom: 1rem;
         }
 
-        .stat-box {
-            background: rgba(139, 0, 0, 0.2);
-            border: 2px solid var(--re-red);
-            padding: 15px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
+        .info-section {
+            background: rgba(139, 115, 85, 0.08);
+            border: 2px solid rgba(139, 115, 85, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            line-height: 2;
+            font-size: 1.1rem;
+            box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.05);
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            width: 100%;
+            height: 250px;
+            /* background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(139, 115, 85, 0.05) 100%); */
+            /* border: 3px dashed rgba(139, 115, 85, 0.3); */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
             position: relative;
             overflow: hidden;
         }
 
-        .stat-box::before {
+        .image-placeholder::before {
+            /* content: '📷'; */
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .image-placeholder::after {
+            content: 'Image Placeholder';
+            position: absolute;
+            bottom: 1rem;
+            font-size: 0.9rem;
+            opacity: 0;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .grid-item {
+            aspect-ratio: 3/4;
+            border: 3px solid rgba(139, 115, 85, 0.4);
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(139, 115, 85, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.1);
+        }
+
+        .grid-item::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
-            animation: scan 3s infinite;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.2), transparent);
+            transform: translateY(100%);
+            transition: transform 0.4s;
         }
 
-        @keyframes scan {
-            0% {
-                left: -100%;
-            }
-
-            100% {
-                left: 100%;
-            }
+        .grid-item:hover::before {
+            transform: translateY(0);
         }
 
-        .stat-label {
-            color: var(--re-yellow);
-            display: block;
-            margin-bottom: 5px;
+        .grid-item:hover {
+            transform: scale(1.08) rotateZ(2deg);
+            border-color: rgba(139, 115, 85, 0.8);
+            box-shadow: 0 10px 30px rgba(139, 115, 85, 0.3);
+            z-index: 10;
         }
 
-        .stat-value {
-            color: var(--re-green);
-            text-shadow: 0 0 5px var(--re-green);
-            font-size: 14px;
+        /* Music Player */
+        .track-display-vhs {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            background: rgba(139, 115, 85, 0.08);
+            padding: 1.5rem;
+            border: 2px solid rgba(139, 115, 85, 0.3);
         }
 
-        /* Typewriter Text */
-        .typewriter {
-            overflow: hidden;
-            border-right: 3px solid var(--re-green);
-            white-space: nowrap;
-            animation: typing 3s steps(40) 1s forwards, blink-caret 0.75s step-end infinite;
-            max-width: fit-content;
+        .track-name-vhs {
+            font-size: 1.2rem;
+            color: #1a1410;
+            font-family: 'Courier Prime', monospace;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
         }
 
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 100%;
-            }
+        .track-artist-vhs {
+            font-size: 0.9rem;
+            color: #666;
         }
 
-        @keyframes blink-caret {
-
-            from,
-            to {
-                border-color: transparent;
-            }
-
-            50% {
-                border-color: var(--re-green);
-            }
+        .player-controls-vhs {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* Message Terminal */
-        .message-terminal {
-            background: #000;
-            border: 3px solid var(--re-green);
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-
-        .terminal-input {
-            width: 100%;
-            background: #000;
-            border: 2px solid var(--re-green);
-            color: var(--re-green);
-            padding: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            margin: 10px 0;
-            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
-        }
-
-        .terminal-input:focus {
-            outline: none;
-            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.4);
-        }
-
-        .terminal-button {
-            background: var(--re-red);
-            color: #fff;
-            border: 3px solid #000;
-            padding: 10px 20px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
+        .player-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(139, 115, 85, 0.1);
+            border: 2px solid rgba(139, 115, 85, 0.5);
+            color: #2a2520;
+            font-family: 'Courier Prime', monospace;
             cursor: pointer;
-            text-transform: uppercase;
+            font-size: 1.1rem;
             transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
 
-        .terminal-button:hover {
-            background: var(--re-blood);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        .player-btn:hover {
+            background: rgba(139, 115, 85, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(139, 115, 85, 0.3);
         }
 
-        .terminal-button:active {
-            transform: scale(0.95);
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            justify-content: center;
+            margin-top: 1rem;
         }
 
-        /* Message Display */
-        .message-log {
-            margin-top: 20px;
+        .playlist-archive {
+            background: rgba(139, 115, 85, 0.05);
+            border: 2px solid rgba(139, 115, 85, 0.3);
+            padding: 1.5rem;
+            max-height: 250px;
+            overflow-y: auto;
         }
 
-        .message-entry {
-            background: rgba(0, 100, 0, 0.1);
-            border-left: 3px solid var(--re-green);
-            padding: 15px;
-            margin: 10px 0;
-            font-size: 12px;
-            position: relative;
+        .track-item {
+            padding: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            margin-bottom: 0.5rem;
         }
 
-        .message-entry::before {
-            content: '>';
-            color: var(--re-green);
-            margin-right: 10px;
+        .track-item:hover {
+            background: rgba(139, 115, 85, 0.15);
+            border-color: rgba(139, 115, 85, 0.4);
+        }
+
+        .track-item.active {
+            background: rgba(139, 115, 85, 0.2);
+            border-color: rgba(139, 115, 85, 0.6);
             font-weight: bold;
         }
 
-        .message-sender {
-            color: var(--re-yellow);
+        /* Message Section */
+        .message-input {
+            width: 100%;
+            min-height: 120px;
+            background: rgba(139, 115, 85, 0.05);
+            border: 2px solid rgba(139, 115, 85, 0.3);
+            color: #2a2520;
+            padding: 1.2rem;
+            font-family: 'Special Elite', monospace;
+            margin-bottom: 1.5rem;
+            resize: vertical;
+            font-size: 1rem;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: rgba(139, 115, 85, 0.6);
+            box-shadow: 0 0 15px rgba(139, 115, 85, 0.2);
+        }
+
+        .send-btn {
+            padding: 1rem 2.5rem;
+            background: rgba(139, 115, 85, 0.15);
+            border: 2px solid rgba(139, 115, 85, 0.5);
+            color: #2a2520;
+            font-family: 'Creepster', cursive;
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            background: rgba(139, 115, 85, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.3);
+        }
+
+        .unlock-btn-horror {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(139, 115, 85, 0.1);
+            border: 2px dashed rgba(139, 115, 85, 0.4);
+            color: #2a2520;
+            font-family: 'Special Elite', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .unlock-btn-horror:hover {
+            background: rgba(139, 115, 85, 0.2);
+        }
+
+        .message-list {
+            margin-top: 2.5rem;
+        }
+
+        .message-bubble {
+            background: rgba(139, 115, 85, 0.08);
+            border: 2px solid rgba(139, 115, 85, 0.3);
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+            border-radius: 8px;
+            animation: messageAppear 0.5s;
+            line-height: 1.7;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message-sender-horror {
+            color: #1a1410;
             font-weight: bold;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-sender-horror.blurred {
+            filter: blur(5px);
+            user-select: none;
         }
 
         .message-text {
-            color: var(--re-green);
-            margin-top: 5px;
-            line-height: 1.6;
+            color: #2a2520;
+            line-height: 1.7;
         }
 
         .message-text.blurred {
             filter: blur(5px);
             user-select: none;
-            cursor: not-allowed;
         }
 
-        /* Music Player (Inventory Style) */
-        .music-player {
-            background: rgba(0, 0, 0, 0.95);
-            border: 3px solid var(--re-yellow);
-            padding: 20px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
+        .message-timestamp {
+            color: #888;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            display: block;
         }
 
-        .track-display {
-            background: #000;
-            border: 2px solid var(--re-yellow);
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .track-name {
-            color: var(--re-yellow);
-            margin-bottom: 5px;
-        }
-
-        .track-name-container {
-            overflow: hidden;
-            white-space: nowrap;
-            width: 100%;
-        }
-
-        .track-name.scrolling {
-            display: inline-block;
-            animation: marquee 10s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% {
-                transform: translateX(100%);
-            }
-
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        .track-artist {
-            color: var(--text-secondary);
-            font-size: 8px;
-        }
-
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .control-btn {
-            background: var(--re-red);
-            border: 3px solid #000;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .control-btn:hover {
-            background: var(--re-blood);
-            transform: scale(1.1);
-        }
-
-        .progress-container {
-            margin-top: 15px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #000;
-            border: 2px solid var(--re-yellow);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--re-yellow);
-            width: 0%;
-            transition: width 0.1s;
-        }
-
-        .time-display {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-size: 8px;
-            color: var(--text-secondary);
-        }
-
-        /* Warning Modal */
-        .warning-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        .warning-box {
-            background: #000;
-            border: 5px solid var(--re-red);
-            padding: 40px;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(139, 0, 0, 0.8);
-            animation: flicker 0.1s infinite;
-        }
-
-        @keyframes flicker {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.95;
-            }
-        }
-
-        .warning-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 20px;
-            color: var(--re-red);
-            text-shadow: 0 0 10px var(--re-red);
-            margin-bottom: 20px;
-        }
-
-        .warning-text {
-            font-size: 14px;
-            color: var(--text-primary);
-            line-height: 2;
-            margin: 20px 0;
-        }
-
-        .warning-button {
-            background: var(--re-red);
-            color: #fff;
-            border: 3px solid #000;
-            padding: 15px 30px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            margin-top: 20px;
-        }
-
-        .warning-button:hover {
-            background: var(--re-blood);
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        .message-timestamp.blurred {
+            filter: blur(5px);
+            user-select: none;
         }
 
         /* Login Modal */
-        .login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+        .modal {
             display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
-            z-index: 10001;
         }
 
-        .login-box {
-            background: #000;
-            border: 3px solid var(--re-green);
-            padding: 30px;
-            max-width: 400px;
+        .modal-content {
+            background: #e8d7c3;
+            border: 3px solid #8b7355;
+            padding: 3rem;
+            max-width: 500px;
             width: 90%;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
         }
 
-        .login-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 14px;
-            color: var(--re-green);
+        .modal h3 {
+            font-family: 'Creepster', cursive;
+            font-size: 2rem;
+            margin-bottom: 2rem;
             text-align: center;
-            margin-bottom: 20px;
+            color: #1a1410;
         }
 
-        .close-btn {
-            float: right;
-            color: var(--re-red);
-            font-size: 20px;
+        .modal input {
+            width: 100%;
+            background: rgba(139, 115, 85, 0.1);
+            border: 2px solid rgba(139, 115, 85, 0.4);
+            color: #2a2520;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #8b7355;
+            background: rgba(139, 115, 85, 0.2);
+            color: #2a2520;
             cursor: pointer;
+            font-family: 'Special Elite', monospace;
+            transition: all 0.3s;
+        }
+
+        .modal-btn:hover {
+            background: rgba(139, 115, 85, 0.3);
+        }
+
+        .error-msg {
+            display: none;
+            color: #8b0000;
+            text-align: center;
+            margin-bottom: 1rem;
             font-weight: bold;
         }
 
-        .close-btn:hover {
-            color: var(--re-blood);
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 2rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .cover-title {
+                font-size: 3.5rem;
+            }
+
+            .cover-subtitle {
+                font-size: 1.3rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .nav-controls {
+                bottom: 1.5rem;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+
+            .image-placeholder {
+                height: 180px;
+            }
+
+            .book {
+                width: 95vw;
+                height: 95vh;
+            }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .quest-sidebar {
-                position: relative;
-                right: auto;
-                top: auto;
-                width: 100%;
-                margin-bottom: 20px;
-                margin-top: 80px;
+        @media (max-width: 480px) {
+            .cover-title {
+                font-size: 2.5rem;
             }
 
-            .main-content {
-                margin-right: 0;
-                margin-top: 20px;
+            .click-to-open {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
             }
 
-            .stats-grid {
+            .grid {
                 grid-template-columns: 1fr;
             }
 
-            .status-bar {
-                flex-direction: column;
-                gap: 10px;
+            .player-controls-vhs {
+                gap: 0.8rem;
             }
 
-            .hp-container {
-                width: 150px;
+            .player-btn {
+                padding: 0.6rem 1rem;
+                font-size: 1rem;
             }
-        }
-
-        /* Pixel Corner Decorations */
-        .pixel-corner {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--re-red);
-        }
-
-        .pixel-corner.top-left {
-            top: -3px;
-            left: -3px;
-            clip-path: polygon(0 0, 100% 0, 0 100%);
-        }
-
-        .pixel-corner.top-right {
-            top: -3px;
-            right: -3px;
-            clip-path: polygon(100% 0, 100% 100%, 0 0);
-        }
-
-        .pixel-corner.bottom-left {
-            bottom: -3px;
-            left: -3px;
-            clip-path: polygon(0 0, 0 100%, 100% 100%);
-        }
-
-        .pixel-corner.bottom-right {
-            bottom: -3px;
-            right: -3px;
-            clip-path: polygon(100% 0, 100% 100%, 0 100%);
-        }
-
-        .unlock-btn {
-            background: var(--re-yellow);
-            color: #000;
-            border: 3px solid #000;
-            padding: 10px 20px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
-            cursor: pointer;
-            margin-top: 20px;
-            display: block;
-            width: 100%;
-            text-transform: uppercase;
-        }
-
-        .unlock-btn:hover {
-            background: #fff;
-            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
-    <div class="scanline"></div>
+    <!-- Effects -->
+    <div class="film-grain"></div>
     <div class="vignette"></div>
+    <!-- <div class="scanlines"></div> -->
 
-    <div class="warning-modal" id="warningModal">
-        <div class="warning-box">
-            <div class="warning-title">⚠ WARNING ⚠</div>
-            <div class="warning-text">
-                <!-- <strong>CLASSIFIED PERSONNEL FILE</strong><br><br> -->
-                • Roleplay Account - Leon S. Kennedy<br>
-                • MDNI (Minors Do Not Interact)<br>
-                • Slow Response Time (Real Life Priority)<br>
-                • IC/OOC Operations<br>
-                • Respect Boundaries
-            </div>
-            <button class="warning-button" onclick="closeWarning()">ACCEPT & PROCEED</button>
-        </div>
-    </div>
-
-    <div class="login-modal" id="loginModal">
-        <div class="login-box">
-            <span class="close-btn" onclick="closeLogin()">&times;</span>
-            <div class="login-title">ADAM ACCESS</div>
-            <input type="email" id="adminEmail" class="terminal-input" placeholder="Email">
-            <input type="password" id="adminPassword" class="terminal-input" placeholder="Password">
-            <button class="terminal-button" onclick="loginAdmin()" style="width: 100%;">LOGIN</button>
-            <button class="terminal-button" id="logoutBtn" onclick="logoutAdmin()"
-                style="width: 100%; margin-top: 10px; display: none; background: var(--re-yellow); color: #000;">LOGOUT</button>
-            <p id="loginError" style="color: var(--re-red); margin-top: 10px; display: none; font-size: 10px;">ACCESS
-                DENIED</p>
-        </div>
-    </div>
-
-    <div class="game-header">
-        <div class="status-bar">
-            <div class="hp-bar">
-                <span class="hp-label">ADAM</span>
-                <div class="hp-container">
-                    <div class="hp-fill"></div>
-                </div>
-            </div>
-            <div class="status-text">SEMI-INACTIVE</div>
-        </div>
-    </div>
-
-    <div class="quest-sidebar">
-        <div class="quest-title">MISSION LOG</div>
-        <div class="quest-item active" onclick="showSection('profile')">
-            ► PERSONNEL FILE
-        </div>
-        <div class="quest-item" onclick="showSection('stats')">
-            ► COMBAT STATS
-        </div>
-        <div class="quest-item" onclick="showSection('about')">
-            ► FIELD REPORT
-        </div>
-        <div class="quest-item" onclick="showSection('messages')">
-            ► SECURE COMMS
-        </div>
-        <div class="quest-item" onclick="showSection('music')">
-            ► AUDIO FILES
-        </div>
-    </div>
-
-    <div class="game-container">
-        <div class="main-content">
-
-            <div class="content-section active" id="profile">
-                <div class="pixel-corner top-left"></div>
-                <div class="pixel-corner top-right"></div>
-                <div class="pixel-corner bottom-left"></div>
-                <div class="pixel-corner bottom-right"></div>
-
-                <div class="section-header">PERSONNEL FILE: LEON S. KENNEDY</div>
-                <p style="line-height: 1.8; margin-bottom: 20px;">
-                    U.S. Government Agent specializing in anti-bioterrorism operations.
-                    First day as RPD officer coincided with Raccoon City outbreak.
-                    Currently assigned to DSO (Division of Security Operations).
-                </p>
-
-                <div class="stats-grid">
-                    <div class="stat-box">
-                        <span class="stat-label">AGE:</span>
-                        <span class="stat-value">LATE 30s<span style="font-size: 8px;">(CHARACTER)</span><br><br>
-                            MID 20s<span style="font-size: 8px;">(PLAYER)</span></span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">OCCUPATION:</span>
-                        <span class="stat-value">DSO AGENT</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">GENDER:</span>
-                        <span class="stat-value">MALE (HE/HIM)</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">LANGUAGES:</span>
-                        <span class="stat-value">EN/ID</span>
-                    </div>
-                </div>
-
-                <div
-                    style="margin-top: 30px; padding: 20px; background: rgba(139, 0, 0, 0.1); border: 2px solid var(--re-red);">
-                    <p
-                        style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-yellow); margin-bottom: 10px;">
-                        ⚠ OPERATIONAL NOTES:
-                    </p>
-                    <p style="font-size: 14px; line-height: 1.8;">
-                        • MDNI - Minors Do Not Interact<br>
-                        • IC/OOC Operations (Primarily OOC)<br>
-                        • Response Time: DELAYED (Real Life Priority)<br>
-                        • Respect Boundaries
-                    </p>
-                </div>
-            </div>
-
-            <div class="content-section" id="stats">
-                <div class="pixel-corner top-left"></div>
-                <div class="pixel-corner top-right"></div>
-                <div class="pixel-corner bottom-left"></div>
-                <div class="pixel-corner bottom-right"></div>
-
-                <div class="section-header">COMBAT STATISTICS</div>
-
-                <div class="stats-grid">
-                    <div class="stat-box">
-                        <span class="stat-label">EXPERIENCE:</span>
-                        <span class="stat-value">10+ YEARS</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">SURVIVAL RATE:</span>
-                        <span class="stat-value">100%</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">MISSIONS:</span>
-                        <span class="stat-value">CLASSIFIED</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">STATUS:</span>
-                        <span class="stat-value">ACTIVE DUTY</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">SPECIALTY:</span>
-                        <span class="stat-value">BIOTERRORISM</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">RANK:</span>
-                        <span class="stat-value">SPECIAL AGENT</span>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; padding: 20px; background: #000; border: 2px solid var(--re-green);">
-                    <p
-                        style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-green); margin-bottom: 15px;">
-                        SKILL TREE:
-                    </p>
-                    <div style="line-height: 2;">
-                        ✓ MARKSMANSHIP: MASTER<br>
-                        ✓ HAND-TO-HAND COMBAT: EXPERT<br>
-                        ✓ TACTICAL PLANNING: ADVANCED<br>
-                        ✓ SURVIVAL INSTINCT: MAXIMUM<br>
-                        ✓ QUICK THINKING: LEGENDARY
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section" id="about">
-                <div class="pixel-corner top-left"></div>
-                <div class="pixel-corner top-right"></div>
-                <div class="pixel-corner bottom-left"></div>
-                <div class="pixel-corner bottom-right"></div>
-
-                <div class="section-header">FIELD REPORT</div>
-
-                <div style="margin-bottom: 30px;">
-                    <h3
-                        style="color: var(--re-yellow); font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 15px;">
-                        BACKGROUND BRIEF:
-                    </h3>
-                    <p style="line-height: 1.8;">
-                        Leon Scott Kennedy began his career in law enforcement on what was supposed to be his first day
-                        with the Raccoon City Police Department. Instead, he walked into a nightmare - the entire city
-                        overrun by the undead due to a T-virus outbreak orchestrated by Umbrella Corporation.
-                    </p>
-                    <p style="line-height: 1.8; margin-top: 15px;">
-                        After surviving Raccoon City, Leon was recruited by the U.S. government for specialized training
-                        in anti-bioterrorism operations. His natural talent, combined with extensive field experience
-                        against various B.O.W.s (Bio-Organic Weapons), has made him one of the government's most
-                        valuable assets.
-                    </p>
-                </div>
-
-                <div style="background: rgba(0, 0, 0, 0.7); border: 2px solid var(--re-yellow); padding: 20px;">
-                    <h3
-                        style="color: var(--re-yellow); font-family: 'Press Start 2P', cursive; font-size: 12px; margin-bottom: 15px;">
-                        CHARACTER NOTES:
-                    </h3>
-                    <p style="line-height: 1.8;">
-                        <strong style="color: var(--re-red);">ROLEPLAY STYLE:</strong><br>
-                        I portray Leon with my own interpretation.
-                    </p>
-                    <p style="line-height: 1.8; margin-top: 15px;">
-                        <strong style="color: var(--re-red);">AVAILABILITY:</strong><br>
-                        Real life comes first. Responses may be slow. I operate both in-character and out-of-character,
-                        though primarily OOC. Please be patient and understanding.
-                    </p>
-                </div>
-            </div>
-
-            <div class="content-section" id="messages">
-                <div class="pixel-corner top-left"></div>
-                <div class="pixel-corner top-right"></div>
-                <div class="pixel-corner bottom-left"></div>
-                <div class="pixel-corner bottom-right"></div>
-
-                <div class="section-header">SECURE COMMUNICATIONS</div>
-
-                <div class="message-terminal">
-                    <p style="color: var(--re-green); margin-bottom: 15px;">
-                        > ENCRYPTED CHANNEL ACTIVE<br>
-                        > ANONYMOUS TRANSMISSION ENABLED<br>
-                        > ENTER MESSAGE BELOW:
-                    </p>
-
-                    <form id="messageForm">
-                        <input type="text" id="senderName" class="terminal-input"
-                            placeholder="CALL SIGN (Optional - Default: ANONYMOUS)" maxlength="50">
-                        <textarea id="messageText" class="terminal-input" placeholder="MESSAGE CONTENT..." required
-                            maxlength="500" style="min-height: 100px; resize: vertical;"></textarea>
-                        <button type="submit" class="terminal-button" style="width: 100%;">TRANSMIT MESSAGE</button>
-                    </form>
-
-                    <button class="unlock-btn" onclick="openLogin()">🔐 ADAM ACCESS - VIEW ALL TRANSMISSIONS</button>
-                </div>
-
-                <div class="message-log" id="messageLog">
-                    <div id="messagesDisplay"></div>
-                </div>
-            </div>
-
-            <div class="content-section" id="music">
-                <div class="pixel-corner top-left"></div>
-                <div class="pixel-corner top-right"></div>
-                <div class="pixel-corner bottom-left"></div>
-                <div class="pixel-corner bottom-right"></div>
-
-                <div class="section-header">AUDIO FILES - EVIDENCE LOCKER</div>
-
-                <div class="music-player">
-                    <div class="track-display">
-                        <div class="track-name-container">
-                            <div class="track-name" id="trackName">BONEBREAKER</div>
-                        </div>
-                        <div class="track-artist" id="trackArtist">SLAUGHTER TO PREVAIL</div>
-                    </div>
-
-                    <div class="player-controls">
-                        <button class="control-btn" id="prevBtn">◄</button>
-                        <button class="control-btn" id="playBtn"
-                            style="width: 60px; height: 60px; font-size: 24px;">▶</button>
-                        <button class="control-btn" id="nextBtn">►</button>
-                    </div>
-
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progressBar">
-                            <div class="progress-fill" id="progressFill"></div>
-                        </div>
-                        <div class="time-display">
-                            <span id="currentTime">0:00</span>
-                            <span id="totalTime">0:00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div
-                    style="margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.7); border: 2px solid var(--re-yellow);">
-                    <p
-                        style="font-family: 'Press Start 2P', cursive; font-size: 8px; color: var(--re-yellow); margin-bottom: 10px;">
-                        NOTE: Audio files recovered from various operations. Quality may vary.
-                    </p>
-                </div> -->
-            </div>
-
-        </div>
-    </div>
-
-    <footer
-        style="text-align: center; padding: 40px 20px; border-top: 3px solid var(--re-red); margin-top: 40px; background: rgba(0, 0, 0, 0.9);">
-        <!-- <p style="font-family: 'Press Start 2P', cursive; font-size: 10px; color: var(--re-red); margin-bottom: 20px;">
-            "白は常に光ではなく、黒は常に暗いではありません"
-        </p>
-        <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">
-            "White is not always light, black is not always dark"
-        </p> -->
-        <p style="color: var(--text-tertiary); font-size: 10px; margin-top: 20px;">
-            © <span id="year"></span> ADAM'S DOMAIN - ROLEPLAY ACCOUNT
-        </p>
-        <p style="color: var(--text-tertiary); font-size: 10px; margin-top: 10px;">
-            All Resident Evil characters © CAPCOM
-        </p>
-    </footer>
-
+    <!-- Hidden Audio Element -->
     <audio id="audioPlayer" preload="metadata"></audio>
 
-    <script>
-        // Year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <!-- Book Container -->
+    <div class="book-container">
+        <div class="book" id="book">
+            <div class="book-spine"></div>
 
-        // Warning Modal
-        function closeWarning() {
-            document.getElementById('warningModal').style.display = 'none';
-            localStorage.setItem('warningAccepted', 'true');
-        }
+            <!-- Page 0: Cover -->
+            <div class="page" id="page0" data-page="0">
+                <div class="page-content cover">
+                    <h1 class="cover-title">ADAM</h1>
+                    <div class="cover-subtitle">THE ARCHIVES</div>
+                    <div class="click-to-open" onclick="openBook()">▶ Open</div>
+                    <!-- <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6; color: #d4d4d4;">
+                        Est. 199x
+                    </div> -->
+                </div>
+            </div>
 
-        if (localStorage.getItem('warningAccepted') === 'true') {
-            document.getElementById('warningModal').style.display = 'none';
-        }
+            <!-- Page 1: About -->
+            <div class="page" id="page1" data-page="1" style="display: none;">
+                <div class="page-content">
+                    <h2>I: PROFILE</h2>
 
-        // Section Navigation
-        function showSection(sectionId) {
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.quest-item').forEach(item => {
-                item.classList.remove('active');
-            });
+                    <div class="image-placeholder"
+                        style="width:fit-content; height:fit-content; margin-bottom:2rem; overflow: hidden;">
+                        <img src="./images/✰.jpeg" alt="Intro Image" style="
+            width:100%; 
+        ">
+                        <div style="
+        position:absolute;
+        inset:0;
+        background:#cac0b3;       
+        mix-blend-mode: multiply;  
+        pointer-events:none;
+    "></div>
+                    </div>
 
-            document.getElementById(sectionId).classList.add('active');
+                    <div class="info-section">
+                        <strong style="font-size:1.2em; display:inline-block;">ADAM</strong>
+                        <br>
+                        <p>
+                            • Mid-20s <br>
+                            • He/Him <br>
+                            • Based in GMT+7 <br>
+                            • Speaks EN / ID <br>
+                            • INTJ 6w5 <br>
+                            • Working full-time <br>
+                            • Slow responder
+                        </p>
+                        <p style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(139,115,85,0.3);">
+                            <strong>Note: </strong> Currently on a social break. DNI unless <strong>CF</strong>.
+                        </p>
+                    </div>
+                    <div class="page-number">Page 1</div>
+                </div>
+            </div>
 
-            const questItem = document.querySelector(`.quest-item[onclick*="'${sectionId}'"]`);
-            if (questItem) {
-                questItem.classList.add('active');
-            }
-        }
+            <!-- Page 2: Music Player -->
+            <div class="page" id="page2" data-page="2" style="display: none;">
+                <div class="page-content">
+                    <h2>II: PLAYLIST</h2>
 
-        // Login Modal
-        function openLogin() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
+                    <!-- Cassette Player Visual -->
+                    <div class="cassette-player">
+                        <div class="track-display-vhs">
+                            <div id="nowPlaying" class="track-name-vhs">- SELECT A TRACK -</div>
+                            <div id="trackArtist" class="track-artist-vhs">---</div>
+                        </div>
 
-        function closeLogin() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
+                        <!-- Controls -->
+                        <div class="player-controls-vhs">
+                            <button class="player-btn" onclick="prevTrack()" title="Previous">⏮</button>
+                            <button class="player-btn" id="playPauseBtn" onclick="togglePlay()" title="Play/Pause"
+                                style="width: 60px;">▶</button>
+                            <button class="player-btn" id=""></button>
+                            <button class="player-btn" onclick="nextTrack()" title="Next">⏭</button>
+                        </div>
 
-        // Music Player
-        const audio = document.getElementById('audioPlayer');
-        const playBtn = document.getElementById('playBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressFill = document.getElementById('progressFill');
-        const currentTimeEl = document.getElementById('currentTime');
-        const totalTimeEl = document.getElementById('totalTime');
-        const trackNameEl = document.getElementById('trackName');
-        const trackArtistEl = document.getElementById('trackArtist');
+                        <!-- Progress Bar -->
+                        <div style="margin-top: 1.5rem;">
+                            <div id="progressBar"
+                                style="height: 8px; background: rgba(139, 115, 85, 0.2); cursor: pointer; margin-bottom: 0.5rem; position: relative; border: 1px solid rgba(139, 115, 85, 0.3);">
+                                <div id="progressFill"
+                                    style="height: 100%; background: #8b7355; width: 0%; transition: width 0.1s;">
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #666;">
+                                <span id="currentTime">0:00</span>
+                                <span id="totalTime">0:00</span>
+                            </div>
+                        </div>
 
-        const playlist = [
-            { title: "BONEBREAKER", artist: "SLAUGHTER TO PREVAIL", src: "./Bonebreaker.mp3" },
-            { title: "I AM A LIAR", artist: "TOTHEGOOD", src: "./I AM A LIAR.mp3" },
-            { title: "FREAK ON A LEASH", artist: "KORN", src: "./Freak On a Leash.mp3" },
-            { title: "13STAIRS[-]1", artist: "THE GAZETTE", src: "./13STAIRS-1.mp3" },
-            { title: "ABNORMALIZE", artist: "LING TOSITE SIGURE", src: "./abnormalize.mp3" },
-            { title: "CHANGE", artist: "DEFTONES", src: "./Change In the House of Flies.mp3" },
-            { title: "WORDS I NEVER HAD THE STRENGTH TO TELL YOU", artist: "DEPARTMEFROMBEARISLAND", src: "./Words I Never Had The Strength To Tell You.mp3" },
-            { title: "YOUR DEATH MAKES ME WISH HEAVEN WAS REAL", artist: "FRAIL BODY", src: "./ydmmwhwr.mp3" },
-            { title: "UNDENIED", artist: "PORTISHEAD", src: "./Undenied.mp3" },
-            { title: "TRUE", artist: "AKIRA YAMAOKA", src: "./True.mp3" }
-        ];
+                        <!-- Volume -->
+                        <div class="volume-control">
+                            <span style="font-size: 1rem;">VOL</span>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="70"
+                                style="width: 180px; accent-color: #8b7355;">
+                            <span id="volumeDisplay" style="font-size: 1rem; width: 35px;">70</span>
+                        </div>
+                    </div>
 
-        let currentTrack = 0;
-        let isPlaying = false;
+                    <!-- Playlist -->
+                    <div
+                        style="text-align: center; margin-bottom: 1.5rem; font-size: 1rem; letter-spacing: 0.2em; margin-top: 2rem;">
+                        ═══ TAPE ARCHIVE ═══
+                    </div>
 
-        function checkAndApplyMarquee() {
-            const container = document.querySelector('.track-name-container');
-            const trackNameEl = document.getElementById('trackName');
+                    <div class="playlist-archive" id="playlistContainer">
+                        <!-- Tracks will be added here -->
+                    </div>
 
-            trackNameEl.classList.remove('scrolling');
-            trackNameEl.style.animationDuration = '0s';
-            trackNameEl.style.display = 'block';
+                    <div style="text-align:center; color:#888; font-size:0.9rem; margin-top:1.5rem; opacity:0.7;">
+                        There are a bunch more tracks I like, but I'm too lazy to add them all (maybe later).
+                    </div>
+                    <div class="image-placeholder" style="margin-top: 2rem; overflow: hidden;">
+                        <img src="./images/music.jpeg" alt="Music Image" style="
+            width:100%; height:100%;
+        ">
+                        <div style="
+        position:absolute;
+        inset:0;
+        background:#eee5d9;     
+        mix-blend-mode: multiply; 
+    "></div>
+                    </div>
+                    <div class="page-number">Page 2</div>
+                </div>
+            </div>
 
-            if (trackNameEl.scrollWidth > container.clientWidth) {
-                trackNameEl.classList.add('scrolling');
-                trackNameEl.style.display = 'inline-block';
+            <!-- Page 3: Shows & Movies -->
+            <div class="page" id="page3" data-page="3" style="display: none;">
+                <div class="page-content">
+                    <h2>III: CINEMA</h2>
+                    <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
+                        Films that kinda shaped my perception of reality lol
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <img src="./images/jacobs.webp" alt="Jacob's Ladder"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/donnie.jpeg" alt="Donnie Darko"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/cure.webp" alt="Cure"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/perfectblue.jpg" alt="Perfect Blue"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/skinamarink.jpeg" alt="Skinamarink"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/thevvitch.jpg" alt="The VVitch"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/confession.jpeg" alt="Confessions"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/pulse.jpg" alt="Pulse"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/perfectdays.jpg" alt="Perfect Days"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/fiksi.jpg" alt="Fiksi."
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/eternalsunshine.jpg" alt="Eternal Sunshine of the Spotless Mind"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                    </div>
+                    <div class="page-number">Page 3</div>
+                </div>
+            </div>
 
+            <!-- Page 4: Games -->
+            <div class="page" id="page4" data-page="4" style="display: none;">
+                <div class="page-content">
+                    <h2>IV: GAMES</h2>
+                    <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
+                        Hall of peaks!
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <img src="./images/silent-hill-2-viwzf.jpg" alt="Silent Hill 2"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/images.jpeg" alt="Ghost of Tsushima"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/Silent_Hill_f_cover_art.png" alt="Silent Hill F"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/Nier_Automata_cover_art.jpg" alt="NieR: Automata"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/re4.jpg" alt="Resident Evil 4"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/dmc2.jpg" alt="Devil May Cry 2 Special Edition"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/images (1).jpeg" alt="Metal Gear Solid 3: Snake Eater"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/bloodborne.avif" alt="Bloodborne"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/fatalframe2.avif" alt="Fatal Frame II"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/forviddensiren.webp" alt="Forbidden Siren"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                    </div>
+                    <div class="page-number">Page 4</div>
+                </div>
+            </div>
 
-                const duration = trackNameEl.scrollWidth / 50;
-                trackNameEl.style.animationDuration = `${duration}s`;
-            }
-        }
+            <!-- Page 5: Chess Philosophy -->
+            <div class="page" id="page5" data-page="5" style="display: none;">
+                <div class="page-content">
+                    <h2>V: THE KNIGHT</h2>
+                    <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
+                        My fav piece...
+                    </div>
+                    <div class="image-placeholder" width="fit-content" height="fit-content"
+                        style="margin-bottom: 2rem; overflow: hidden;">
+                        <img src="./images/k.jpg" alt="Knight Image">
+                    </div>
 
-        function loadTrack(index) {
-            const track = playlist[index];
-            audio.src = track.src;
-            trackNameEl.textContent = track.title;
-            trackArtistEl.textContent = track.artist;
-            currentTrack = index;
-            setTimeout(checkAndApplyMarquee, 50);
-        }
+                    <div class="info-section">
+                        <div class="the-knight" style="font-size: 1.15rem; line-height: 1.9;">
+                            The Knight (♞) does not rush forward like the Rook (♜),
+                            nor diagonally slice through like the Bishop (♝). The Knight bends paths,
+                            moves unpredictably, and finds openings in the space between.
+                        </div>
+                        <div class="the-knight" style="font-size: 1.15rem; line-height: 1.9; margin-top: 1.5rem;">
+                            It thrives in complexity and silence, striking only when the plan is clear.
+                            In chaos, the Knight is patient. In stillness, it calculates.
+                            The board is never as it seems.
+                        </div>
+                    </div>
+                    <div class="page-number">Page 5</div>
+                </div>
+            </div>
 
-        function togglePlay() {
-            if (isPlaying) {
-                audio.pause();
-                playBtn.textContent = '▶';
-                isPlaying = false;
-            } else {
-                audio.play();
-                playBtn.textContent = '❚❚';
-                isPlaying = true;
-            }
-        }
+            <!-- Page 6: Confessions -->
+            <div class="page" id="page6" data-page="6" style="display: none;">
+                <div class="page-content">
+                    <h2>VI: GOT A THOUGHT TO SHARE?</h2>
+                    <textarea class="message-input" id="messageInput" placeholder="Drop it here..."></textarea>
+                    <input type="text" class="message-input" id="senderName"
+                        placeholder="Name (Optional - Default: ANONYMOUS)"
+                        style="min-height: auto; margin-bottom: 1rem;">
 
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
+                    <center><button class="send-btn" id="sendMessageBtn">SEND</button></center>
+                    <button class="unlock-btn-horror" onclick="openLogin()">🔒 ADAM ACCESS - VIEW ALL
+                        MESSAGES</button>
+                    <div class="message-list" id="messageList"></div>
+                    <div class="page-number">Page 6</div>
+                </div>
+            </div>
 
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
+            <!-- Page 7: End -->
+            <div class="page" id="page7" data-page="7" style="display: none;">
+                <div class="page-content cover"
+                    style="background: linear-gradient(135deg, #e8d7c3 0%, #f5f0e8 50%, #e8d7c3 100%);">
 
-        playBtn.addEventListener('click', togglePlay);
-        nextBtn.addEventListener('click', nextTrack);
-        prevBtn.addEventListener('click', prevTrack);
+                    <div class="image-placeholder" width="fit-content" height="fit-content" style="overflow: hidden;">
+                        <img src="./images/giphy (12).gif" alt="Buhbye">
+                    </div>
 
-        progressBar.addEventListener('click', (e) => {
-            const rect = progressBar.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            audio.currentTime = percent * audio.duration;
-        });
+                    <div class="the-end" style="font-size: 1.3rem; line-height: 2; color: #2a2520;">
+                        That's all for now.<br>
+                        Thanks for browsing my little corner.
+                    </div>
 
-        audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progressFill.style.width = percent + '%';
-                currentTimeEl.textContent = formatTime(audio.currentTime);
-            }
-        });
+                    <div style="margin-top: 2.5rem; opacity: 0.6; font-size: 0.9rem; color: #2a2520;">
+                        [Press ◀ to rewind]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        audio.addEventListener('loadedmetadata', () => {
-            totalTimeEl.textContent = formatTime(audio.duration);
-        });
+    <!-- Navigation -->
+    <div class="nav-controls" id="navControls" style="display: none;">
+        <button class="nav-btn" id="prevBtnNav" onclick="prevPage()" disabled>◀ PREV</button>
+        <button class="nav-btn" id="nextBtnNav" onclick="nextPage()">NEXT ▶</button>
+    </div>
 
-        audio.addEventListener('ended', nextTrack);
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return mins + ':' + (secs < 10 ? '0' : '') + secs;
-        }
-
-        loadTrack(0);
-
-        // Message Form
-        document.getElementById('messageForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const name = document.getElementById('senderName').value.trim() || 'ANONYMOUS';
-            const text = document.getElementById('messageText').value.trim();
-
-            if (text) {
-                const btn = this.querySelector('.terminal-button');
-                btn.textContent = 'TRANSMITTING...';
-                btn.style.background = 'var(--text-secondary)';
-
-                const success = await window.sendMessage(name, text);
-                this.reset();
-
-                if (success) {
-                    btn.textContent = '✓ TRANSMITTED';
-                    btn.style.background = 'var(--re-green)';
-                    setTimeout(() => {
-                        btn.textContent = 'TRANSMIT MESSAGE';
-                        btn.style.background = 'var(--re-red)';
-                        window.loadMessages();
-                    }, 2000);
-                } else {
-                    btn.textContent = '✗ FAILED';
-                    setTimeout(() => {
-                        btn.textContent = 'TRANSMIT MESSAGE';
-                        btn.style.background = 'var(--re-red)';
-                    }, 2000);
-                }
-            }
-        });
-    </script>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h3>ADAM LOGIN</h3>
+            <input type="email" id="adminEmail" placeholder="EMAIL">
+            <input type="password" id="adminPassword" placeholder="PASSWORD">
+            <div id="loginError" class="error-msg">ACCESS DENIED</div>
+            <div class="modal-buttons">
+                <button onclick="loginAdmin()" class="modal-btn">LOGIN</button>
+                <button onclick="closeLogin()" class="modal-btn">CANCEL</button>
+            </div>
+            <button id="logoutBtn" onclick="logoutAdmin()" class="modal-btn"
+                style="width: 100%; margin-top: 1rem; display: none;">LOGOUT</button>
+        </div>
+    </div>
 
     <script type="module">
-        // Firebase Configuration 
+        // Firebase Configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyBBgPDB0GmGr9Siyr5chV9XktlHkNPwm9w",
             authDomain: "adam-17aa6.firebaseapp.com",
@@ -1235,10 +1165,6 @@
             measurementId: "G-PVWF8M2TW8"
         };
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
@@ -1246,9 +1172,9 @@
         window.db = db;
         window.auth = auth;
 
-        // Load Messages
+        // Load Messages from Firebase
         window.loadMessages = async function () {
-            const messagesDisplay = document.getElementById('messagesDisplay');
+            const messagesDisplay = document.getElementById('messageList');
             messagesDisplay.innerHTML = '';
             const isAdmin = !!auth.currentUser;
 
@@ -1257,7 +1183,7 @@
                 const snapshot = await getDocs(q);
 
                 if (snapshot.empty) {
-                    messagesDisplay.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">NO TRANSMISSIONS RECEIVED</p>';
+                    messagesDisplay.innerHTML = '<p style="color: #888; text-align: center;">NO MESSAGES RECEIVED</p>';
                     return;
                 }
 
@@ -1265,12 +1191,10 @@
                     const msg = doc.data();
                     const blurClass = isAdmin ? '' : 'blurred';
                     const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message-entry';
+                    messageDiv.className = 'message-bubble';
                     messageDiv.innerHTML = `
-                        <span class="message-sender">${msg.name || 'ANONYMOUS'}</span>
-                        <span style="color: var(--text-secondary); font-size: 10px; margin-left: 10px;">
-                            ${new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                        </span>
+                        <span class="message-sender-horror ${blurClass}">${msg.name || 'ANONYMOUS'}</span>
+                        <span class="message-timestamp ${blurClass}">${new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
                         <div class="message-text ${blurClass}">${msg.text}</div>
                     `;
                     messagesDisplay.appendChild(messageDiv);
@@ -1278,20 +1202,19 @@
 
                 const infoDiv = document.createElement('p');
                 infoDiv.style.textAlign = 'center';
-                infoDiv.style.color = 'var(--re-yellow)';
-                infoDiv.style.fontSize = '10px';
+                infoDiv.style.color = '#888';
+                infoDiv.style.fontSize = '0.8rem';
                 infoDiv.style.marginTop = '20px';
-                infoDiv.style.marginBottom = '20px';
-                infoDiv.style.fontFamily = "'Press Start 2P', cursive";
-                infoDiv.textContent = '📡 SHOWING LAST 3 TRANSMISSIONS';
+                infoDiv.textContent = '📡 SHOWING LAST 3 MESSAGES';
                 messagesDisplay.appendChild(infoDiv);
 
                 if (isAdmin) {
                     const viewAllBtn = document.createElement('button');
                     viewAllBtn.textContent = '📋 VIEW ALL IN CONSOLE';
-                    viewAllBtn.className = 'terminal-button';
+                    viewAllBtn.className = 'send-btn';
                     viewAllBtn.style.width = '100%';
                     viewAllBtn.style.marginTop = '15px';
+                    viewAllBtn.style.fontSize = '1rem';
                     viewAllBtn.onclick = async () => {
                         const allQ = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
                         const allSnapshot = await getDocs(allQ);
@@ -1303,11 +1226,11 @@
                 }
             } catch (e) {
                 console.error('Error loading messages:', e);
-                messagesDisplay.innerHTML = '<p style="color: var(--re-red);">ERROR LOADING TRANSMISSIONS</p>';
+                messagesDisplay.innerHTML = '<p style="color: #8b0000;">ERROR LOADING MESSAGES</p>';
             }
         };
 
-        // Send Message
+        // Send Message to Firebase
         window.sendMessage = async function (name, text) {
             try {
                 await addDoc(collection(db, 'messages'), {
@@ -1329,11 +1252,10 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-
-                window.loadMessages();
-
+                await window.loadMessages();
                 document.getElementById('loginModal').style.display = 'none';
-                alert('✅ ADMIN ACCESS GRANTED');
+                document.getElementById('logoutBtn').style.display = 'block';
+                alert('⚠ SYSTEM ACCESS GRANTED ⚠');
             } catch (e) {
                 document.getElementById('loginError').style.display = 'block';
                 setTimeout(() => {
@@ -1346,6 +1268,8 @@
         window.logoutAdmin = async function () {
             await signOut(auth);
             document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+            await window.loadMessages();
             alert('👋 LOGGED OUT');
         };
 
@@ -1359,12 +1283,285 @@
                 logoutBtn.style.display = 'none';
             }
 
-            if (!initialLoadDone || user !== auth.currentUser) {
+            if (!initialLoadDone) {
                 window.loadMessages();
                 initialLoadDone = true;
             }
         });
+    </script>
 
+    <script>
+        let currentPage = 0;
+        let maxPage = 7;
+        let isAnimating = false;
+
+        // Audio player variables
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+        const nowPlayingEl = document.getElementById('nowPlaying');
+        const trackArtistEl = document.getElementById('trackArtist');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeDisplay = document.getElementById('volumeDisplay');
+
+        const playlist = [
+            { title: "BONEBREAKER", artist: "SLAUGHTER TO PREVAIL", src: "./Bonebreaker.mp3" },
+            { title: "I AM A LIAR", artist: "TOTHEGOOD", src: "./I AM A LIAR.mp3" },
+            { title: "FREAK ON A LEASH", artist: "KORN", src: "./Freak On a Leash.mp3" },
+            { title: "13STAIRS[-]1", artist: "THE GAZETTE", src: "./13STAIRS-1.mp3" },
+            { title: "ABNORMALIZE", artist: "LING TOSITE SIGURE", src: "./abnormalize.mp3" },
+            { title: "CHANGE", artist: "DEFTONES", src: "./Change In the House of Flies.mp3" },
+            { title: "WORDS I NEVER HAD THE STRENGTH TO TELL YOU", artist: "DEPARTMEFROMBEARISLAND", src: "./Words I Never Had The Strength To Tell You.mp3" },
+            { title: "YOUR DEATH MAKES ME WISH HEAVEN WAS REAL", artist: "FRAIL BODY", src: "./ydmmwhwr.mp3" },
+            { title: "UNDENIED", artist: "PORTISHEAD", src: "./Undenied.mp3" },
+            { title: "TRUE", artist: "AKIRA YAMAOKA", src: "./True.mp3" }
+        ];
+
+        let currentTrack = 0;
+        let isPlaying = false;
+
+        // Touch support
+        let touchStartX = null;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            const isInsideScrollable = e.target.closest('.page-content') || e.target.closest('.playlist-archive');
+
+            if (isInsideScrollable) {
+                touchStartX = null;
+            } else {
+                touchStartX = e.changedTouches[0].screenX;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            if (touchStartX !== null) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }
+        }, { passive: true });
+
+        function handleSwipe() {
+            if (touchStartX === null) return;
+
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold && currentPage > 0) {
+                if (diff > 0 && currentPage < maxPage) {
+                    nextPage();
+                } else if (diff < 0 && currentPage > 1) {
+                    prevPage();
+                }
+            }
+        }
+
+        // Book Opening
+        function openBook() {
+            const page0 = document.getElementById('page0');
+            page0.classList.add('turning-forward');
+
+            setTimeout(() => {
+                page0.style.display = 'none';
+                currentPage = 1;
+                showPage(1);
+                document.getElementById('navControls').style.display = 'flex';
+            }, 1000);
+        }
+
+        // Page Navigation
+        function showPage(pageNum) {
+            for (let i = 0; i <= maxPage; i++) {
+                const page = document.getElementById(`page${i}`);
+                if (page) {
+                    page.style.display = i === pageNum ? 'block' : 'none';
+                    page.classList.remove('turning-forward', 'turning-backward');
+                }
+            }
+
+            currentPage = pageNum;
+            document.getElementById('prevBtnNav').disabled = pageNum === 1;
+            document.getElementById('nextBtnNav').disabled = pageNum === maxPage;
+        }
+
+        function nextPage() {
+            if (currentPage < maxPage && !isAnimating) {
+                isAnimating = true;
+                const currentPageEl = document.getElementById(`page${currentPage}`);
+                currentPageEl.classList.add('turning-forward');
+
+                setTimeout(() => {
+                    showPage(currentPage + 1);
+                    isAnimating = false;
+                }, 1000);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1 && !isAnimating) {
+                isAnimating = true;
+                const prevPageEl = document.getElementById(`page${currentPage}`);
+                prevPageEl.classList.add('turning-backward');
+
+                setTimeout(() => {
+                    showPage(currentPage - 1);
+                    isAnimating = false;
+                }, 1000);
+            }
+        }
+
+        // Message Form Handler
+        document.getElementById('sendMessageBtn').addEventListener('click', async function () {
+            const text = document.getElementById('messageInput').value.trim();
+            const name = document.getElementById('senderName').value.trim() || 'ANONYMOUS';
+
+            if (text) {
+                this.textContent = 'SENDING...';
+                this.style.opacity = '0.5';
+
+                const success = await window.sendMessage(name, text);
+
+                document.getElementById('messageInput').value = '';
+                document.getElementById('senderName').value = '';
+
+                if (success) {
+                    this.textContent = '✓ SENT';
+                    setTimeout(() => {
+                        this.textContent = 'SEND';
+                        this.style.opacity = '1';
+                        window.loadMessages();
+                    }, 2000);
+                } else {
+                    this.textContent = '✗ FAILED';
+                    setTimeout(() => {
+                        this.textContent = 'SEND';
+                        this.style.opacity = '1';
+                    }, 2000);
+                }
+            }
+        });
+
+        function openLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // Music Player Functions
+        function loadTrack(index) {
+            const track = playlist[index];
+            audio.src = track.src;
+            nowPlayingEl.textContent = track.title;
+            trackArtistEl.textContent = track.artist;
+            currentTrack = index;
+            updateTrackHighlight();
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '▶';
+                isPlaying = false;
+            } else {
+                audio.play();
+                playBtn.textContent = '⏸';
+                isPlaying = true;
+            }
+        }
+
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+            if (isPlaying) audio.play();
+        }
+
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+            if (isPlaying) audio.play();
+        }
+
+        function initPlaylist() {
+            const container = document.getElementById('playlistContainer');
+            playlist.forEach((track, index) => {
+                const trackEl = document.createElement('div');
+                trackEl.className = 'track-item';
+                trackEl.innerHTML = `${index + 1}. ${track.title} <span style="color: #888; font-size: 0.8rem;">- ${track.artist}</span>`;
+                trackEl.onclick = () => playTrack(index);
+                container.appendChild(trackEl);
+            });
+        }
+
+        function playTrack(index) {
+            currentTrack = index;
+            loadTrack(index);
+            audio.play();
+            isPlaying = true;
+            playBtn.textContent = '⏸';
+        }
+
+        function updateTrackHighlight() {
+            const tracks = document.querySelectorAll('.track-item');
+            tracks.forEach((track, index) => {
+                if (index === currentTrack && isPlaying) {
+                    track.classList.add('active');
+                } else {
+                    track.classList.remove('active');
+                }
+            });
+        }
+
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = percent + '%';
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+            updateTrackHighlight();
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            totalTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('ended', nextTrack);
+
+        volumeSlider.addEventListener('input', () => {
+            const volume = volumeSlider.value;
+            volumeDisplay.textContent = volume;
+            audio.volume = volume / 100;
+        });
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentPage > 0 && currentPage < maxPage) {
+                nextPage();
+            } else if (e.key === 'ArrowLeft' && currentPage > 1) {
+                prevPage();
+            }
+        });
+
+        initPlaylist();
+        loadTrack(0);
+        audio.volume = 0.7;
+
+        console.log('%c📼 ARCHIVES LOADED', 'color: #8b7355; font-size: 20px; font-family: monospace;');
     </script>
 </body>
 
