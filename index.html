@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="The Archives" />
-    <meta property="og:type" content="website" />    
+    <meta property="og:type" content="website" />
     <meta property="og:image" content="https://adamada.site/images/transparent_1x1.png" />
     <meta property="og:image:width" content="1" />
     <meta property="og:image:height" content="1" />
@@ -222,10 +222,12 @@
         .page-content {
             padding: 3rem 4rem;
             height: 100%;
-            overflow-y: scroll;
+            overflow-y: auto;
+            overflow-x: hidden;
             position: relative;
             z-index: 2;
             color: #2a2520;
+            -webkit-overflow-scrolling: touch;
         }
 
         .page-content::-webkit-scrollbar {
@@ -341,41 +343,41 @@
             transform: scale(1.05);
         }
 
-        /* Navigation */
-        .nav-controls {
+        /* Side Navigation Buttons */
+        .side-nav-btn {
             position: fixed;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
             z-index: 1001;
-        }
-
-        .nav-btn {
-            padding: 1rem 2rem;
-            background: #e8d7c3;
+            background: rgba(232, 215, 195, 0.95);
             border: 3px solid #8b7355;
             color: #2a2520;
             font-family: 'Press Start 2P', cursive;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
-            position: relative;
+            font-size: 2rem;
+            padding: 2rem 1rem;
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
+            display: none;
         }
 
-        .nav-btn:hover:not(:disabled) {
+        .side-nav-btn:hover:not(:disabled) {
             background: #f5f0e8;
-            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
-            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(-50%) scale(1.1);
         }
 
-        .nav-btn:disabled {
-            opacity: 0.3;
+        .side-nav-btn:disabled {
+            opacity: 0.2;
             cursor: not-allowed;
+        }
+
+        #prevBtnSide {
+            left: 1rem;
+        }
+
+        #nextBtnSide {
+            right: 1rem;
         }
 
         .page-number {
@@ -415,8 +417,6 @@
         .image-placeholder {
             width: 100%;
             height: 250px;
-            /* background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(139, 115, 85, 0.05) 100%); */
-            /* border: 3px dashed rgba(139, 115, 85, 0.3); */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -426,7 +426,6 @@
         }
 
         .image-placeholder::before {
-            /* content: '📷'; */
             font-size: 4rem;
             opacity: 0.3;
         }
@@ -544,6 +543,7 @@
             padding: 1.5rem;
             max-height: 250px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .track-item {
@@ -771,14 +771,17 @@
                 gap: 1rem;
             }
 
-            .nav-controls {
-                bottom: 1.5rem;
-                gap: 1rem;
+            .side-nav-btn {
+                font-size: 1.5rem;
+                padding: 1.5rem 0.8rem;
             }
 
-            .nav-btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.8rem;
+            #prevBtnSide {
+                left: 0.5rem;
+            }
+
+            #nextBtnSide {
+                right: 0.5rem;
             }
 
             .image-placeholder {
@@ -813,6 +816,11 @@
                 padding: 0.6rem 1rem;
                 font-size: 1rem;
             }
+
+            .side-nav-btn {
+                font-size: 1.2rem;
+                padding: 1.2rem 0.6rem;
+            }
         }
     </style>
 </head>
@@ -821,7 +829,6 @@
     <!-- Effects -->
     <div class="film-grain"></div>
     <div class="vignette"></div>
-    <!-- <div class="scanlines"></div> -->
 
     <!-- Hidden Audio Element -->
     <audio id="audioPlayer" preload="metadata"></audio>
@@ -837,9 +844,6 @@
                     <h1 class="cover-title">ADAM</h1>
                     <div class="cover-subtitle">THE ARCHIVES</div>
                     <div class="click-to-open" onclick="openBook()">▶ Open</div>
-                    <!-- <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6; color: #d4d4d4;">
-                        Est. 199x
-                    </div> -->
                 </div>
             </div>
 
@@ -850,16 +854,10 @@
 
                     <div class="image-placeholder"
                         style="width:fit-content; height:fit-content; margin-bottom:2rem; overflow: hidden;">
-                        <img src="./images/✰.jpeg" alt="Intro Image" style="
-            width:100%; 
-        ">
-                        <div style="
-        position:absolute;
-        inset:0;
-        background:#cac0b3;       
-        mix-blend-mode: multiply;  
-        pointer-events:none;
-    "></div>
+                        <img src="./images/✰.jpeg" alt="Intro Image" style="width:100%;">
+                        <div
+                            style="position:absolute; inset:0; background:#cac0b3; mix-blend-mode: multiply; pointer-events:none;">
+                        </div>
                     </div>
 
                     <div class="info-section">
@@ -875,7 +873,8 @@
                             • Slow responder
                         </p>
                         <p style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(139,115,85,0.3);">
-                            <strong>Note: </strong> Currently on a social break. DNI unless CF or mutually agreed. I appreciate you respecting boundaries.
+                            <strong>Note: </strong> Currently on a social break. DNI unless CF or mutually agreed. I
+                            appreciate you respecting boundaries.
                         </p>
                     </div>
                     <div class="page-number">Page 1</div>
@@ -939,15 +938,8 @@
                         There are a bunch more tracks I like, but I'm too lazy to add them all (maybe later).
                     </div>
                     <div class="image-placeholder" style="margin-top: 2rem; overflow: hidden;">
-                        <img src="./images/music.jpeg" alt="Music Image" style="
-            width:100%; height:100%;
-        ">
-                        <div style="
-        position:absolute;
-        inset:0;
-        background:#eee5d9;     
-        mix-blend-mode: multiply; 
-    "></div>
+                        <img src="./images/music.jpeg" alt="Music Image" style="width:100%; height:100%;">
+                        <div style="position:absolute; inset:0; background:#eee5d9; mix-blend-mode: multiply;"></div>
                     </div>
                     <div class="page-number">Page 2</div>
                 </div>
@@ -1130,11 +1122,9 @@
         </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="nav-controls" id="navControls" style="display: none;">
-        <button class="nav-btn" id="prevBtnNav" onclick="prevPage()" disabled>◀ PREV</button>
-        <button class="nav-btn" id="nextBtnNav" onclick="nextPage()">NEXT ▶</button>
-    </div>
+    <!-- Side Navigation Buttons -->
+    <button class="side-nav-btn" id="prevBtnSide" onclick="prevPage()" disabled>&lt;</button>
+    <button class="side-nav-btn" id="nextBtnSide" onclick="nextPage()">&gt;</button>
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
@@ -1326,37 +1316,44 @@
         let currentTrack = 0;
         let isPlaying = false;
 
-        // Touch support
+        // Touch support - improved for Facebook Lite browser
         let touchStartX = null;
+        let touchStartY = null;
         let touchEndX = 0;
+        let touchEndY = 0;
 
         document.addEventListener('touchstart', e => {
             const isInsideScrollable = e.target.closest('.page-content') || e.target.closest('.playlist-archive');
 
             if (isInsideScrollable) {
                 touchStartX = null;
+                touchStartY = null;
             } else {
                 touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
             }
         }, { passive: true });
 
         document.addEventListener('touchend', e => {
-            if (touchStartX !== null) {
+            if (touchStartX !== null && touchStartY !== null) {
                 touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
                 handleSwipe();
             }
         }, { passive: true });
 
         function handleSwipe() {
-            if (touchStartX === null) return;
+            if (touchStartX === null || touchStartY === null) return;
 
             const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
+            const diffX = touchStartX - touchEndX;
+            const diffY = Math.abs(touchStartY - touchEndY);
 
-            if (Math.abs(diff) > swipeThreshold && currentPage > 0) {
-                if (diff > 0 && currentPage < maxPage) {
+            // Only trigger horizontal swipe if vertical movement is minimal
+            if (Math.abs(diffX) > swipeThreshold && diffY < 100 && currentPage > 0) {
+                if (diffX > 0 && currentPage < maxPage) {
                     nextPage();
-                } else if (diff < 0 && currentPage > 1) {
+                } else if (diffX < 0 && currentPage > 1) {
                     prevPage();
                 }
             }
@@ -1371,7 +1368,8 @@
                 page0.style.display = 'none';
                 currentPage = 1;
                 showPage(1);
-                document.getElementById('navControls').style.display = 'flex';
+                document.getElementById('prevBtnSide').style.display = 'block';
+                document.getElementById('nextBtnSide').style.display = 'block';
             }, 1000);
         }
 
@@ -1386,8 +1384,8 @@
             }
 
             currentPage = pageNum;
-            document.getElementById('prevBtnNav').disabled = pageNum === 1;
-            document.getElementById('nextBtnNav').disabled = pageNum === maxPage;
+            document.getElementById('prevBtnSide').disabled = pageNum === 1;
+            document.getElementById('nextBtnSide').disabled = pageNum === maxPage;
         }
 
         function nextPage() {
