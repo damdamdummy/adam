@@ -50,7 +50,6 @@
             position: relative;
         }
 
-        /* Enhanced VHS Effects */
         .film-grain {
             position: fixed;
             inset: 0;
@@ -104,7 +103,6 @@
             }
         }
 
-        /* Realistic Book */
         .book-container {
             position: fixed;
             inset: 0;
@@ -150,7 +148,6 @@
                 -2px 0 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* Paper Texture */
         .page::before {
             content: '';
             position: absolute;
@@ -165,7 +162,6 @@
             pointer-events: none;
         }
 
-        /* Aged paper stains */
         .page::after {
             content: '';
             position: absolute;
@@ -177,7 +173,6 @@
             pointer-events: none;
         }
 
-        /* Page Turn Animation */
         .page.turning-forward {
             animation: turnForward 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
         }
@@ -243,7 +238,6 @@
             border-radius: 4px;
         }
 
-        /* Cover Page */
         .cover {
             display: flex;
             flex-direction: column;
@@ -343,7 +337,6 @@
             transform: scale(1.05);
         }
 
-        /* Side Navigation Buttons */
         .side-nav-btn {
             position: fixed;
             top: 50%;
@@ -390,7 +383,6 @@
             font-family: 'Courier Prime', monospace;
         }
 
-        /* Content Styles */
         h2 {
             font-family: 'Creepster', cursive;
             font-size: 2.5rem;
@@ -413,7 +405,6 @@
             box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.05);
         }
 
-        /* Image Placeholder */
         .image-placeholder {
             width: 100%;
             height: 250px;
@@ -483,7 +474,6 @@
             z-index: 10;
         }
 
-        /* Music Player */
         .track-display-vhs {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -565,7 +555,6 @@
             font-weight: bold;
         }
 
-        /* Message Section */
         .message-input {
             width: 100%;
             min-height: 120px;
@@ -680,7 +669,6 @@
             user-select: none;
         }
 
-        /* Login Modal */
         .modal {
             display: none;
             position: fixed;
@@ -747,7 +735,7 @@
             font-weight: bold;
         }
 
-        /* Mobile Responsive */
+
         @media (max-width: 768px) {
             .page-content {
                 padding: 2rem 1.5rem;
@@ -826,14 +814,11 @@
 </head>
 
 <body>
-    <!-- Effects -->
     <div class="film-grain"></div>
     <div class="vignette"></div>
 
-    <!-- Hidden Audio Element -->
     <audio id="audioPlayer" preload="metadata"></audio>
 
-    <!-- Book Container -->
     <div class="book-container">
         <div class="book" id="book">
             <div class="book-spine"></div>
@@ -886,14 +871,14 @@
                 <div class="page-content">
                     <h2>II: PLAYLIST</h2>
 
-                    <!-- Cassette Player Visual -->
+    
                     <div class="cassette-player">
                         <div class="track-display-vhs">
                             <div id="nowPlaying" class="track-name-vhs">- SELECT A TRACK -</div>
                             <div id="trackArtist" class="track-artist-vhs">---</div>
                         </div>
 
-                        <!-- Controls -->
+                
                         <div class="player-controls-vhs">
                             <button class="player-btn" onclick="prevTrack()" title="Previous">⏮</button>
                             <button class="player-btn" id="playPauseBtn" onclick="togglePlay()" title="Play/Pause"
@@ -901,7 +886,7 @@
                             <button class="player-btn" onclick="nextTrack()" title="Next">⏭</button>
                         </div>
 
-                        <!-- Progress Bar -->
+                  
                         <div style="margin-top: 1.5rem;">
                             <div id="progressBar"
                                 style="height: 8px; background: rgba(139, 115, 85, 0.2); cursor: pointer; margin-bottom: 0.5rem; position: relative; border: 1px solid rgba(139, 115, 85, 0.3);">
@@ -915,7 +900,7 @@
                             </div>
                         </div>
 
-                        <!-- Volume -->
+                   
                         <div class="volume-control">
                             <span style="font-size: 1rem;">VOL</span>
                             <input type="range" id="volumeSlider" min="0" max="100" value="70"
@@ -931,7 +916,6 @@
                     </div>
 
                     <div class="playlist-archive" id="playlistContainer">
-                        <!-- Tracks will be added here -->
                     </div>
 
                     <div style="text-align:center; color:#888; font-size:0.9rem; margin-top:1.5rem; opacity:0.7;">
@@ -1083,7 +1067,7 @@
                 </div>
             </div>
 
-            <!-- Page 6: Confessions -->
+            <!-- Page 6: Anon Message -->
             <div class="page" id="page6" data-page="6" style="display: none;">
                 <div class="page-content">
                     <h2>VI: GOT A THOUGHT TO SHARE?</h2>
@@ -1122,11 +1106,9 @@
         </div>
     </div>
 
-    <!-- Side Navigation Buttons -->
     <button class="side-nav-btn" id="prevBtnSide" onclick="prevPage()" disabled>&lt;</button>
     <button class="side-nav-btn" id="nextBtnSide" onclick="nextPage()">&gt;</button>
 
-    <!-- Login Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <h3>ADAM LOGIN</h3>
@@ -1143,7 +1125,7 @@
     </div>
 
     <script type="module">
-        // Firebase Configuration
+        // Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -1165,7 +1147,6 @@
         window.db = db;
         window.auth = auth;
 
-        // Load Messages from Firebase
         window.loadMessages = async function () {
             const messagesDisplay = document.getElementById('messageList');
             messagesDisplay.innerHTML = '';
@@ -1223,7 +1204,6 @@
             }
         };
 
-        // Send Message to Firebase
         window.sendMessage = async function (name, text) {
             try {
                 await addDoc(collection(db, 'messages'), {
@@ -1238,7 +1218,7 @@
             }
         };
 
-        // Admin Login
+   
         window.loginAdmin = async function () {
             const email = document.getElementById('adminEmail').value;
             const password = document.getElementById('adminPassword').value;
@@ -1257,7 +1237,7 @@
             }
         };
 
-        // Admin Logout
+     
         window.logoutAdmin = async function () {
             await signOut(auth);
             document.getElementById('loginModal').style.display = 'none';
@@ -1266,7 +1246,6 @@
             alert('👋 LOGGED OUT');
         };
 
-        // Auth State Observer
         let initialLoadDone = false;
         onAuthStateChanged(auth, (user) => {
             const logoutBtn = document.getElementById('logoutBtn');
@@ -1288,7 +1267,6 @@
         let maxPage = 7;
         let isAnimating = false;
 
-        // Audio player variables
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playPauseBtn');
         const progressBar = document.getElementById('progressBar');
@@ -1316,7 +1294,6 @@
         let currentTrack = 0;
         let isPlaying = false;
 
-        // Touch support - improved for Facebook Lite browser
         let touchStartX = null;
         let touchStartY = null;
         let touchEndX = 0;
@@ -1349,7 +1326,7 @@
             const diffX = touchStartX - touchEndX;
             const diffY = Math.abs(touchStartY - touchEndY);
 
-            // Only trigger horizontal swipe if vertical movement is minimal
+    
             if (Math.abs(diffX) > swipeThreshold && diffY < 100 && currentPage > 0) {
                 if (diffX > 0 && currentPage < maxPage) {
                     nextPage();
@@ -1359,7 +1336,7 @@
             }
         }
 
-        // Book Opening
+ 
         function openBook() {
             const page0 = document.getElementById('page0');
             page0.classList.add('turning-forward');
@@ -1373,7 +1350,7 @@
             }, 1000);
         }
 
-        // Page Navigation
+  
         function showPage(pageNum) {
             for (let i = 0; i <= maxPage; i++) {
                 const page = document.getElementById(`page${i}`);
@@ -1414,7 +1391,7 @@
             }
         }
 
-        // Message Form Handler
+
         document.getElementById('sendMessageBtn').addEventListener('click', async function () {
             const text = document.getElementById('messageInput').value.trim();
             const name = document.getElementById('senderName').value.trim() || 'ANONYMOUS';
@@ -1453,7 +1430,6 @@
             document.getElementById('loginModal').style.display = 'none';
         }
 
-        // Music Player Functions
         function loadTrack(index) {
             const track = playlist[index];
             audio.src = track.src;
@@ -1562,7 +1538,6 @@
         loadTrack(0);
         audio.volume = 0.7;
 
-        console.log('%c📼 ARCHIVES LOADED', 'color: #8b7355; font-size: 20px; font-family: monospace;');
     </script>
 </body>
 
