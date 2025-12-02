@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="The Archives" />
+    <meta property="og:title" content="Prelude" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://adamada.site/images/transparent_1x1.png" />
     <meta property="og:image:width" content="1" />
     <meta property="og:image:height" content="1" />
     <meta property="og:description" content=" " />
-    <title>ADAM - The Archives</title>
+    <title>ADAM</title>
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
@@ -18,11 +18,10 @@
             if (e.ctrlKey && (e.key === 'u' || e.key === 's')) e.preventDefault();
             if (e.ctrlKey && e.key === 'c') e.preventDefault();
         });
-        document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('dragstart', e => e.preventDefault());
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PVWF8M2TW8"></script>
-    <script>
+    <script src="gtag.js">
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
@@ -32,790 +31,14 @@
         });
     </script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Creepster&family=Courier+Prime:wght@400;700&family=Special+Elite&family=Press+Start+2P&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Creepster&family=Courier+Prime:wght@400;700&family=Special+Elite&family=Press+Start+2P"
         rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 50%, #0a0a0a 100%);
-            color: #d4d4d4;
-            font-family: 'Special Elite', 'Courier Prime', monospace;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
-        }
-
-        .film-grain {
-            position: fixed;
-            inset: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="300" height="300" filter="url(%23n)" opacity="1"/></svg>');
-            opacity: 0.12;
-            pointer-events: none;
-            z-index: 1000;
-            animation: grainShift 0.5s infinite;
-        }
-
-        @keyframes grainShift {
-
-            0%,
-            100% {
-                transform: translate(0, 0);
-            }
-
-            50% {
-                transform: translate(-2px, -2px);
-            }
-        }
-
-        .vignette {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.9));
-            pointer-events: none;
-            z-index: 997;
-        }
-
-        .scanlines {
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(0deg,
-                    rgba(0, 0, 0, 0.15),
-                    rgba(0, 0, 0, 0.15) 1px,
-                    transparent 1px,
-                    transparent 2px);
-            pointer-events: none;
-            z-index: 998;
-            animation: scanline 8s linear infinite;
-        }
-
-        @keyframes scanline {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(100vh);
-            }
-        }
-
-        .book-container {
-            position: fixed;
-            inset: 0;
-            perspective: 2000px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        .book {
-            position: relative;
-            width: min(90vw, 900px);
-            height: min(90vh, 650px);
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-        }
-
-        .book-spine {
-            position: absolute;
-            left: -20px;
-            top: 0;
-            width: 20px;
-            height: 100%;
-            background: linear-gradient(90deg, #0a0806 0%, #1a1410 50%, #0a0806 100%);
-            transform: rotateY(-90deg);
-            transform-origin: right;
-            box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.8);
-        }
-
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #e8d7c3 0%, #f5f0e8 50%, #e8d7c3 100%);
-            border: 1px solid #c4b5a0;
-            overflow: hidden;
-            backface-visibility: hidden;
-            transform-origin: left center;
-            box-shadow:
-                inset 0 0 50px rgba(139, 115, 85, 0.1),
-                5px 5px 20px rgba(0, 0, 0, 0.5),
-                -2px 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .page::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(139, 115, 85, 0.02) 2px,
-                    rgba(139, 115, 85, 0.02) 3px),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="8" numOctaves="4"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0"/></filter><rect width="200" height="200" filter="url(%23noise)"/></svg>');
-            pointer-events: none;
-        }
-
-        .page::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 30%, rgba(139, 115, 85, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 90%, rgba(139, 115, 85, 0.08) 0%, transparent 40%);
-            pointer-events: none;
-        }
-
-        .page.turning-forward {
-            animation: turnForward 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-        }
-
-        .page.turning-backward {
-            animation: turnBackward 1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-        }
-
-        @keyframes turnForward {
-            0% {
-                transform: perspective(2000px) rotateY(0deg);
-                box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
-            }
-
-            50% {
-                transform: perspective(2000px) rotateY(-90deg) translateZ(50px);
-                box-shadow: -30px 0 60px rgba(0, 0, 0, 0.7);
-            }
-
-            100% {
-                transform: perspective(2000px) rotateY(-180deg);
-                box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-            }
-        }
-
-        @keyframes turnBackward {
-            0% {
-                transform: perspective(2000px) rotateY(-180deg);
-            }
-
-            50% {
-                transform: perspective(2000px) rotateY(-90deg) translateZ(50px);
-                box-shadow: 30px 0 60px rgba(0, 0, 0, 0.7);
-            }
-
-            100% {
-                transform: perspective(2000px) rotateY(0deg);
-                box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
-            }
-        }
-
-        .page-content {
-            padding: 3rem 4rem;
-            height: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            position: relative;
-            z-index: 2;
-            color: #2a2520;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .page-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .page-content::-webkit-scrollbar-track {
-            background: rgba(139, 115, 85, 0.1);
-        }
-
-        .page-content::-webkit-scrollbar-thumb {
-            background: rgba(139, 115, 85, 0.4);
-            border-radius: 4px;
-        }
-
-        .cover {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(135deg, #0a0806 0%, #1a1410 50%, #0a0806 100%);
-        }
-
-        .cover::before {
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="leather"><feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="5"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/></filter><rect width="200" height="200" filter="url(%23leather)"/></svg>');
-        }
-
-        .cover-title {
-            font-family: 'Creepster', cursive;
-            font-size: clamp(4rem, 10vw, 8rem);
-            margin-bottom: 2rem;
-            letter-spacing: 0.3em;
-            color: #d4d4d4;
-            text-shadow:
-                4px 4px 0 #000,
-                8px 8px 30px rgba(0, 0, 0, 0.9);
-            animation: titleGlitch 3s infinite;
-        }
-
-        @keyframes titleGlitch {
-
-            0%,
-            90%,
-            100% {
-                transform: translate(0);
-            }
-
-            92% {
-                transform: translate(-2px, 2px);
-            }
-
-            94% {
-                transform: translate(2px, -2px);
-            }
-        }
-
-        .cover-subtitle {
-            font-size: 2rem;
-            letter-spacing: 0.3em;
-            margin-bottom: 3rem;
-            color: #d4d4d4;
-            opacity: 0.85;
-        }
-
-        .click-to-open {
-            font-size: 1.5rem;
-            padding: 1.5rem 3rem;
-            border: 3px solid #d4d4d4;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(0, 0, 0, 0.6);
-            color: #d4d4d4;
-            animation: pulse 2s infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .click-to-open::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .click-to-open:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .click-to-open:hover {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        .side-nav-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1001;
-            background: rgba(232, 215, 195, 0.95);
-            border: 3px solid #8b7355;
-            color: #2a2520;
-            font-family: 'Press Start 2P', cursive;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 2rem;
-            padding: 2rem 1rem;
-            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
-            display: none;
-        }
-
-        .side-nav-btn:hover:not(:disabled) {
-            background: #f5f0e8;
-            box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.5);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .side-nav-btn:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-        }
-
-        #prevBtnSide {
-            left: 1rem;
-        }
-
-        #nextBtnSide {
-            right: 1rem;
-        }
-
-        .page-number {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 999;
-            font-size: 1.1rem;
-            opacity: 0.4;
-            font-family: 'Courier Prime', monospace;
-        }
-
-        h2 {
-            font-family: 'Creepster', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            letter-spacing: 0.2em;
-            color: #1a1410;
-            text-shadow: 2px 2px 4px rgba(139, 115, 85, 0.3);
-            border-bottom: 3px double #8b7355;
-            padding-bottom: 1rem;
-        }
-
-        .info-section {
-            background: rgba(139, 115, 85, 0.08);
-            border: 2px solid rgba(139, 115, 85, 0.3);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            line-height: 2;
-            font-size: 1.1rem;
-            box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.05);
-        }
-
-        .image-placeholder {
-            width: 100%;
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 2rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-placeholder::before {
-            font-size: 4rem;
-            opacity: 0.3;
-        }
-
-        .image-placeholder::after {
-            content: 'Image Placeholder';
-            position: absolute;
-            bottom: 1rem;
-            font-size: 0.9rem;
-            opacity: 0;
-            font-family: 'Courier Prime', monospace;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .grid-item {
-            aspect-ratio: 3/4;
-            border: 3px solid rgba(139, 115, 85, 0.4);
-            background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(139, 115, 85, 0.05) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            text-align: center;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.1);
-        }
-
-        .grid-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(139, 115, 85, 0.2), transparent);
-            transform: translateY(100%);
-            transition: transform 0.4s;
-        }
-
-        .grid-item:hover::before {
-            transform: translateY(0);
-        }
-
-        .grid-item:hover {
-            transform: scale(1.08) rotateZ(2deg);
-            border-color: rgba(139, 115, 85, 0.8);
-            box-shadow: 0 10px 30px rgba(139, 115, 85, 0.3);
-            z-index: 10;
-        }
-
-        .track-display-vhs {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            background: rgba(139, 115, 85, 0.08);
-            padding: 1.5rem;
-            border: 2px solid rgba(139, 115, 85, 0.3);
-        }
-
-        .track-name-vhs {
-            font-size: 1.2rem;
-            color: #1a1410;
-            font-family: 'Courier Prime', monospace;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .track-artist-vhs {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .player-controls-vhs {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .player-btn {
-            padding: 0.8rem 1.5rem;
-            background: rgba(139, 115, 85, 0.1);
-            border: 2px solid rgba(139, 115, 85, 0.5);
-            color: #2a2520;
-            font-family: 'Courier Prime', monospace;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        .player-btn:hover {
-            background: rgba(139, 115, 85, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(139, 115, 85, 0.3);
-        }
-
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .playlist-archive {
-            background: rgba(139, 115, 85, 0.05);
-            border: 2px solid rgba(139, 115, 85, 0.3);
-            padding: 1.5rem;
-            max-height: 250px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .track-item {
-            padding: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .track-item:hover {
-            background: rgba(139, 115, 85, 0.15);
-            border-color: rgba(139, 115, 85, 0.4);
-        }
-
-        .track-item.active {
-            background: rgba(139, 115, 85, 0.2);
-            border-color: rgba(139, 115, 85, 0.6);
-            font-weight: bold;
-        }
-
-        .message-input {
-            width: 100%;
-            min-height: 120px;
-            background: rgba(139, 115, 85, 0.05);
-            border: 2px solid rgba(139, 115, 85, 0.3);
-            color: #2a2520;
-            padding: 1.2rem;
-            font-family: 'Special Elite', monospace;
-            margin-bottom: 1.5rem;
-            resize: vertical;
-            font-size: 1rem;
-        }
-
-        .message-input:focus {
-            outline: none;
-            border-color: rgba(139, 115, 85, 0.6);
-            box-shadow: 0 0 15px rgba(139, 115, 85, 0.2);
-        }
-
-        .send-btn {
-            padding: 1rem 2.5rem;
-            background: rgba(139, 115, 85, 0.15);
-            border: 2px solid rgba(139, 115, 85, 0.5);
-            color: #2a2520;
-            font-family: 'Creepster', cursive;
-            cursor: pointer;
-            font-size: 1.4rem;
-            transition: all 0.3s;
-        }
-
-        .send-btn:hover {
-            background: rgba(139, 115, 85, 0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.3);
-        }
-
-        .unlock-btn-horror {
-            width: 100%;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: rgba(139, 115, 85, 0.1);
-            border: 2px dashed rgba(139, 115, 85, 0.4);
-            color: #2a2520;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .unlock-btn-horror:hover {
-            background: rgba(139, 115, 85, 0.2);
-        }
-
-        .message-list {
-            margin-top: 2.5rem;
-        }
-
-        .message-bubble {
-            background: rgba(139, 115, 85, 0.08);
-            border: 2px solid rgba(139, 115, 85, 0.3);
-            padding: 1.2rem;
-            margin-bottom: 1.2rem;
-            border-radius: 8px;
-            animation: messageAppear 0.5s;
-            line-height: 1.7;
-        }
-
-        @keyframes messageAppear {
-            from {
-                opacity: 0;
-                transform: translateX(-25px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .message-sender-horror {
-            color: #1a1410;
-            font-weight: bold;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .message-sender-horror.blurred {
-            filter: blur(5px);
-            user-select: none;
-        }
-
-        .message-text {
-            color: #2a2520;
-            line-height: 1.7;
-        }
-
-        .message-text.blurred {
-            filter: blur(5px);
-            user-select: none;
-        }
-
-        .message-timestamp {
-            color: #888;
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-            display: block;
-        }
-
-        .message-timestamp.blurred {
-            filter: blur(5px);
-            user-select: none;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: #e8d7c3;
-            border: 3px solid #8b7355;
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
-        }
-
-        .modal h3 {
-            font-family: 'Creepster', cursive;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: #1a1410;
-        }
-
-        .modal input {
-            width: 100%;
-            background: rgba(139, 115, 85, 0.1);
-            border: 2px solid rgba(139, 115, 85, 0.4);
-            color: #2a2520;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            font-family: 'Courier Prime', monospace;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #8b7355;
-            background: rgba(139, 115, 85, 0.2);
-            color: #2a2520;
-            cursor: pointer;
-            font-family: 'Special Elite', monospace;
-            transition: all 0.3s;
-        }
-
-        .modal-btn:hover {
-            background: rgba(139, 115, 85, 0.3);
-        }
-
-        .error-msg {
-            display: none;
-            color: #8b0000;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-weight: bold;
-        }
-
-
-        @media (max-width: 768px) {
-            .page-content {
-                padding: 2rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .cover-title {
-                font-size: 3.5rem;
-            }
-
-            .cover-subtitle {
-                font-size: 1.3rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .side-nav-btn {
-                font-size: 1.5rem;
-                padding: 1.5rem 0.8rem;
-            }
-
-            #prevBtnSide {
-                left: 0.5rem;
-            }
-
-            #nextBtnSide {
-                right: 0.5rem;
-            }
-
-            .image-placeholder {
-                height: 180px;
-            }
-
-            .book {
-                width: 95vw;
-                height: 95vh;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cover-title {
-                font-size: 2.5rem;
-            }
-
-            .click-to-open {
-                font-size: 1.2rem;
-                padding: 1rem 2rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .player-controls-vhs {
-                gap: 0.8rem;
-            }
-
-            .player-btn {
-                padding: 0.6rem 1rem;
-                font-size: 1rem;
-            }
-
-            .side-nav-btn {
-                font-size: 1.2rem;
-                padding: 1.2rem 0.6rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="film-grain"></div>
-    <div class="vignette"></div>
+    <!-- <div class="vignette"></div> -->
 
     <audio id="audioPlayer" preload="metadata"></audio>
 
@@ -823,27 +46,19 @@
         <div class="book" id="book">
             <div class="book-spine"></div>
 
-            <!-- Page 0: Cover -->
             <div class="page" id="page0" data-page="0">
                 <div class="page-content cover">
                     <h1 class="cover-title">ADAM</h1>
-                    <div class="cover-subtitle">THE ARCHIVES</div>
+                    <div class="cover-subtitle">PRELUDE</div>
                     <div class="click-to-open" onclick="openBook()">▶ Open</div>
                 </div>
             </div>
 
-            <!-- Page 1: About -->
             <div class="page" id="page1" data-page="1" style="display: none;">
                 <div class="page-content">
                     <h2>I: PROFILE</h2>
 
-                    <div class="image-placeholder"
-                        style="width:fit-content; height:fit-content; margin-bottom:2rem; overflow: hidden;">
-                        <img src="./images/✰.jpeg" alt="Intro Image" style="width:100%;">
-                        <div
-                            style="position:absolute; inset:0; background:#cac0b3; mix-blend-mode: multiply; pointer-events:none;">
-                        </div>
-                    </div>
+                    <div class="image-filter"><img src="./images/✰.jpeg" alt="Intro Image"></div>
 
                     <div class="info-section">
                         <strong style="font-size:1.2em; display:inline-block;">
@@ -851,7 +66,7 @@
                         </strong>
                         <br>
 
-                        <p>
+                        <div class="adam-info">
                             • He/Him <br>
                             • Mid-20s <br>
                             • INTJ 6w5 <br>
@@ -859,32 +74,26 @@
                             • Based in UTC+7 <br>
                             • No Permanent Muse <br>
                             • Working full-time (Slow responder) <br>
-                        </p>
+                        </div>
 
-                        <p style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(139,115,85,0.3);">
+                        <div class="note"
+                            style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(139,115,85,0.3);">
                             <strong>Note: </strong> Currently on a social break. DNI unless CF or mutually agreed.
                             I appreciate you respecting boundaries.
-                        </p>
+                        </div>
                     </div>
-
-
-
-                    <div class="page-number">Page 1</div>
+                    <div class="page-number">Page 1/6</div>
                 </div>
             </div>
 
-            <!-- Page 2: Music Player -->
             <div class="page" id="page2" data-page="2" style="display: none;">
                 <div class="page-content">
                     <h2>II: PLAYLIST</h2>
-
-
                     <div class="cassette-player">
                         <div class="track-display-vhs">
                             <div id="nowPlaying" class="track-name-vhs">- SELECT A TRACK -</div>
                             <div id="trackArtist" class="track-artist-vhs">---</div>
                         </div>
-
 
                         <div class="player-controls-vhs">
                             <button class="player-btn" onclick="prevTrack()" title="Previous">⏮</button>
@@ -892,7 +101,6 @@
                                 style="width: 60px;">▶</button>
                             <button class="player-btn" onclick="nextTrack()" title="Next">⏭</button>
                         </div>
-
 
                         <div style="margin-top: 1.5rem;">
                             <div id="progressBar"
@@ -907,7 +115,6 @@
                             </div>
                         </div>
 
-
                         <div class="volume-control">
                             <span style="font-size: 1rem;">VOL</span>
                             <input type="range" id="volumeSlider" min="0" max="100" value="70"
@@ -916,7 +123,6 @@
                         </div>
                     </div>
 
-                    <!-- Playlist -->
                     <div
                         style="text-align: center; margin-bottom: 1.5rem; font-size: 1rem; letter-spacing: 0.2em; margin-top: 2rem;">
                         ═══ TAPE ARCHIVE ═══
@@ -926,22 +132,89 @@
                     </div>
 
                     <div style="text-align:center; color:#888; font-size:0.9rem; margin-top:1.5rem; opacity:0.7;">
-                        More music exists. I just haven’t bothered dragging it in.
+                        More music exists. I just haven't bothered dragging it in.
                     </div>
-                    <div class="image-placeholder" style="margin-top: 2rem; overflow: hidden;">
-                        <img src="./images/music.jpeg" alt="Music Image" style="width:100%; height:100%;">
-                        <div style="position:absolute; inset:0; background:#eee5d9; mix-blend-mode: multiply;"></div>
-                    </div>
-                    <div class="page-number">Page 2</div>
+                    <div class="page-number">Page 2/6</div>
                 </div>
             </div>
 
-            <!-- Page 3: Shows & Movies -->
             <div class="page" id="page3" data-page="3" style="display: none;">
                 <div class="page-content">
-                    <h2>III: CINEMA</h2>
+                    <h2>III: DIGITAL WORLDS</h2>
                     <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
-                        Films that kinda shaped my perception of reality lol
+                        Where I've spent way too many hours.
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <img src="./images/silent-hill-2-viwzf.jpg" alt="Silent Hill 2"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/Red_Dead_Redemption_II.jpg" alt="Red Dead Redemption 2"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/images.jpeg" alt="Ghost of Tsushima"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/Silent_Hill_f_cover_art.png" alt="Silent Hill F"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/Nier_Automata_cover_art.jpg" alt="NieR: Automata"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/re4.jpg" alt="Resident Evil 4"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/dmc2.jpg" alt="Devil May Cry 2 Special Edition"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/images (1).jpeg" alt="Metal Gear Solid 3: Snake Eater"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/bloodborne.avif" alt="Bloodborne"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/fatalframe2.avif" alt="Fatal Frame II"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/forviddensiren.webp" alt="Forbidden Siren"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/tlou.jpg" alt="The Last of Us"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/twd.jpeg" alt="The Walking Dead"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/Dark_Souls_II_cover.jpg" alt="Dark Souls II"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                        <div class="grid-item">
+                            <img src="./images/deadspace2023coverarttag.avif" alt="Dead Space"
+                                style="width:100%; height:100%; object-fit:contain; display:block;" />
+                        </div>
+                    </div>
+                    <div class="page-number">Page 3/6</div>
+                </div>
+            </div>
+
+            <div class="page" id="page4" data-page="4" style="display: none;">
+                <div class="page-content">
+                    <h2>IV: FILM INDEX</h2>
+                    <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
+                        My kind of taste. Any recommendation?
                     </div>
                     <div class="grid">
                         <div class="grid-item">
@@ -989,81 +262,18 @@
                                 style="width:100%; height:100%; object-fit:contain; display:block;" />
                         </div>
                     </div>
-                    <div class="page-number">Page 3</div>
+                    <div class="page-number">Page 4/6</div>
                 </div>
             </div>
 
-            <!-- Page 4: Games -->
-            <div class="page" id="page4" data-page="4" style="display: none;">
-                <div class="page-content">
-                    <h2>IV: GAMES</h2>
-                    <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
-                        Hall of peaks!
-                    </div>
-                    <div class="grid">
-                        <div class="grid-item">
-                            <img src="./images/silent-hill-2-viwzf.jpg" alt="Silent Hill 2"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/images.jpeg" alt="Ghost of Tsushima"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/Silent_Hill_f_cover_art.png" alt="Silent Hill F"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/Nier_Automata_cover_art.jpg" alt="NieR: Automata"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/re4.jpg" alt="Resident Evil 4"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/dmc2.jpg" alt="Devil May Cry 2 Special Edition"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/images (1).jpeg" alt="Metal Gear Solid 3: Snake Eater"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/bloodborne.avif" alt="Bloodborne"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/fatalframe2.avif" alt="Fatal Frame II"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/forviddensiren.webp" alt="Forbidden Siren"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/tlou.jpg" alt="The Last of Us"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                        <div class="grid-item">
-                            <img src="./images/twd.jpeg" alt="The Walking Dead"
-                                style="width:100%; height:100%; object-fit:contain; display:block;" />
-                        </div>
-                    </div>
-                    <div class="page-number">Page 4</div>
-                </div>
-            </div>
-
-            <!-- Page 5: Chess Philosophy -->
             <div class="page" id="page5" data-page="5" style="display: none;">
                 <div class="page-content">
                     <h2>V: THE KNIGHT</h2>
                     <div style="margin-bottom: 1.5rem; font-style: italic; opacity: 0.8; text-align: center;">
-                        My fav piece...
+                        Some moves require a detour.
                     </div>
-                    <div class="image-placeholder" width="fit-content" height="fit-content"
-                        style="margin-bottom: 2rem; overflow: hidden;">
-                        <img src="./images/k.jpg" alt="Knight Image">
+
+                    <div class="image-filter"><img src="./images/k.jpg" alt="Knight Image">
                     </div>
 
                     <div class="info-section">
@@ -1075,14 +285,12 @@
                         <div class="the-knight" style="font-size: 1.15rem; line-height: 1.9; margin-top: 1.5rem;">
                             It thrives in complexity and silence, striking only when the plan is clear.
                             In chaos, the Knight is patient. In stillness, it calculates.
-                            The board is never as it seems.
                         </div>
                     </div>
-                    <div class="page-number">Page 5</div>
+                    <div class="page-number">Page 5/6</div>
                 </div>
             </div>
 
-            <!-- Page 6: Anon Message -->
             <div class="page" id="page6" data-page="6" style="display: none;">
                 <div class="page-content">
                     <h2>VI: GOT A THOUGHT TO SHARE?</h2>
@@ -1095,22 +303,21 @@
                     <button class="unlock-btn-horror" onclick="openLogin()">🔒 ADAM ACCESS - VIEW ALL
                         MESSAGES</button>
                     <div class="message-list" id="messageList"></div>
-                    <div class="page-number">Page 6</div>
+                    <div class="page-number">Page 6/6</div>
                 </div>
             </div>
 
-            <!-- Page 7: End -->
             <div class="page" id="page7" data-page="7" style="display: none;">
                 <div class="page-content cover"
-                    style="background: linear-gradient(135deg, #e8d7c3 0%, #f5f0e8 50%, #e8d7c3 100%);">
+                    style=" background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);">
 
                     <div class="image-placeholder" width="fit-content" height="fit-content" style="overflow: hidden;">
                         <img src="./images/giphy%20(12).gif" alt="Buhbye">
                     </div>
 
-                    <div class="the-end" style="font-size: 1.3rem; line-height: 2; color: #2a2520;">
+                    <div class="the-end" style="font-size: 1.3rem; line-height: 2; color: #d6d6d6;">
                         That's all for now.<br>
-                        Thanks for browsing my little corner.
+                        Thanks for visiting.
                     </div>
 
                     <div style="margin-top: 2.5rem; opacity: 0.6; font-size: 0.9rem; color: #2a2520;">
@@ -1139,432 +346,8 @@
         </div>
     </div>
 
-    <script type="module">
-        // Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBBgPDB0GmGr9Siyr5chV9XktlHkNPwm9w",
-            authDomain: "adam-17aa6.firebaseapp.com",
-            projectId: "adam-17aa6",
-            storageBucket: "adam-17aa6.firebasestorage.app",
-            messagingSenderId: "914906910725",
-            appId: "1:914906910725:web:0ebb24f1aa809e52d2cc6c",
-            measurementId: "G-PVWF8M2TW8"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        window.db = db;
-        window.auth = auth;
-
-        window.loadMessages = async function () {
-            const messagesDisplay = document.getElementById('messageList');
-            messagesDisplay.innerHTML = '';
-            const isAdmin = !!auth.currentUser;
-
-            try {
-                const q = query(collection(db, 'messages'), orderBy('timestamp', 'desc'), limit(3));
-                const snapshot = await getDocs(q);
-
-                if (snapshot.empty) {
-                    messagesDisplay.innerHTML = '<p style="color: #888; text-align: center;">NO MESSAGES RECEIVED</p>';
-                    return;
-                }
-
-                snapshot.forEach((doc) => {
-                    const msg = doc.data();
-                    const blurClass = isAdmin ? '' : 'blurred';
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message-bubble';
-                    messageDiv.innerHTML = `
-                        <span class="message-sender-horror ${blurClass}">${msg.name || 'ANONYMOUS'}</span>
-                        <span class="message-timestamp ${blurClass}">${new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
-                        <div class="message-text ${blurClass}">${msg.text}</div>
-                    `;
-                    messagesDisplay.appendChild(messageDiv);
-                });
-
-                const infoDiv = document.createElement('p');
-                infoDiv.style.textAlign = 'center';
-                infoDiv.style.color = '#888';
-                infoDiv.style.fontSize = '0.8rem';
-                infoDiv.style.marginTop = '20px';
-                infoDiv.textContent = '📡 SHOWING LAST 3 MESSAGES';
-                messagesDisplay.appendChild(infoDiv);
-
-                if (isAdmin) {
-                    const viewAllBtn = document.createElement('button');
-                    viewAllBtn.textContent = '📋 VIEW ALL IN CONSOLE';
-                    viewAllBtn.className = 'send-btn';
-                    viewAllBtn.style.width = '100%';
-                    viewAllBtn.style.marginTop = '15px';
-                    viewAllBtn.style.fontSize = '1rem';
-                    viewAllBtn.onclick = async () => {
-                        const allQ = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
-                        const allSnapshot = await getDocs(allQ);
-                        const allMessages = allSnapshot.docs.map(doc => doc.data());
-                        console.table(allMessages);
-                        alert('✅ ' + allMessages.length + ' messages logged to console!');
-                    };
-                    messagesDisplay.appendChild(viewAllBtn);
-                }
-            } catch (e) {
-                console.error('Error loading messages:', e);
-                messagesDisplay.innerHTML = '<p style="color: #8b0000;">ERROR LOADING MESSAGES</p>';
-            }
-        };
-
-        window.sendMessage = async function (name, text) {
-            try {
-                await addDoc(collection(db, 'messages'), {
-                    name,
-                    text,
-                    timestamp: Date.now()
-                });
-                return true;
-            } catch (e) {
-                console.error('Error sending message:', e);
-                return false;
-            }
-        };
-
-
-        window.loginAdmin = async function () {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                await window.loadMessages();
-                document.getElementById('loginModal').style.display = 'none';
-                document.getElementById('logoutBtn').style.display = 'block';
-                alert('⚠ SYSTEM ACCESS GRANTED ⚠');
-            } catch (e) {
-                document.getElementById('loginError').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('loginError').style.display = 'none';
-                }, 3000);
-            }
-        };
-
-
-        window.logoutAdmin = async function () {
-            await signOut(auth);
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('logoutBtn').style.display = 'none';
-            await window.loadMessages();
-            alert('👋 LOGGED OUT');
-        };
-
-        let initialLoadDone = false;
-        onAuthStateChanged(auth, (user) => {
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (user) {
-                logoutBtn.style.display = 'block';
-            } else {
-                logoutBtn.style.display = 'none';
-            }
-
-            if (!initialLoadDone) {
-                window.loadMessages();
-                initialLoadDone = true;
-            }
-        });
-    </script>
-
-    <script>
-        let currentPage = 0;
-        let maxPage = 7;
-        let isAnimating = false;
-
-        const audio = document.getElementById('audioPlayer');
-        const playBtn = document.getElementById('playPauseBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressFill = document.getElementById('progressFill');
-        const currentTimeEl = document.getElementById('currentTime');
-        const totalTimeEl = document.getElementById('totalTime');
-        const nowPlayingEl = document.getElementById('nowPlaying');
-        const trackArtistEl = document.getElementById('trackArtist');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const volumeDisplay = document.getElementById('volumeDisplay');
-
-        const playlist = [
-            { title: "BONEBREAKER", artist: "SLAUGHTER TO PREVAIL", src: "./music/Bonebreaker.mp3" },
-            { title: "I AM A LIAR", artist: "TOTHEGOOD", src: "./music/I AM A LIAR.mp3" },
-            { title: "FREAK ON A LEASH", artist: "KORN", src: "./music/Freak On a Leash.mp3" },
-            { title: "20 seconds : 20 minutes", artist: "Vein.fm", src: "./music/20 seconds  20 hours   Vein.mp3" },
-            { title: "13STAIRS[-]1", artist: "THE GAZETTE", src: "./music/13STAIRS-1.mp3" },
-            { title: "ABNORMALIZE", artist: "LING TOSITE SIGURE", src: "./music/abnormalize.mp3" },
-            { title: "Kiss in October", artist: "Sadness", src: "./music/Sadness – Kiss in October.mp3" },
-            { title: "All Mine", artist: "Whirr", src: "./music/All Mine - Whirr.mp3" },
-            { title: "Day / Day", artist: "AngelMaker", src: "./music/Day   AngelMaker.mp3" },
-            { title: "Before I Forget", artist: "Slipknot", src: "./music/Before I Forget .mp3" },
-            { title: "Cancer", artist: "My Chemical Romance", src: "./music/08 - Cancer.mp3" },
-            { title: "Colorblind", artist: "Movements", src: "./music/Movements-Colorblind.mp3" },
-            { title: "Snake Eyes", artist: "Sworn In", src: "./music/Snake Eyes   Sworn In.mp3" },
-            { title: "Solace", artist: "Counterparts", src: "./music/Solace - Counterparts.mp3" },
-            { title: "Fluorescent", artist: "Casey", src: "./music/Fluorescents   Casey.mp3" },
-            { title: "CHANGE", artist: "DEFTONES", src: "./music/Change In the House of Flies.mp3" },
-            { title: "WORDS I NEVER HAD THE STRENGTH TO TELL YOU", artist: "DEPARTMEFROMBEARISLAND", src: "./music/Words I Never Had The Strength To Tell You.mp3" },
-            { title: "YOUR DEATH MAKES ME WISH HEAVEN WAS REAL", artist: "FRAIL BODY", src: "./music/ydmmwhwr.mp3" },
-            { title: "UNDENIED", artist: "PORTISHEAD", src: "./music/Undenied.mp3" },
-            { title: "Same As You Are", artist: "Pay money To my Pain", src: "./music/Pay money To my Pain – Same as you are.mp3" },
-            { title: "TRUE", artist: "AKIRA YAMAOKA", src: "./music/True.mp3" }
-        ];
-
-        let currentTrack = 0;
-        let isPlaying = false;
-
-        let touchStartX = null;
-        let touchStartY = null;
-        let touchEndX = 0;
-        let touchEndY = 0;
-
-        document.addEventListener('touchstart', e => {
-            const isInsideScrollable = e.target.closest('.page-content') || e.target.closest('.playlist-archive');
-
-            if (isInsideScrollable) {
-                touchStartX = null;
-                touchStartY = null;
-            } else {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }
-        }, { passive: true });
-
-        document.addEventListener('touchend', e => {
-            if (touchStartX !== null && touchStartY !== null) {
-                touchEndX = e.changedTouches[0].screenX;
-                touchEndY = e.changedTouches[0].screenY;
-                handleSwipe();
-            }
-        }, { passive: true });
-
-        function handleSwipe() {
-            if (touchStartX === null || touchStartY === null) return;
-
-            const swipeThreshold = 50;
-            const diffX = touchStartX - touchEndX;
-            const diffY = Math.abs(touchStartY - touchEndY);
-
-
-            if (Math.abs(diffX) > swipeThreshold && diffY < 100 && currentPage > 0) {
-                if (diffX > 0 && currentPage < maxPage) {
-                    nextPage();
-                } else if (diffX < 0 && currentPage > 1) {
-                    prevPage();
-                }
-            }
-        }
-
-
-        function openBook() {
-            const page0 = document.getElementById('page0');
-            page0.classList.add('turning-forward');
-
-            setTimeout(() => {
-                page0.style.display = 'none';
-                currentPage = 1;
-                showPage(1);
-                document.getElementById('prevBtnSide').style.display = 'block';
-                document.getElementById('nextBtnSide').style.display = 'block';
-            }, 1000);
-        }
-
-
-        function showPage(pageNum) {
-            for (let i = 0; i <= maxPage; i++) {
-                const page = document.getElementById(`page${i}`);
-                if (page) {
-                    page.style.display = i === pageNum ? 'block' : 'none';
-                    page.classList.remove('turning-forward', 'turning-backward');
-                }
-            }
-
-            currentPage = pageNum;
-            document.getElementById('prevBtnSide').disabled = pageNum === 1;
-            document.getElementById('nextBtnSide').disabled = pageNum === maxPage;
-        }
-
-        function nextPage() {
-            if (currentPage < maxPage && !isAnimating) {
-                isAnimating = true;
-                const currentPageEl = document.getElementById(`page${currentPage}`);
-                currentPageEl.classList.add('turning-forward');
-
-                setTimeout(() => {
-                    showPage(currentPage + 1);
-                    isAnimating = false;
-                }, 1000);
-            }
-        }
-
-        function prevPage() {
-            if (currentPage > 1 && !isAnimating) {
-                isAnimating = true;
-                const prevPageEl = document.getElementById(`page${currentPage}`);
-                prevPageEl.classList.add('turning-backward');
-
-                setTimeout(() => {
-                    showPage(currentPage - 1);
-                    isAnimating = false;
-                }, 1000);
-            }
-        }
-
-
-        document.getElementById('sendMessageBtn').addEventListener('click', async function () {
-            const text = document.getElementById('messageInput').value.trim();
-            const name = document.getElementById('senderName').value.trim() || 'ANONYMOUS';
-
-            if (text) {
-                this.textContent = 'SENDING...';
-                this.style.opacity = '0.5';
-
-                const success = await window.sendMessage(name, text);
-
-                document.getElementById('messageInput').value = '';
-                document.getElementById('senderName').value = '';
-
-                if (success) {
-                    this.textContent = '✓ SENT';
-                    setTimeout(() => {
-                        this.textContent = 'SEND';
-                        this.style.opacity = '1';
-                        window.loadMessages();
-                    }, 2000);
-                } else {
-                    this.textContent = '✗ FAILED';
-                    setTimeout(() => {
-                        this.textContent = 'SEND';
-                        this.style.opacity = '1';
-                    }, 2000);
-                }
-            }
-        });
-
-        function openLogin() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-
-        function closeLogin() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-
-        function loadTrack(index) {
-            const track = playlist[index];
-            audio.src = track.src;
-            nowPlayingEl.textContent = track.title;
-            trackArtistEl.textContent = track.artist;
-            currentTrack = index;
-            updateTrackHighlight();
-        }
-
-        function togglePlay() {
-            if (isPlaying) {
-                audio.pause();
-                playBtn.textContent = '▶';
-                isPlaying = false;
-            } else {
-                audio.play();
-                playBtn.textContent = '⏸';
-                isPlaying = true;
-            }
-        }
-
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
-
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
-
-        function initPlaylist() {
-            const container = document.getElementById('playlistContainer');
-            playlist.forEach((track, index) => {
-                const trackEl = document.createElement('div');
-                trackEl.className = 'track-item';
-                trackEl.innerHTML = `${index + 1}. ${track.title} <span style="color: #888; font-size: 0.8rem;">- ${track.artist}</span>`;
-                trackEl.onclick = () => playTrack(index);
-                container.appendChild(trackEl);
-            });
-        }
-
-        function playTrack(index) {
-            currentTrack = index;
-            loadTrack(index);
-            audio.play();
-            isPlaying = true;
-            playBtn.textContent = '⏸';
-        }
-
-        function updateTrackHighlight() {
-            const tracks = document.querySelectorAll('.track-item');
-            tracks.forEach((track, index) => {
-                if (index === currentTrack && isPlaying) {
-                    track.classList.add('active');
-                } else {
-                    track.classList.remove('active');
-                }
-            });
-        }
-
-        progressBar.addEventListener('click', (e) => {
-            const rect = progressBar.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            audio.currentTime = percent * audio.duration;
-        });
-
-        audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progressFill.style.width = percent + '%';
-                currentTimeEl.textContent = formatTime(audio.currentTime);
-            }
-            updateTrackHighlight();
-        });
-
-        audio.addEventListener('loadedmetadata', () => {
-            totalTimeEl.textContent = formatTime(audio.duration);
-        });
-
-        audio.addEventListener('ended', nextTrack);
-
-        volumeSlider.addEventListener('input', () => {
-            const volume = volumeSlider.value;
-            volumeDisplay.textContent = volume;
-            audio.volume = volume / 100;
-        });
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return mins + ':' + (secs < 10 ? '0' : '') + secs;
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && currentPage > 0 && currentPage < maxPage) {
-                nextPage();
-            } else if (e.key === 'ArrowLeft' && currentPage > 1) {
-                prevPage();
-            }
-        });
-
-        initPlaylist();
-        loadTrack(0);
-        audio.volume = 0.7;
-
-    </script>
+    <script type="module" src="firebase.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
