@@ -191,7 +191,7 @@ function togglePlay() {
         isPlaying = false;
     } else {
         audio.play();
-        playBtn.textContent = '⏸';
+        playBtn.textContent = '❚❚';
         isPlaying = true;
     }
 }
@@ -224,7 +224,7 @@ function playTrack(index) {
     loadTrack(index);
     audio.play();
     isPlaying = true;
-    playBtn.textContent = '⏸';
+    playBtn.textContent = '❚❚';
 }
 
 function updateTrackHighlight() {
