@@ -284,6 +284,12 @@ audio.volume = 0.7;
 
 document.addEventListener('DOMContentLoaded', () => {
     showPage(1);
-    document.getElementById('prevBtnSide').style.display = 'block';
-    document.getElementById('nextBtnSide').style.display = 'block';
+    const prevBtn = document.getElementById('prevBtnSide');
+    const nextBtn = document.getElementById('nextBtnSide');
+
+    prevBtn.style.display = 'block';
+    nextBtn.style.display = 'block';
+
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === maxPage;
 });
