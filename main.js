@@ -284,4 +284,6 @@ audio.volume = 0.7;
 
 document.addEventListener('DOMContentLoaded', () => {
     showPage(1);
+    document.getElementById('prevBtnSide').style.display = 'block';
+    document.getElementById('nextBtnSide').style.display = 'block';
 });
