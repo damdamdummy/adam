@@ -267,8 +267,8 @@ body {
 }
 
 .click-to-open {
-    font-size: 1.5rem;
-    padding: 1.5rem 3rem;
+    font-size: 0.6rem;
+    padding: 0.5rem 1rem;
     border: 4px solid #ffffff;
     cursor: pointer;
     transition: all 0.3s;
