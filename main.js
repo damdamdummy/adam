@@ -281,3 +281,7 @@ document.addEventListener('keydown', (e) => {
 initPlaylist();
 loadTrack(0);
 audio.volume = 0.7;
+
+document.addEventListener('DOMContentLoaded', () => {
+    showPage(1);
+});
