@@ -1,4 +1,4 @@
-let currentPage = 0;
+let currentPage = 1;
 let maxPage = 7;
 let isAnimating = false;
 
